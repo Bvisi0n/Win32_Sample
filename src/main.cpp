@@ -1,6 +1,8 @@
 #ifndef UNICODE
-#define UNICODE
-#endif 
+#define UNICODE             // Affects how text is interpreted.
+#endif
+#define WIN32_LEAN_AND_MEAN // Cuts out the fat. (Exclude rarely used APIs)
+#define NOMINMAX            // C++ Compatibility: Stop Windows from breaking std::min and std::max
 
 #include <windows.h>
 
