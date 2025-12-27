@@ -1,10 +1,4 @@
-#ifndef UNICODE
-#define UNICODE             // Affects how text is interpreted
-#endif
-#define WIN32_LEAN_AND_MEAN // Cuts out the fat (Exclude rarely used APIs)
-#define NOMINMAX            // C++ Compatibility: Stop Windows from breaking std::min and std::max
-
-#include <windows.h>
+#include "config.h" // Handles #include<windows.h> and it's "settings"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
