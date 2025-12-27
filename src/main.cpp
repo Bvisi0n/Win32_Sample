@@ -61,9 +61,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
-        case WM_DESTROY:
+        case WM_CLOSE:
         {
-            PostQuitMessage(0); //Adds WM_QUIT to queue which will terminate message loop
+            if (MessageBox(hwnd, L"Really quit?", L"My application", MB_OKCANCEL) == IDOK)
+            {
+                DestroyWindow(hwnd); // Deactivates window if user confirms, sends WM_DESTROY
+            }
+            return 0; // Message handled -> exit function
+        }
+        case WM_DESTROY:    // Sent after the window is deactivated, but before the destruction occurs
+        {                   // In particular, before any child windows are destroyed
+            if (GetWindow(hwnd, GW_OWNER) == NULL)
+            {   // If hwnd doesn't have a parent, then it must be the main window
+                PostQuitMessage(0); //Adds WM_QUIT to queue which will terminate message loop/program
+            }
             return 0; // Message handled -> exit function
         }
         case WM_PAINT:
