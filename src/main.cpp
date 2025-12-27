@@ -1,5 +1,6 @@
 #include "config.h" // Handles #include<windows.h> and it's "settings"
 
+void OnSize(HWND hwnd, UINT flag, int width, int height);
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int main()
@@ -75,8 +76,19 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
         EndPaint(hwnd, &ps);
     }
+    case WM_SIZE:
+    {
+        int width = LOWORD(lParam);  // Macro to get the low-order word
+        int height = HIWORD(lParam); // Macro to get the high-order word
+        OnSize(hwnd, (UINT)wParam, width, height); // Respond to the message
+    }
     return 0;
 
     }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    return DefWindowProc(hwnd, uMsg, wParam, lParam); // Performs the default action for the message, which varies by message type.
+}
+
+void OnSize(HWND hwnd, UINT flag, int width, int height)
+{
+    // Handle resizing
 }
