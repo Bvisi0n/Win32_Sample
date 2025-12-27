@@ -61,31 +61,28 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
     {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hwnd, &ps);
-
-        // All painting occurs here, between BeginPaint and EndPaint
-
-        FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-
-        EndPaint(hwnd, &ps);
+        case WM_DESTROY:
+        {
+            PostQuitMessage(0); //Adds WM_QUIT to queue which will terminate message loop
+            return 0; // Message handled -> exit function
+        }
+        case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps); // Fills the PAINTSTRUCT with repaint request info
+            FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1)); // FillRect fills a rectangle by using the specified brush
+            EndPaint(hwnd, &ps); //  Clears update region, signals to OS that window has completed painting itself
+            return 0; // Message handled -> exit function
+        }
+        case WM_SIZE:
+        {
+            int width = LOWORD(lParam);     // Macro to get the low-order word
+            int height = HIWORD(lParam);    // Macro to get the high-order word
+            OnSize(hwnd, (UINT)wParam, width, height); // Respond to the message
+            return 0; // Message handled -> exit function
+        }
     }
-    case WM_SIZE:
-    {
-        int width = LOWORD(lParam);  // Macro to get the low-order word
-        int height = HIWORD(lParam); // Macro to get the high-order word
-        OnSize(hwnd, (UINT)wParam, width, height); // Respond to the message
-    }
-    return 0;
-
-    }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam); // Performs the default action for the message, which varies by message type.
+    return DefWindowProc(hwnd, uMsg, wParam, lParam); // Performs the default action for the message
 }
 
 void OnSize(HWND hwnd, UINT flag, int width, int height)
