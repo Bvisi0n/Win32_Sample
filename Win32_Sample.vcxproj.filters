@@ -33,10 +33,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\config.h">
+    <ClInclude Include="include\Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\basewindow.h">
+    <ClInclude Include="include\BaseWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

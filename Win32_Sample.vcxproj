@@ -134,8 +134,8 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\basewindow.h" />
-    <ClInclude Include="include\config.h" />
+    <ClInclude Include="include\BaseWindow.h" />
+    <ClInclude Include="include\Config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

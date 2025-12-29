@@ -1,4 +1,4 @@
-#include "config.h" // Handles #include<windows.h> and it's "settings"
+#include "Config.h" // Handles #include<windows.h> and it's "settings"
 
 void OnSize(HWND hwnd, UINT flag, int width, int height);
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

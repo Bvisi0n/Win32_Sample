@@ -1,7 +1,7 @@
 #ifndef BASEWINDOW_H
 #define BASEWINDOW_H
 
-#include "config.h"
+#include "Config.h"
 
 template <class DERIVED_TYPE>
 class BaseWindow
