@@ -22,11 +22,11 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _I
 
     // Run the message loop
 
-    MSG msg = { };
-    while (GetMessage(&msg, NULL, 0, 0) > 0) // The other 3 parameters filter which messages you get from the queue
+    MSG message = { };
+    while (GetMessage(&message, nullptr, 0, 0) > 0) // The other 3 parameters filter which messages you get from the queue
     {   // GetMessage must be inside the condition, i.e; when WM_QUIT is received the loop terminates
-        TranslateMessage(&msg); // Translates keystrokes (key down, key up) into characters
-        DispatchMessage(&msg);  // Tells OS to call the WindowProc of the window that's the target of the message
+        TranslateMessage(&message); // Translates keystrokes (key down, key up) into characters
+        DispatchMessage(&message);  // Tells OS to call the WindowProc of the window that's the target of the message
     }
 
     return 0;  // End of program
