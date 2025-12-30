@@ -1,6 +1,7 @@
 #ifndef BASEWINDOW_H
 #define BASEWINDOW_H
 
+// Project wide settings
 #include "Config.h"
 
 template <class DERIVED_TYPE>
