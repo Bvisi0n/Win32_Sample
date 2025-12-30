@@ -4,9 +4,6 @@
 // Homebrew
 #include "MainWindow.h"
 
-void OnSize(HWND hwnd, UINT flag, int width, int height);
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 int main()
 {
     return wWinMain(GetModuleHandleW(nullptr), nullptr, GetCommandLineW(), SW_SHOWDEFAULT);
@@ -14,14 +11,14 @@ int main()
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int nCmdShow)
 {
-    MainWindow win;
+    MainWindow mainWindow;
 
-    if (!win.Create(L"Learn to Program Windows", WS_OVERLAPPEDWINDOW))
+    if (!mainWindow.Create(L"Win32_Sample", WS_OVERLAPPEDWINDOW))
     {
         return 0;
     }
 
-    ShowWindow(win.Window(), nCmdShow);
+    ShowWindow(mainWindow.Window(), nCmdShow);
 
     // Run the message loop
 

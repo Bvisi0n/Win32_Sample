@@ -25,7 +25,7 @@ inline void MainWindow::Resize(UINT flag, int width, int height) {}
 
 inline PCWSTR MainWindow::ClassName() const
 {
-    return L"Circle Window Class";
+    return L"Main Window Class";
 }
 
 LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -34,7 +34,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
     case WM_CLOSE:
     {
-        if (MessageBox(m_hwnd, L"Really quit?", L"My application", MB_OKCANCEL) == IDOK)
+        if (MessageBox(m_hwnd, L"This will exit the program.\nContinue?", L"Win32_Sample", MB_OKCANCEL) == IDOK)
         {
             DestroyWindow(m_hwnd); // Deactivates window if user confirms, sends WM_DESTROY
         }
