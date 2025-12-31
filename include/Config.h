@@ -13,4 +13,11 @@
 // Linker instructions
 #pragma comment(lib, "d2d1")
 
+#ifdef _DEBUG
+#include <print>
+#define LOG_PRINT(...) std::println(__VA_ARGS__)
+#else
+#define LOG_PRINT(...) ((void)0) 
+#endif
+
 #endif

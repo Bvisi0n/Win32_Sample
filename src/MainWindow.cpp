@@ -1,6 +1,5 @@
 // ------ STL ---------------------------------------
 #include <algorithm>
-#include <print>
 
 // ------ Homebrew ----------------------------------
 #include "MainWindow.h"
@@ -222,7 +221,7 @@ void MainWindow::OnLButtonDown(const int x, const int y)
         
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
         
-        std::println("Added dot at ({}, {}). Total dots: {}",
+        LOG_PRINT("Added dot at ({}, {}). Total dots: {}",
             ellipse.point.x, ellipse.point.y, m_Ellipses.size());
     }
 }
@@ -244,12 +243,12 @@ void MainWindow::OnRButtonDown(const int x, const int y)
     {   // Iterator invalidated after erase is called so print prior to the call
         if (m_Ellipses.size() > 1)
         {
-            std::println("Removed dot at ({}, {}). Total dots: {}",
+            LOG_PRINT("Removed dot at ({}, {}). Total dots: {}",
                 it->point.x, it->point.y, m_Ellipses.size() - 1);
         }
         else
         {
-            std::println("Cleared all dots.",
+            LOG_PRINT("Cleared all dots.",
                 it->point.x, it->point.y, m_Ellipses.size() - 1);
         }
         m_Ellipses.erase(it);

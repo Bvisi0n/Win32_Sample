@@ -4,10 +4,12 @@
 // Homebrew
 #include "MainWindow.h"
 
+#ifdef _DEBUG
 int main()
 {
     return wWinMain(GetModuleHandleW(nullptr), nullptr, GetCommandLineW(), SW_SHOWDEFAULT);
 }
+#endif
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int nCmdShow)
 {
