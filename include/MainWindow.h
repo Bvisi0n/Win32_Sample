@@ -36,16 +36,17 @@ inline void MainWindow::CalculateLayout()
 {
     if (m_pRenderTarget != nullptr)
     {
-        D2D1_SIZE_F size = m_pRenderTarget->GetSize();
-        const float x = size.width / 2;
-        const float y = size.height / 2;
+        // Recalculate ellipse
+        D2D1_SIZE_F size =   m_pRenderTarget->GetSize();
+        const float x =      size.width / 2;
+        const float y =      size.height / 2;
         const float radius = std::min(x, y);
         m_ellipse = D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius);
     }
 }
 
 inline HRESULT MainWindow::CreateGraphicsResources()
-{
+{   // Creating a resource is expensive so prevent doing it every message.
     HRESULT result = S_OK;
     if (m_pRenderTarget == nullptr)
     {
@@ -55,12 +56,11 @@ inline HRESULT MainWindow::CreateGraphicsResources()
         D2D1_SIZE_U size = D2D1::SizeU(rectangle.right, rectangle.bottom);
 
         result = m_pFactory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(),
-                                              D2D1::HwndRenderTargetProperties(m_WindowHandle, size),
-                                              &m_pRenderTarget);
-
+                                                    D2D1::HwndRenderTargetProperties(m_WindowHandle, size),
+                                                    &m_pRenderTarget);
         if (SUCCEEDED(result))
         {
-            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0);
+            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0); // RGB: Yellow
             result = m_pRenderTarget->CreateSolidColorBrush(color, &m_pBrush);
 
             if (SUCCEEDED(result))
@@ -73,30 +73,34 @@ inline HRESULT MainWindow::CreateGraphicsResources()
 }
 
 inline void MainWindow::DiscardGraphicsResources()
-{
+{   // LIFO, due to COM's internal reference counting
     SafeRelease(&m_pBrush);
     SafeRelease(&m_pRenderTarget);
 }
 
 inline void MainWindow::OnPaint()
 {
-    HRESULT hr = CreateGraphicsResources();
-    if (SUCCEEDED(hr))
+    HRESULT result = CreateGraphicsResources();
+    if (SUCCEEDED(result))
     {
-        PAINTSTRUCT ps;
-        BeginPaint(m_WindowHandle, &ps);
+        PAINTSTRUCT paintStruct;
+        BeginPaint(m_WindowHandle, &paintStruct);
 
         m_pRenderTarget->BeginDraw();
 
-        m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue));
-        m_pRenderTarget->FillEllipse(m_ellipse, m_pBrush);
+        m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue)); // Fills render target with solid color 
+        m_pRenderTarget->FillEllipse(m_ellipse, m_pBrush); // Draws a filled ellipse with specified brush
 
-        hr = m_pRenderTarget->EndDraw();
-        if (FAILED(hr) || hr == D2DERR_RECREATE_TARGET)
-        {
+        // GPU might buffer the drawing commands
+        // Flush() may be used in a way similar to std::endl for std::cout
+        // EndDraw() also performs Flush(), think std::unitbuf
+        // All return types are void, errors are signaled in return of EndDraw()
+        result = m_pRenderTarget->EndDraw();
+        if (FAILED(result) || result == D2DERR_RECREATE_TARGET)
+        {   // D2DERR_RECREATE_TARGET is returned when the device is lost i.e. display resolution change, unplugged...
             DiscardGraphicsResources();
         }
-        EndPaint(m_WindowHandle, &ps);
+        EndPaint(m_WindowHandle, &paintStruct);
     }
 }
 
@@ -104,10 +108,10 @@ inline void MainWindow::OnSize(UINT flag, int width, int height)
 {
     if (m_pRenderTarget != nullptr)
     {
-        RECT rc;
-        GetClientRect(m_WindowHandle, &rc);
+        RECT rectangle;
+        GetClientRect(m_WindowHandle, &rectangle);
 
-        D2D1_SIZE_U size = D2D1::SizeU(rc.right, rc.bottom);
+        D2D1_SIZE_U size = D2D1::SizeU(rectangle.right, rectangle.bottom);
 
         m_pRenderTarget->Resize(size);
         CalculateLayout();
@@ -163,7 +167,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {
             int width = LOWORD(lParam);          // Macro to get the low-order word
             int height = HIWORD(lParam);         // Macro to get the high-order word
-            OnSize((UINT)wParam, width, height); // Respond to the message
+            OnSize((UINT)wParam, width, height);
             return 0; // Message handled -> exit function
         }
     }
