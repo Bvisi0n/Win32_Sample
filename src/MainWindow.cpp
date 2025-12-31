@@ -219,7 +219,9 @@ void MainWindow::OnLButtonDown(const int x, const int y)
         const float dipY = PixelsToDips(y);
         const float radius = 10.f;
         D2D1_ELLIPSE& ellipse = m_Ellipses.emplace_back(D2D1::Point2F(dipX, dipY), radius, radius);
+        
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
+        
         std::println("Added dot at ({}, {}). Total dots: {}",
             ellipse.point.x, ellipse.point.y, m_Ellipses.size());
     }
@@ -239,7 +241,17 @@ void MainWindow::OnRButtonDown(const int x, const int y)
         });
 
     if (it != m_Ellipses.end())
-    {
+    {   // Iterator invalidated after erase is called so print prior to the call
+        if (m_Ellipses.size() > 1)
+        {
+            std::println("Removed dot at ({}, {}). Total dots: {}",
+                it->point.x, it->point.y, m_Ellipses.size() - 1);
+        }
+        else
+        {
+            std::println("Cleared all dots.",
+                it->point.x, it->point.y, m_Ellipses.size() - 1);
+        }
         m_Ellipses.erase(it);
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
