@@ -1,5 +1,6 @@
 // ------ STL ---------------------------------------
 #include <algorithm>
+#include <print>
 
 // ------ Homebrew ----------------------------------
 #include "MainWindow.h"
@@ -217,8 +218,10 @@ void MainWindow::OnLButtonDown(const int x, const int y)
         const float dipX = PixelsToDips(x);
         const float dipY = PixelsToDips(y);
         const float radius = 10.f;
-        m_Ellipses.emplace_back(D2D1::Point2F(dipX, dipY), radius, radius);
+        D2D1_ELLIPSE& ellipse = m_Ellipses.emplace_back(D2D1::Point2F(dipX, dipY), radius, radius);
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
+        std::println("Added dot at ({}, {}). Total dots: {}",
+            ellipse.point.x, ellipse.point.y, m_Ellipses.size());
     }
 }
 
