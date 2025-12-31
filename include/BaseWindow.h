@@ -70,10 +70,10 @@ public:
             // Size and position
             x, y, width, height,
             
-            parent,                 // Parent window
-            menu,                   // Menu
-            GetModuleHandle(nullptr),  // Instance handle
-            this                    // Additional application data
+            parent,                     // Parent window
+            menu,                       // Menu
+            GetModuleHandle(nullptr),   // Instance handle
+            this                        // Additional application data
         );
 
         return (m_WindowHandle ? TRUE : FALSE); // Check if Window was successfully created
