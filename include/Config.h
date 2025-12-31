@@ -8,6 +8,7 @@
 
 #include <d2d1.h> // Also has a min macro!
 #include <windows.h>
+#include <windowsx.h>
 
 // Linker instructions
 #pragma comment(lib, "d2d1")
