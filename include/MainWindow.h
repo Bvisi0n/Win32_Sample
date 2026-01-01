@@ -8,9 +8,9 @@
 
 // ------ Homebrew ----------------------------------
 #include "BaseWindow.h"
+#include "MenuBar.h"
 
 // MVP
-    // TODO: Add a menu bar with a dropdown menu that allows you to pick a background color
     // TODO: Add a text field and clickable button that toggles a popup displaying the content from the text field
     // TODO: Add some radio buttons that change the cursor icon
     // TODO: Add a date picker, doesn't have to do anything
@@ -39,6 +39,8 @@ private:
     ID2D1SolidColorBrush*       m_pBrush = nullptr;
     std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
     float                       m_EllipseSize{ 10.f };
+    MenuBar                     m_MenuBar{};
+    D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
 
     // ---- Rendering -------------------------------
     void    OnPaint();

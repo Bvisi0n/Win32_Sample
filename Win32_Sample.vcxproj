@@ -143,6 +143,7 @@
     <ClInclude Include="include\BaseWindow.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\MainWindow.h" />
+    <ClInclude Include="include\MenuBar.h" />
     <ClInclude Include="include\SafeRelease.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

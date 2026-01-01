@@ -35,11 +35,12 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             {
                 return -1; // Tell OS CreateWindow failed
             }
+            m_MenuBar.Initialize(m_WindowHandle);
             return 0;
         }
         // - Display --------------------------------
         case WM_DPICHANGED:
-        {
+        {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return 0;
@@ -52,6 +53,19 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_PAINT:
         {   // Sent when OS or other app requests a (partial) repaint of the window
             OnPaint();
+            return 0;
+        }
+
+        // - Interactions & Commands ----------------
+        case WM_COMMAND: // Sent when the user invokes a command item from a menu
+        {                //      when a control sends a notification message to its parent window
+                         //      when an accelerator keystroke is translated
+            auto menuID = static_cast<MenuBar::ID>(LOWORD(wParam));
+            if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
+            {
+                m_BackgroundColor = color.value(); // *color also works
+                InvalidateRect(m_WindowHandle, nullptr, FALSE);
+            }
             return 0;
         }
 
@@ -113,7 +127,7 @@ void MainWindow::OnPaint()
 
         m_pRenderTarget->BeginDraw();
 
-        m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::SkyBlue)); // Fills render target with solid color 
+        m_pRenderTarget->Clear(m_BackgroundColor); // Fills render target with solid color 
         
         for (auto& ellipse : m_Ellipses)
         {
@@ -148,7 +162,7 @@ HRESULT MainWindow::CreateGraphicsResources()
             &m_pRenderTarget);
         if (SUCCEEDED(result))
         {
-            const D2D1_COLOR_F color = D2D1::ColorF(1.0f, 1.0f, 0); // RGB: Yellow
+            const D2D1_COLOR_F color = D2D1::ColorF(D2D1::ColorF::SteelBlue);
             result = m_pRenderTarget->CreateSolidColorBrush(color, &m_pBrush);
 
             if (SUCCEEDED(result))
@@ -172,7 +186,7 @@ void MainWindow::DiscardGraphicsResources()
 
 void MainWindow::UpdateDpiScale()
 {
-    float dpi = static_cast<float>(GetDpiForWindow(m_WindowHandle));
+    float dpi = static_cast<float>(GetDpiForWindow(m_WindowHandle)); // TODO: auto vs float... ?
     m_DpiScale = dpi / static_cast<float>(USER_DEFAULT_SCREEN_DPI);
 }
 
