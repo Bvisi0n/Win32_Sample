@@ -11,6 +11,16 @@
 
 class MainWindow : public BaseWindow<MainWindow>
 {
+public:
+    // ---- Special Member Functions ----------------
+    MainWindow() = default;
+    ~MainWindow() override;
+
+    // ---- Window Properties & Logic ---------------
+    PCWSTR  ClassName() const override;
+    LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
+    
+private:
     float                       m_DpiScale{ 1.0f };
     ID2D1Factory*               m_pFactory = nullptr;
     ID2D1HwndRenderTarget*      m_pRenderTarget = nullptr;
@@ -34,15 +44,6 @@ class MainWindow : public BaseWindow<MainWindow>
     // ---- Input -----------------------------------
     void    OnLButtonDown(const int x, const int y);
     void    OnRButtonDown(const int x, const int y);
-
-public:
-    // ---- Special Member Functions ----------------
-    MainWindow() = default;
-    ~MainWindow() override;
-
-    // ---- Window Properties & Logic ---------------
-    PCWSTR  ClassName() const override;
-    LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
 };
 
 #endif
