@@ -70,6 +70,13 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             OnRButtonDown(x, y);
             return 0;
         }
+        // TODO: Use WM_MOUSEHOVER to display a tooltip/infobar of some sort displaying info on the ellipse
+        // TODO: Use SetCapture, ReleaseCapture and WM_MOUSEMOVE to let user define the size/shape of an ellipse
+        // TODO: Use WM_MOUSEWHEEL to adjust the scale of existing ellipses
+        // TODO: Use DragDetect to allow user to move the existing ellipses
+        // TODO: Use ClipCursor to prevent user from moving an ellipse offscreen
+        // TODO: Detect keyboard input and allow user to type basic color names that affects new ellipses
+        // TODO: Adjust the cursor image to the context of the program
 
         // - Destruction ----------------------------
         case WM_CLOSE:
@@ -228,6 +235,7 @@ void MainWindow::OnRButtonDown(const int x, const int y)
 {
     float dipX = PixelsToDips(x);
     float dipY = PixelsToDips(y);
+    // TODO: Ellipses should be removed in LIFO order
     auto it = std::find_if(m_Ellipses.begin(), m_Ellipses.end(),
         [dipX, dipY](const D2D1_ELLIPSE& ellipse)
         {

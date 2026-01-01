@@ -25,7 +25,7 @@ private:
     ID2D1Factory*               m_pFactory = nullptr;
     ID2D1HwndRenderTarget*      m_pRenderTarget = nullptr;
     ID2D1SolidColorBrush*       m_pBrush = nullptr;
-    std::vector<D2D1_ELLIPSE>   m_Ellipses{}; //TODO: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
+    std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
     float                       m_EllipseSize{ 10.f };
 
     // ---- Rendering -------------------------------
