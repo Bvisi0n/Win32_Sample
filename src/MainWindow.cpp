@@ -182,13 +182,16 @@ void MainWindow::OnSize()
 {
     if (m_pRenderTarget != nullptr)
     {
+        UpdateDpiScale(); // Always update scale first
+
         RECT rectangle;
         GetClientRect(m_WindowHandle, &rectangle);
 
         D2D1_SIZE_U size = D2D1::SizeU(rectangle.right, rectangle.bottom);
-
         m_pRenderTarget->Resize(size);
+
         CalculateLayout();
+
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
     }
 }
@@ -197,12 +200,7 @@ void MainWindow::CalculateLayout()
 {
     if (m_pRenderTarget != nullptr)
     {
-        //TODO: I want my circles to remain in relative position and scale to the window if it resizes.
-        //D2D1_SIZE_F size = m_pRenderTarget->GetSize();
-        //const float x = size.width / 2;
-        //const float y = size.height / 2;
-        //const float radius = std::min(x, y);
-        //m_ellipse = D2D1::Ellipse(D2D1::Point2F(x, y), radius, radius);
+        // TODO: Is this still needed?
     }
 }
 
