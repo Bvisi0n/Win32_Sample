@@ -9,6 +9,18 @@
 // ------ Homebrew ----------------------------------
 #include "BaseWindow.h"
 
+// MVP
+    // TODO: Add a menu bar with a dropdown menu that allows you to pick a background color
+    // TODO: Add a text field and clickable button that toggles a popup displaying the content from the text field
+    // TODO: Add some radio buttons that change the cursor icon
+    // TODO: Add a date picker, doesn't have to do anything
+    // TODO: Add a button that opens a file selector, display info on the file in a label field
+
+//Advanced
+    // TODO: Use <filesystem> and <fstream> to save and load the ellipses to a file
+    // TODO: Look to implement <expected> and/or <optional> and their monadic functions
+    // TODO: Hunt for ways to use the STL, Algorithms, Containers, Iterators.
+
 class MainWindow : public BaseWindow<MainWindow>
 {
 public:
