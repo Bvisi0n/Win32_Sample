@@ -232,7 +232,8 @@ void MainWindow::OnLButtonDown(const int x, const int y)
 }
 
 void MainWindow::OnRButtonDown(const int x, const int y)
-{
+{   // Overlapping ellipses are layered with the oldest on the bottom
+    // A user would expect the topmost one to be removed first
     float dipX = PixelsToDips(x);
     float dipY = PixelsToDips(y);
     auto it = std::find_if(m_Ellipses.rbegin(), m_Ellipses.rend(),
