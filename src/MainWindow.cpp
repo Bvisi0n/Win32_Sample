@@ -70,7 +70,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             OnRButtonDown(x, y);
             return 0;
         }
-        // TODO: Use WM_MOUSEHOVER to display a tooltip/infobar of some sort displaying info on the ellipse
+        // TODO: Use WM_MOUSEHOVER to display a tooltip/info bar of some sort displaying info on the ellipse
         // TODO: Use SetCapture, ReleaseCapture and WM_MOUSEMOVE to let user define the size/shape of an ellipse
         // TODO: Use WM_MOUSEWHEEL to adjust the scale of existing ellipses
         // TODO: Use DragDetect to allow user to move the existing ellipses
@@ -235,8 +235,7 @@ void MainWindow::OnRButtonDown(const int x, const int y)
 {
     float dipX = PixelsToDips(x);
     float dipY = PixelsToDips(y);
-    // TODO: Ellipses should be removed in LIFO order
-    auto it = std::find_if(m_Ellipses.begin(), m_Ellipses.end(),
+    auto it = std::find_if(m_Ellipses.rbegin(), m_Ellipses.rend(),
         [dipX, dipY](const D2D1_ELLIPSE& ellipse)
         {
             float dx = ellipse.point.x - dipX;
@@ -245,7 +244,7 @@ void MainWindow::OnRButtonDown(const int x, const int y)
             return distanceSquared <= (ellipse.radiusX * ellipse.radiusX);
         });
 
-    if (it != m_Ellipses.end())
+    if (it != m_Ellipses.rend())
     {   // Iterator invalidated after erase is called so print prior to the call
         if (m_Ellipses.size() > 1)
         {
@@ -257,7 +256,7 @@ void MainWindow::OnRButtonDown(const int x, const int y)
             LOG_PRINT("Cleared all dots.",
                 it->point.x, it->point.y, m_Ellipses.size() - 1);
         }
-        m_Ellipses.erase(it);
+        m_Ellipses.erase(std::prev(it.base()));
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
 }
