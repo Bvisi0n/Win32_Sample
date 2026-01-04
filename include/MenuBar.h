@@ -12,6 +12,11 @@
 class MenuBar {
 public:
 	MenuBar() = default;
+	~MenuBar() = default;
+	MenuBar(const MenuBar&) = delete;
+	MenuBar(MenuBar&&) = delete;
+	MenuBar& operator=(const MenuBar&) = delete;
+	MenuBar& operator=(MenuBar&&) = delete;
 
 	void Initialize(HWND owner)
 	{
