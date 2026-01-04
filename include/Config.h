@@ -19,4 +19,16 @@
 	#else
 		#define LOG_PRINT(...) ((void)0) 
 	#endif
+
+//TODO!: Project properties
+	//Under General
+		//Set C++ standard to C++23 for all builds
+	//Under C / C++ > General
+		//Set $(ProjectDir)include for all builds
+	//Under Linker > System
+		//Set Windows(/ SUBSYSTEM:WINDOWS) for Release builds
+		//Set Console(/ SUBSYSTEM:CONSOLE) for Debug builds
+	//Under Manifest Tool > Input and Output
+		//Set Per Monitor High DPI Aware for all builds
+
 #endif
