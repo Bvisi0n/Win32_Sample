@@ -60,7 +60,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_COMMAND: // Sent when the user invokes a command item from a menu
         {                //      when a control sends a notification message to its parent window
                          //      when an accelerator keystroke is translated
-            auto menuID = static_cast<MenuBar::ID>(LOWORD(wParam));
+            auto menuID = static_cast<ID::MenuBar>(LOWORD(wParam));
             if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
             {
                 m_BackgroundColor = color.value(); // *color also works
