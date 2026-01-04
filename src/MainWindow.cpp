@@ -31,23 +31,31 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_CREATE: // Sent when CreateWindow is called but before it returns
         {               // After the window is created, but before it becomes visible
             UpdateDpiScale(); // Set scale before creating resources
+
             if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pFactory)))
             {
                 return -1; // Tell OS CreateWindow failed
             }
+
             m_MenuBar.Initialize(m_WindowHandle);
+            m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale);
+
             return 0;
         }
         // - Display --------------------------------
         case WM_DPICHANGED:
         {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
+
+            m_PopUpModule.UpdateLayout(m_DpiScale);
+
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return 0;
         }
         case WM_SIZE:
         {   // Sent to a window after its size has changed
             OnSize();
+            m_PopUpModule.UpdateLayout(m_DpiScale);
             return 0;
         }
         case WM_PAINT:
@@ -60,27 +68,45 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_COMMAND: // Sent when the user invokes a command item from a menu
         {                //      when a control sends a notification message to its parent window
                          //      when an accelerator keystroke is translated
-            auto menuID = static_cast<ID::MenuBar>(LOWORD(wParam));
+            const WORD id = LOWORD(wParam);
+            const WORD code = HIWORD(wParam);
+
+            if (id == static_cast<WORD>(ID::PopUpModule::Textbox) && code == EN_CHANGE)
+            {
+                m_PopUpModule.OnTextChanged();
+                return 0;
+            }
+
+            auto menuID = static_cast<ID::MenuBar>(id);
             if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
             {
                 m_BackgroundColor = color.value(); // *color also works
                 InvalidateRect(m_WindowHandle, nullptr, FALSE);
+                return 0;
             }
+
+            switch (static_cast<ID::PopUpModule>(id)) // Using your namespaced ID
+            {
+            case ID::PopUpModule::ShowButton:
+                m_PopUpModule.ExecuteAction();
+                return 0;
+            }
+
             return 0;
         }
 
         // - Input ----------------------------------
         case WM_LBUTTONDOWN:
         {   // Left mouse button down in client area
-            const int x = GET_X_LPARAM(lParam);
-            const int y = GET_Y_LPARAM(lParam);
+            const int x{ GET_X_LPARAM(lParam) };
+            const int y{ GET_Y_LPARAM(lParam) };
             OnLButtonDown(x, y);
             return 0;
         }
         case WM_RBUTTONDOWN:
         {   // Right mouse button down in client area
-            const int x = GET_X_LPARAM(lParam);
-            const int y = GET_Y_LPARAM(lParam);
+            const int x{ GET_X_LPARAM(lParam) };
+            const int y{ GET_Y_LPARAM(lParam) };
             OnRButtonDown(x, y);
             return 0;
         }
@@ -164,11 +190,6 @@ HRESULT MainWindow::CreateGraphicsResources()
         {
             const D2D1_COLOR_F color = D2D1::ColorF(D2D1::ColorF::SteelBlue);
             result = m_pRenderTarget->CreateSolidColorBrush(color, &m_pBrush);
-
-            if (SUCCEEDED(result))
-            {
-                CalculateLayout();
-            }
         }
     }
     return result;
@@ -186,7 +207,7 @@ void MainWindow::DiscardGraphicsResources()
 
 void MainWindow::UpdateDpiScale()
 {
-    float dpi = static_cast<float>(GetDpiForWindow(m_WindowHandle)); // TODO: auto vs float... ?
+    float dpi{ static_cast<float>(GetDpiForWindow(m_WindowHandle)) };
     m_DpiScale = dpi / static_cast<float>(USER_DEFAULT_SCREEN_DPI);
 }
 
@@ -211,17 +232,7 @@ void MainWindow::OnSize()
         D2D1_SIZE_U size = D2D1::SizeU(rectangle.right, rectangle.bottom);
         m_pRenderTarget->Resize(size);
 
-        CalculateLayout();
-
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
-    }
-}
-
-void MainWindow::CalculateLayout()
-{
-    if (m_pRenderTarget != nullptr)
-    {
-        // TODO: Is this still needed?
     }
 }
 
@@ -233,9 +244,9 @@ void MainWindow::OnLButtonDown(const int x, const int y)
 {
     if (m_pRenderTarget != nullptr)
     {
-        const float dipX = PixelsToDips(x);
-        const float dipY = PixelsToDips(y);
-        const float radius = 10.f;
+        const float dipX{ PixelsToDips(x) };
+        const float dipY{ PixelsToDips(y) };
+        const float radius{ 10.f };
         D2D1_ELLIPSE& ellipse = m_Ellipses.emplace_back(D2D1::Point2F(dipX, dipY), radius, radius);
         
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
@@ -248,14 +259,14 @@ void MainWindow::OnLButtonDown(const int x, const int y)
 void MainWindow::OnRButtonDown(const int x, const int y)
 {   // Overlapping ellipses are layered with the oldest on the bottom
     // A user would expect the topmost one to be removed first
-    float dipX = PixelsToDips(x);
-    float dipY = PixelsToDips(y);
+    float dipX{ PixelsToDips(x) };
+    float dipY{ PixelsToDips(y) };
     auto it = std::find_if(m_Ellipses.rbegin(), m_Ellipses.rend(),
         [dipX, dipY](const D2D1_ELLIPSE& ellipse)
         {
-            float dx = ellipse.point.x - dipX;
-            float dy = ellipse.point.y - dipY;
-            float distanceSquared = (dx * dx) + (dy * dy);
+            float dx{ ellipse.point.x - dipX };
+            float dy{ ellipse.point.y - dipY };
+            float distanceSquared{ (dx * dx) + (dy * dy) };
             return distanceSquared <= (ellipse.radiusX * ellipse.radiusX);
         });
 

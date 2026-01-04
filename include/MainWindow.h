@@ -9,9 +9,9 @@
 // ------ Homebrew ----------------------------------
 #include "BaseWindow.h"
 #include "MenuBar.h"
+#include "PopUpModule.h"
 
 // MVP
-    // TODO: Add a text field and clickable button that toggles a popup displaying the content from the text field
     // TODO: Add some radio buttons that change the cursor icon
     // TODO: Add a date picker, doesn't have to do anything
     // TODO: Add a button that opens a file selector, display info on the file in a label field
@@ -41,6 +41,8 @@ private:
     MenuBar                     m_MenuBar{};
     D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
 
+    PopUpModule                 m_PopUpModule{};
+
     std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
     float                       m_EllipseSize{ 10.f };
 
@@ -55,7 +57,6 @@ private:
 
     // ---- Layout ----------------------------------
     void    OnSize();
-    void    CalculateLayout();
 
     // ---- Input -----------------------------------
     void    OnLButtonDown(const int x, const int y);
