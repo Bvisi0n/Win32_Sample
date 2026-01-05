@@ -8,7 +8,7 @@
 #include "ResourceIDs.h"
 
 class CursorModule
-{	// TODO: Consider making a pure virtual base
+{
 public:
 	CursorModule()                                  = default;
 	~CursorModule()                                 = default;

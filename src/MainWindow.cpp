@@ -39,6 +39,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 
             m_MenuBar.Initialize(m_WindowHandle);
 
+            // TODO: Wrap Module classes in a std::array using a pure virtual base, then replace use std::accumulate to apply the pattern
             int yOffset{};
             yOffset += m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
             yOffset += m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
