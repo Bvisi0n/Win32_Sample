@@ -7,6 +7,8 @@
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
 
+// TODO: Prevent the cursor from going into hiding when typing in the textfield
+
 class PopUpModule
 {
 public:
@@ -18,14 +20,37 @@ public:
 	PopUpModule& operator=(PopUpModule&&) = delete;
 
     void Initialize(HWND ownerHandle, float dpiScale)
-    {   // TODO: Open up the CreateWindowExW's and comment the passed parameters
+    {
         m_ParentHandle = ownerHandle;
-        m_ButtonHandle = CreateWindowExW(
-            0, L"BUTTON", L"Show Text", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0,
-            0, 0, 0, ownerHandle, (HMENU)ID::PopUpModule::ShowButton, nullptr, nullptr);
-        m_TextboxHandle = CreateWindowExW(
-            0, L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL,
-            0, 0, 0, 0, ownerHandle, (HMENU)ID::PopUpModule::Textbox, nullptr, nullptr);
+        m_ButtonHandle = CreateWindowEx(
+            0,                                          // Optional window styles
+            L"BUTTON",                                  // Predefined system class
+            L"Show Text",                               // Button text
+            WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,      // Child window & button styles
+
+            // Size and position (Set to 0, handled by UpdateLayout)
+            0, 0, 0, 0,
+
+            ownerHandle,                                // Parent window handle
+            ID::ToHandle(ID::PopUpModule::ShowButton),  // Control ID
+            GetModuleHandle(nullptr),                   // Instance handle
+            nullptr                                     // Additional application data
+        );
+
+        m_TextboxHandle = CreateWindowEx(
+            0,                                                  // Optional window styles
+            L"EDIT",                                            // Predefined system class
+            L"",                                                // Prefilled text !!ShowButton starts disabled!!
+            WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, // Child window & button styles
+
+            // Size and position (Set to 0, handled by UpdateLayout)
+            0, 0, 0, 0,
+            
+            ownerHandle,                                        // Parent window handle
+            ID::ToHandle(ID::PopUpModule::Textbox),             // Control ID
+            GetModuleHandle(nullptr),                           // Instance handle
+            nullptr                                             // Additional application data
+        );
         
         EnableWindow(m_ButtonHandle, FALSE);
         UpdateLayout(dpiScale);

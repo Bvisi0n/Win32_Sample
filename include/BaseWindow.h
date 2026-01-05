@@ -70,7 +70,7 @@ public:
             // Size and position
             x, y, width, height,
             
-            parent,                     // Parent window
+            parent,                     // Parent window handle
             menu,                       // Menu
             GetModuleHandle(nullptr),   // Instance handle
             this                        // Additional application data
