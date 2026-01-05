@@ -19,7 +19,7 @@ public:
 	PopUpModule& operator=(const PopUpModule&)  = delete;
 	PopUpModule& operator=(PopUpModule&&)       = delete;
 
-    void Initialize(HWND ownerHandle, float dpiScale)
+    [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition)
     {
         m_ParentHandle = ownerHandle;
         m_ButtonHandle = CreateWindowEx(
@@ -53,14 +53,14 @@ public:
         );
         
         EnableWindow(m_ButtonHandle, FALSE);
-        UpdateLayout(dpiScale);
+        return UpdateLayout(dpiScale, yPosition); // Send back a new yPosition to feed to the next module
     }
 
-    void UpdateLayout(float dpiScale)
+    [[nodiscard]] int UpdateLayout(float dpiScale, int yPosition) const
     {
         if (!m_ParentHandle || !m_TextboxHandle || !m_ButtonHandle)
         {
-            return; // Something's wrong -> do nothing
+            return yPosition; // Something's wrong -> send original yPosition to feed to the next module & do nothing
         }
         else
         {
@@ -89,19 +89,21 @@ public:
                         halfWidth,                      // Width
                         height,                         // Height
                         TRUE);                          // Sends WM_PAINT to parent
+
+            return yPosition + margin + height; // Send back a new yPosition to feed to the next module
         }
     }
 
-    void OnTextChanged()
+    void OnTextChanged() const
     {
         EnableWindow(m_ButtonHandle, GetWindowTextLengthW(m_TextboxHandle) > 0);
     }
 
-    void ExecuteAction()
+    void OnShowButtonClick() const
     {
         if (GetWindowTextLengthW(m_TextboxHandle) > 0)
         {
-            wchar_t buffer[256]{};
+            wchar_t buffer[256]{}; // TODO: Implies a max length, should it be enforced in OnTextChanged()?
             GetWindowTextW(m_TextboxHandle, buffer, 256);
             MessageBoxW(m_ParentHandle, buffer, L"You typed:", MB_OK);
         }

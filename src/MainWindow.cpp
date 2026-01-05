@@ -38,7 +38,10 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             m_MenuBar.Initialize(m_WindowHandle);
-            m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale);
+
+            int yOffset{};
+            yOffset += m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            yOffset += m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
 
             return 0;
         }
@@ -47,7 +50,9 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
 
-            m_PopUpModule.UpdateLayout(m_DpiScale);
+            int yOffset{};
+            yOffset += m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
+            yOffset += m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
 
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return 0;
@@ -55,13 +60,22 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_SIZE:
         {   // Sent to a window after its size has changed
             OnSize();
-            m_PopUpModule.UpdateLayout(m_DpiScale);
+
+            int yOffset{};
+            yOffset += m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
+            yOffset += m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
             return 0;
         }
         case WM_PAINT:
         {   // Sent when OS or other app requests a (partial) repaint of the window
             OnPaint();
             return 0;
+        }
+        case WM_SETCURSOR:
+        {
+            if (LOWORD(lParam) == HTCLIENT)
+                SetCursor(m_CursorModule.GetSelectedCursor());
+                return TRUE;
         }
 
         // - Interactions & Commands ----------------
@@ -71,26 +85,12 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             const WORD id   = LOWORD(wParam);
             const WORD code = HIWORD(wParam);
 
-            if (id == static_cast<WORD>(ID::PopUpModule::Textbox) && code == EN_CHANGE)
-            {
-                m_PopUpModule.OnTextChanged();
+            if (HandleMenuBarCommands(id))
                 return 0;
-            }
-
-            auto menuID = static_cast<ID::MenuBar>(id);
-            if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
-            {
-                m_BackgroundColor = color.value(); // *color also works
-                InvalidateRect(m_WindowHandle, nullptr, FALSE);
+            if (HandleCursorModuleCommands(id))
                 return 0;
-            }
-
-            switch (static_cast<ID::PopUpModule>(id)) // Using your namespaced ID
-            {
-            case ID::PopUpModule::ShowButton:
-                m_PopUpModule.ExecuteAction();
+            if (HandlePopUpModuleCommands(id, code))
                 return 0;
-            }
 
             return 0;
         }
@@ -239,6 +239,46 @@ void MainWindow::OnSize()
 // -------------------------------------------------
 // --------------------- Input ---------------------
 // -------------------------------------------------
+
+bool MainWindow::HandleMenuBarCommands(const WORD id)
+{
+    auto menuID = static_cast<ID::MenuBar>(id);
+    if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
+    {
+        m_BackgroundColor = color.value(); // *color also works
+        InvalidateRect(m_WindowHandle, nullptr, FALSE);
+        return true;
+    }
+    return false;
+}
+
+bool MainWindow::HandleCursorModuleCommands(const WORD id)
+{
+    auto cursorID = static_cast<ID::CursorModule>(id);
+    if (cursorID == ID::CursorModule::ArrowRadioButton ||
+        cursorID == ID::CursorModule::HandRadioButton ||
+        cursorID == ID::CursorModule::CrossRadioButton)
+    {
+        SendMessage(m_WindowHandle, WM_SETCURSOR, reinterpret_cast<WPARAM>(m_WindowHandle), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
+        return true;
+    }
+    return false;
+}
+
+bool MainWindow::HandlePopUpModuleCommands(const WORD id, const WORD code)
+{
+    if (id == static_cast<WORD>(ID::PopUpModule::Textbox) && code == EN_CHANGE)
+    {
+        m_PopUpModule.OnTextChanged();
+        return true;
+    }
+    else if (static_cast<ID::PopUpModule>(id) == ID::PopUpModule::ShowButton)
+    {
+        m_PopUpModule.OnShowButtonClick();
+        return true;
+    }
+    return false;
+}
 
 void MainWindow::OnLButtonDown(const int x, const int y)
 {

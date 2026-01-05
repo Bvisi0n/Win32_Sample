@@ -57,5 +57,8 @@
     <ClInclude Include="include\ResourceIDs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\CursorModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

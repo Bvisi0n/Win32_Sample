@@ -34,7 +34,7 @@ public:
 		SetMenu(owner, m_MenuHandle);
 	}
 
-	std::optional<D2D1_COLOR_F> GetColorFromID(ID::MenuBar id)
+	std::optional<D2D1_COLOR_F> GetColorFromID(ID::MenuBar id) const
 	{
 		switch (id)
 		{

@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="include\BaseWindow.h" />
     <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\CursorModule.h" />
     <ClInclude Include="include\MainWindow.h" />
     <ClInclude Include="include\MenuBar.h" />
     <ClInclude Include="include\PopUpModule.h" />

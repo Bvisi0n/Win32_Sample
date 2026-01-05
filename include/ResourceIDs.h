@@ -7,17 +7,31 @@
 namespace ID
 {	// Every WORD should be unique across all enumerations
 	enum class MenuBar : WORD
-	{
-		AliceBlue		= 1001,
-		Lavender		= 1002,
-		MintCream		= 1003,
-		PeachPuff		= 1004
+	{	// 0000 - 0099
+		AliceBlue			= 0000,
+		Lavender			= 0001,
+		MintCream			= 0002,
+		PeachPuff			= 0003
 	};
+
+	enum class CursorModule : WORD
+	{	// 0100 - 0109
+		ArrowRadioButton	= 0100,
+		HandRadioButton		= 0101,
+		CrossRadioButton	= 0102
+	};
+
 	enum class PopUpModule : WORD
-	{
-		ShowButton		= 1101,
-		Textbox			= 1102
+	{	// 0110 - 0119
+		ShowButton			= 0110,
+		Textbox				= 0111
 	};
+
+	template <typename T>
+	constexpr HMENU ToHandle(T id)
+	{
+		return reinterpret_cast<HMENU>(static_cast<uintptr_t>(id));
+	}
 }
 
 #endif

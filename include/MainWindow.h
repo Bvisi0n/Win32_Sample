@@ -9,10 +9,10 @@
 // ------ Homebrew ----------------------------------
 #include "BaseWindow.h"
 #include "MenuBar.h"
+#include "CursorModule.h"
 #include "PopUpModule.h"
 
 // MVP
-    // TODO: Add some radio buttons that change the cursor icon
     // TODO: Add a date picker, doesn't have to do anything
     // TODO: Add a button that opens a file selector, display info on the file in a label field
 
@@ -41,6 +41,7 @@ private:
     MenuBar                     m_MenuBar{};
     D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
 
+    CursorModule                m_CursorModule{};
     PopUpModule                 m_PopUpModule{};
 
     std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
@@ -59,8 +60,11 @@ private:
     void    OnSize();
 
     // ---- Input -----------------------------------
-    void    OnLButtonDown(const int x, const int y);
-    void    OnRButtonDown(const int x, const int y);
+    [[nodiscard]]   bool HandleMenuBarCommands      (const WORD id);
+    [[nodiscard]]   bool HandleCursorModuleCommands (const WORD id);
+    [[nodiscard]]   bool HandlePopUpModuleCommands  (const WORD id, const WORD code);
+                    void OnLButtonDown(const int x, const int y);
+                    void OnRButtonDown(const int x, const int y);
 };
 
 #endif
