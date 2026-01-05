@@ -11,24 +11,25 @@
 
 class MenuBar {
 public:
-	MenuBar() = default;
-	~MenuBar() = default;
-	MenuBar(const MenuBar&) = delete;
-	MenuBar(MenuBar&&) = delete;
-	MenuBar& operator=(const MenuBar&) = delete;
-	MenuBar& operator=(MenuBar&&) = delete;
+	MenuBar()							= default;
+	~MenuBar()							= default;
+	MenuBar(const MenuBar&)				= delete;
+	MenuBar(MenuBar&&)					= delete;
+	MenuBar& operator=(const MenuBar&)	= delete;
+	MenuBar& operator=(MenuBar&&)		= delete;
 
 	void Initialize(HWND owner)
 	{
-		m_MenuHandle = CreateMenu();
-		HMENU hBackgroundMenu = CreateMenu();
-
+		m_MenuHandle			= CreateMenu();
+		HMENU hBackgroundMenu	= CreateMenu();
+		
+		// TODO: Use ID::ToHandle()?
 		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::AliceBlue),	L"Alice Blue");
 		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Lavender),	L"Lavender");
 		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::MintCream),	L"Mint Cream");
 		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::PeachPuff),	L"Peach Puff");
 
-		AppendMenuW(m_MenuHandle, MF_POPUP, reinterpret_cast<UINT_PTR>(hBackgroundMenu), L"Background Color");
+		AppendMenuW(m_MenuHandle,	 MF_POPUP,  reinterpret_cast<UINT_PTR>(hBackgroundMenu),	L"Background Color");
 
 		SetMenu(owner, m_MenuHandle);
 	}

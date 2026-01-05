@@ -34,12 +34,12 @@ public:
         }
     }
 
-    BaseWindow() = default;
-    virtual ~BaseWindow() = default;
-    BaseWindow(const BaseWindow&) = delete;
-    BaseWindow(BaseWindow&&) = delete;
-    BaseWindow& operator=(const BaseWindow&) = delete;
-    BaseWindow& operator=(BaseWindow&&) = delete;
+    BaseWindow()                                = default;
+    virtual ~BaseWindow()                       = default;
+    BaseWindow(const BaseWindow&)               = delete;
+    BaseWindow(BaseWindow&&)                    = delete;
+    BaseWindow& operator=(const BaseWindow&)    = delete;
+    BaseWindow& operator=(BaseWindow&&)         = delete;
 
     BOOL Create(
         PCWSTR windowName,          // Window text
@@ -55,9 +55,9 @@ public:
     {
         WNDCLASS windowClass = {};
 
-        windowClass.lpfnWndProc = BaseWindow::WindowProc; // Pointer to function
-        windowClass.hInstance = GetModuleHandle(nullptr);    // Handle to application instance
-        windowClass.lpszClassName = ClassName();          // String that identifies window class
+        windowClass.lpfnWndProc     = BaseWindow::WindowProc;   // Pointer to function
+        windowClass.hInstance       = GetModuleHandle(nullptr); // Handle to application instance
+        windowClass.lpszClassName   = ClassName();              // String that identifies window class
 
         RegisterClass(&windowClass);                      // Registers the window class with the OS
 

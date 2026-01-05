@@ -7,17 +7,17 @@
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
 
-// TODO: Prevent the cursor from going into hiding when typing in the textfield
+// TODO: Prevent the cursor from going into hiding when typing in the text field
 
 class PopUpModule
 {
 public:
-	PopUpModule() = default;
-	~PopUpModule() = default;
-	PopUpModule(const PopUpModule&) = delete;
-	PopUpModule(PopUpModule&&) = delete;
-	PopUpModule& operator=(const PopUpModule&) = delete;
-	PopUpModule& operator=(PopUpModule&&) = delete;
+	PopUpModule()                               = default;
+	~PopUpModule()                              = default;
+	PopUpModule(const PopUpModule&)             = delete;
+	PopUpModule(PopUpModule&&)                  = delete;
+	PopUpModule& operator=(const PopUpModule&)  = delete;
+	PopUpModule& operator=(PopUpModule&&)       = delete;
 
     void Initialize(HWND ownerHandle, float dpiScale)
     {
@@ -108,9 +108,9 @@ public:
     }
 
 private:
-    HWND m_ParentHandle = nullptr; // Keeps UpdateLayout logic abstracted away from the parent.
-	HWND m_ButtonHandle = nullptr;
-	HWND m_TextboxHandle = nullptr;
+    HWND m_ParentHandle     = nullptr; // Keeps UpdateLayout logic abstracted away from the parent.
+	HWND m_ButtonHandle     = nullptr;
+	HWND m_TextboxHandle    = nullptr;
 };
 
 #endif

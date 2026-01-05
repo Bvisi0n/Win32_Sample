@@ -68,7 +68,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_COMMAND: // Sent when the user invokes a command item from a menu
         {                //      when a control sends a notification message to its parent window
                          //      when an accelerator keystroke is translated
-            const WORD id = LOWORD(wParam);
+            const WORD id   = LOWORD(wParam);
             const WORD code = HIWORD(wParam);
 
             if (id == static_cast<WORD>(ID::PopUpModule::Textbox) && code == EN_CHANGE)
