@@ -52,6 +52,8 @@ public:
             nullptr                                             // Additional application data
         );
         
+        SendMessage(m_TextboxHandle, EM_LIMITTEXT, 500, 0); // Limit input to 500 characters
+
         EnableWindow(m_ButtonHandle, FALSE);
         return UpdateLayout(dpiScale, yPosition); // Send back a new yPosition to feed to the next module
     }
@@ -101,11 +103,17 @@ public:
 
     void OnShowButtonClick() const
     {
-        if (GetWindowTextLengthW(m_TextboxHandle) > 0)
+        const int length{ GetWindowTextLengthW(m_TextboxHandle) };
+        if (length > 0)
         {
-            wchar_t buffer[256]{}; // TODO: Implies a max length, should it be enforced in OnTextChanged()?
-            GetWindowTextW(m_TextboxHandle, buffer, 256);
-            MessageBoxW(m_ParentHandle, buffer, L"You typed:", MB_OK);
+            std::wstring buffer;
+            buffer.resize(length);
+            GetWindowTextW(m_TextboxHandle, buffer.data(), length + 1);
+            MessageBoxW(m_ParentHandle, buffer.c_str(), L"You typed:", MB_OK);
+        }
+        else // This path should never happen
+        {
+            MessageBoxW(m_ParentHandle, L"You typed:", L"Nothing!\nError!!!", MB_ICONWARNING);
         }
     }
 
