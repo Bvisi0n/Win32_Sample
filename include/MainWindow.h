@@ -48,23 +48,23 @@ private:
     float                       m_EllipseSize{ 10.f };
 
     // ---- Rendering -------------------------------
-    void    OnPaint();
-    HRESULT CreateGraphicsResources();
-    void    DiscardGraphicsResources();
+                  void    OnPaint();
+    [[nodiscard]] HRESULT CreateGraphicsResources();
+                  void    DiscardGraphicsResources();
 
     // ---- Coordinate Systems ----------------------
-    void    UpdateDpiScale();
-    float   PixelsToDips(int pixelValue) const;
+                  void    UpdateDpiScale();
+                  float   PixelsToDips(int pixelValue) const;
 
     // ---- Layout ----------------------------------
-    void    OnSize();
+                  void    OnSize();
 
     // ---- Input -----------------------------------
-    [[nodiscard]]   bool HandleMenuBarCommands      (const WORD id);
-    [[nodiscard]]   bool HandleCursorModuleCommands (const WORD id);
-    [[nodiscard]]   bool HandlePopUpModuleCommands  (const WORD id, const WORD code);
-                    void OnLButtonDown(const int x, const int y);
-                    void OnRButtonDown(const int x, const int y);
+    [[nodiscard]] bool    HandleMenuBarCommands(const WORD id);
+    [[nodiscard]] bool    HandleCursorModuleCommands(const WORD id);
+    [[nodiscard]] bool    HandlePopUpModuleCommands(const WORD id, const WORD code);
+                  void    OnLButtonDown(const int x, const int y);
+                  void    OnRButtonDown(const int x, const int y);
 };
 
 #endif
