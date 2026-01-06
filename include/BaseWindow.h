@@ -4,25 +4,25 @@
 // Project wide settings
 #include "Config.h"
 
-template <class DERIVED_TYPE>
+template <typename DerivedType>
 class BaseWindow
 {
 public:
     static LRESULT CALLBACK WindowProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam)
     {
-        DERIVED_TYPE* pThis = nullptr; // Holds the instance pointer for this window
+        DerivedType* pThis = nullptr; // Holds the instance pointer for this window
 
         if (message == WM_NCCREATE)    // Handle creation message so we can associate the OS window with the object
         {
             CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;                  // Unpack the parameter with the correct struct
-            pThis = (DERIVED_TYPE*)pCreate->lpCreateParams;                 // Retrieve the this pointer for the instance being created
+            pThis = (DerivedType*)pCreate->lpCreateParams;                 // Retrieve the this pointer for the instance being created
             SetWindowLongPtr(windowHandle, GWLP_USERDATA, (LONG_PTR)pThis); // Store the instance pointer in the window’s user data so later messages can find it
 
             pThis->m_WindowHandle = windowHandle; // Save the window handle locally
         }
         else        // Handle all other messages
         {
-            pThis = (DERIVED_TYPE*)GetWindowLongPtr(windowHandle, GWLP_USERDATA); // Retrieve the instance pointer
+            pThis = (DerivedType*)GetWindowLongPtr(windowHandle, GWLP_USERDATA); // Retrieve the instance pointer
         }
         if (pThis)  // If Window exists
         {           // -> Handle message
