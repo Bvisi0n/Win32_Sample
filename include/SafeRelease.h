@@ -5,7 +5,12 @@
 #include "Config.h"
 
 // TODO: transition to Microsoft::WRL::ComPtr (if time allows)
-template <class T> void SafeRelease(T** ppT)
+
+template <typename T>
+concept ComObject = std::derived_from<T, IUnknown>;
+
+template <ComObject T>
+void SafeRelease(T** ppT)
 {
     if (*ppT)
     {
