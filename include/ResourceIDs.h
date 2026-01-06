@@ -9,24 +9,24 @@ namespace ID
 	using UnderlyingType = WORD;
 
 	enum class MenuBar : UnderlyingType
-	{	// 0000 - 0099
-		AliceBlue			= 0000,
-		Lavender			= 0001,
-		MintCream			= 0002,
-		PeachPuff			= 0003
+	{	// 0 - 99
+		AliceBlue			= 0,
+		Lavender			= 1,
+		MintCream			= 2,
+		PeachPuff			= 3
 	};
 
 	enum class CursorModule : UnderlyingType
-	{	// 0100 - 0109
-		ArrowRadioButton	= 0100,
-		HandRadioButton		= 0101,
-		CrossRadioButton	= 0102
+	{	// 100 - 109
+		ArrowRadioButton	= 100,
+		HandRadioButton		= 101,
+		CrossRadioButton	= 102
 	};
 
 	enum class PopUpModule : UnderlyingType
-	{	// 0110 - 0119
-		ShowButton			= 0110,
-		Textbox				= 0111
+	{	// 110 - 119
+		ShowButton			= 110,
+		Textbox				= 111
 	};
 
 	template <typename T>
