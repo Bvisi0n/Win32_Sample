@@ -16,6 +16,8 @@ public:
 	// TODO: Return std::expected<int> to return std::unexpected(GetLastError())
 	[[nodiscard]] virtual int Initialize(HWND ownerHandle, float dpiScale, int yPosition) = 0;
     [[nodiscard]] virtual int UpdateLayout(float dpiScale, int yPosition) const = 0;
+	// TODO: Add GetCursor() OnCommand(), OnNotify()
+	// This would allow wrapping all UIModules in a std::array, cleanly abstract logic away from MainWindow, make it even cleaner
 
 protected:
 	HWND m_ParentHandle = nullptr; // Keeps UpdateLayout logic abstracted away from the parent

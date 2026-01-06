@@ -18,8 +18,6 @@
 
 //Advanced
     // TODO: Use <filesystem> and <fstream> to save and load the ellipses to a file
-    // TODO: Look to implement <expected> and/or <optional> and their monadic functions
-    // TODO: Hunt for ways to use the STL, Algorithms, Containers, Iterators.
 
 class MainWindow : public BaseWindow<MainWindow>
 {

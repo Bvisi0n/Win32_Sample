@@ -4,8 +4,6 @@
 // Project wide settings
 #include "Config.h"
 
-// TODO: transition to Microsoft::WRL::ComPtr (if time allows)
-
 template <typename T>
 concept ComObject = std::derived_from<T, IUnknown>;
 

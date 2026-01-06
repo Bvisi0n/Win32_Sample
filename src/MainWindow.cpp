@@ -73,10 +73,12 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             return 0;
         }
         case WM_SETCURSOR:
-        {
+        {   // TODO: WM_SETCURSOR needs a complete overhaul, cursor should change depending on what it's hovering over.
             if (LOWORD(lParam) == HTCLIENT)
+            {
                 SetCursor(m_CursorModule.GetSelectedCursor());
                 return TRUE;
+            }
         }
 
         // - Interactions & Commands ----------------
