@@ -6,18 +6,15 @@
 
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
+#include "UIModule.h"
 
-class CursorModule
+class CursorModule : UIModule
 {
 public:
 	CursorModule()                                  = default;
 	~CursorModule()                                 = default;
-	CursorModule(const CursorModule&)               = delete;
-	CursorModule(CursorModule&&)                    = delete;
-	CursorModule& operator=(const CursorModule&)    = delete;
-	CursorModule& operator=(CursorModule&&)         = delete;
 
-    [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition)
+    [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition) override
 	{
         m_ParentHandle      = ownerHandle;
         m_RadioArrowHandle  = CreateWindowEx(
@@ -69,7 +66,7 @@ public:
         return UpdateLayout(dpiScale, yPosition); // Send back a new yPosition to feed to the next module
 	}
 
-    [[nodiscard]] int UpdateLayout(float dpiScale, int yPosition) const
+    [[nodiscard]] int UpdateLayout(float dpiScale, int yPosition) const override
     {
         if (!m_ParentHandle || !m_RadioArrowHandle || !m_RadioHandHandle || !m_RadioCrossHandle)
         {
@@ -132,7 +129,6 @@ public:
     }
 
 private:
-	HWND m_ParentHandle     = nullptr; // Keeps UpdateLayout logic abstracted away from the parent.
 	HWND m_RadioArrowHandle = nullptr;
 	HWND m_RadioHandHandle  = nullptr;
 	HWND m_RadioCrossHandle = nullptr;

@@ -6,20 +6,17 @@
 
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
+#include "UIModule.h"
 
 // TODO: Prevent the cursor from going into hiding when typing in the text field
 
-class PopUpModule
+class PopUpModule : UIModule
 {
 public:
-	PopUpModule()                               = default;
-	~PopUpModule()                              = default;
-	PopUpModule(const PopUpModule&)             = delete;
-	PopUpModule(PopUpModule&&)                  = delete;
-	PopUpModule& operator=(const PopUpModule&)  = delete;
-	PopUpModule& operator=(PopUpModule&&)       = delete;
+	PopUpModule()           = default;
+	~PopUpModule() override = default;
 
-    [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition)
+    [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition) override
     {
         m_ParentHandle = ownerHandle;
         m_ButtonHandle = CreateWindowEx(
@@ -58,7 +55,7 @@ public:
         return UpdateLayout(dpiScale, yPosition); // Send back a new yPosition to feed to the next module
     }
 
-    [[nodiscard]] int UpdateLayout(float dpiScale, int yPosition) const
+    [[nodiscard]] int UpdateLayout(float dpiScale, int yPosition) const override
     {
         if (!m_ParentHandle || !m_TextboxHandle || !m_ButtonHandle)
         {
@@ -118,7 +115,6 @@ public:
     }
 
 private:
-    HWND m_ParentHandle     = nullptr; // Keeps UpdateLayout logic abstracted away from the parent.
 	HWND m_ButtonHandle     = nullptr;
 	HWND m_TextboxHandle    = nullptr;
 };

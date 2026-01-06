@@ -34,12 +34,12 @@ public:
         }
     }
 
-    BaseWindow()                                = default;
-    virtual ~BaseWindow()                       = default;
-    BaseWindow(const BaseWindow&)               = delete;
-    BaseWindow(BaseWindow&&)                    = delete;
-    BaseWindow& operator=(const BaseWindow&)    = delete;
-    BaseWindow& operator=(BaseWindow&&)         = delete;
+            BaseWindow()                                = default;
+    virtual ~BaseWindow()                               = default;
+            BaseWindow(const BaseWindow&)               = delete;
+            BaseWindow(BaseWindow&&)                    = delete;
+            BaseWindow& operator=(const BaseWindow&)    = delete;
+            BaseWindow& operator=(BaseWindow&&)         = delete;
 
     BOOL Create(
         PCWSTR windowName,          // Window text

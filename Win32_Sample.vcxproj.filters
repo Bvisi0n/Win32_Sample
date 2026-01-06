@@ -60,5 +60,8 @@
     <ClInclude Include="include\CursorModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\UIModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
