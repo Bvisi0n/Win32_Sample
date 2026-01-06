@@ -8,6 +8,9 @@ namespace ID
 {	// Every WORD should be unique across all enumerations
 	using UnderlyingType = WORD;
 
+	static_assert(sizeof(UnderlyingType) <= sizeof(uintptr_t),
+		"ERROR: ID::UnderlyingType is too large to be packed into an HMENU (Win32 requirement).");
+
 	enum class MenuBar : UnderlyingType
 	{	// 0 - 99
 		AliceBlue			= 0,
