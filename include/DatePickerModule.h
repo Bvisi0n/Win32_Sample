@@ -4,6 +4,10 @@
 // ------ Project wide settings ---------------------
 #include "config.h"
 
+// ------ Win32 and more ----------------------------
+#include <windows.h>	// The core
+#include <commctrl.h>
+
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
 #include "UIModule.h"

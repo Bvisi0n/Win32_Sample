@@ -1,7 +1,11 @@
-// Project wide settings
+// ------ Project wide settings ---------------------
 #include "Config.h"
 
-// Homebrew
+// ------ Win32 and more ----------------------------
+#include <windows.h>	// The core
+#include <commctrl.h>
+
+// ------ Homebrew ----------------------------------
 #include "MainWindow.h"
 
 void InitializeCOM();

@@ -3,6 +3,10 @@
 // ------ Project wide settings ---------------------
 #include "config.h"
 
+// ------ Win32 and more ----------------------------
+#include <windows.h>	// The core
+#include <d2d1.h>		// Direct2D
+
 // ------ STL ---------------------------------------
 #include <optional>
 

@@ -1,3 +1,6 @@
+// ------ Win32 and more ----------------------------
+#include <windowsx.h>	// The "helper" macros
+
 // ------ STL ---------------------------------------
 #include <algorithm>
 

@@ -4,6 +4,9 @@
 // ------ Project wide settings ---------------------
 #include "config.h"
 
+// ------ Win32 and more ----------------------------
+#include <windows.h>	// The core
+
 namespace ID
 {	// Every WORD should be unique across all enumerations
 	using UnderlyingType = WORD;

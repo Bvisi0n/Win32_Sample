@@ -1,8 +1,11 @@
 #ifndef BASEWINDOW_H
 #define BASEWINDOW_H
 
-// Project wide settings
+// ------ Project wide settings ---------------------
 #include "Config.h"
+
+// ------ Win32 and more ----------------------------
+#include <windows.h>	// The core
 
 template <typename DerivedType>
 class BaseWindow

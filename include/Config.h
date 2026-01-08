@@ -5,12 +5,6 @@
 	#define WIN32_LEAN_AND_MEAN // Cuts out the fat (Exclude rarely used APIs)
 	#define NOMINMAX            // C++ Compatibility: Stop Windows from breaking std::min and std::max
 
-	#include <windows.h>	// The core
-	#include <windowsx.h>	// The "helper" macros
-	#include <commctrl.h>
-	#include <wrl/client.h>	// Microsoft::WRL::ComPtr (smart pointer).
-	#include <d2d1.h>		// Direct2D
-
 	// Linker instructions
 	#pragma comment(lib, "comctl32.lib")
 	#pragma comment(lib, "d2d1")

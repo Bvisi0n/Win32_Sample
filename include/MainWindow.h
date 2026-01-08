@@ -3,6 +3,12 @@
 // ------ Project wide settings ---------------------
 #include "Config.h"
 
+// ------ Win32 and more ----------------------------
+#include <windows.h>	// The core
+#include <commctrl.h>
+#include <wrl/client.h>	// Microsoft::WRL::ComPtr (smart pointer).
+#include <d2d1.h>	    // Direct2D
+
 // ------ STL ---------------------------------------
 #include <vector>
 
