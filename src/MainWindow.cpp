@@ -41,8 +41,9 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 
             // TODO 2b: Wrap Module classes in a std::array using a pure virtual base, then replace use std::accumulate to apply the pattern
             int yOffset{};
-            yOffset += m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            yOffset += m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            yOffset = m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            yOffset = m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            yOffset = m_DatePickerModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
 
             return 0;
         }
@@ -51,9 +52,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
 
-            int yOffset{};
-            yOffset += m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
-            yOffset += m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
+            UpdateModuleLayouts();
 
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return 0;
@@ -62,9 +61,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent to a window after its size has changed
             OnSize();
 
-            int yOffset{};
-            yOffset += m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
-            yOffset += m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
+            UpdateModuleLayouts();
             return 0;
         }
         case WM_PAINT:
@@ -235,6 +232,14 @@ void MainWindow::OnSize()
 
         InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
     }
+}
+
+void MainWindow::UpdateModuleLayouts()
+{
+    int yOffset{};
+    yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
+    yOffset = m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
+    yOffset = m_DatePickerModule.UpdateLayout(m_DpiScale, yOffset);
 }
 
 // -------------------------------------------------

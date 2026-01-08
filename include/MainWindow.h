@@ -10,6 +10,7 @@
 #include "BaseWindow.h"
 #include "MenuBar.h"
 #include "CursorModule.h"
+#include "DatePickerModule.h"
 #include "PopUpModule.h"
 
 // MVP
@@ -40,6 +41,7 @@ private:
     D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
 
     CursorModule                m_CursorModule{};
+    DatePickerModule            m_DatePickerModule{};
     PopUpModule                 m_PopUpModule{};
 
     std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO 4a: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
@@ -56,6 +58,7 @@ private:
 
     // ---- Layout ----------------------------------
                   void    OnSize();
+                  void    UpdateModuleLayouts();
 
     // ---- Input -----------------------------------
     [[nodiscard]] bool    HandleMenuBarCommands(const WORD id);

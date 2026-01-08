@@ -77,14 +77,14 @@ public:
         
             MoveWindow( m_TextboxHandle,                // Handle
                         margin,                         // X position
-                        margin,                         // Y position
+                        yPosition + margin,             // Y position
                         halfWidth,                      // Width
                         height,                         // Height
                         TRUE);                          // Sends WM_PAINT to parent
 
             MoveWindow( m_ButtonHandle,                 // Handle
                         margin + halfWidth + spacing,   // X position
-                        margin,                         // Y position
+                        yPosition + margin,             // Y position
                         halfWidth,                      // Width
                         height,                         // Height
                         TRUE);                          // Sends WM_PAINT to parent

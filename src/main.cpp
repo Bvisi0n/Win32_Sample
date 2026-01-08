@@ -4,6 +4,8 @@
 // Homebrew
 #include "MainWindow.h"
 
+void InitializeCOM();
+
 #ifdef _DEBUG
 int main()
 {
@@ -13,6 +15,8 @@ int main()
 
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int nCmdShow)
 {
+    InitializeCOM();
+
     MainWindow mainWindow;
     // TODO 5: Return std::expected<int> to return std::unexpected(GetLastError()) everywhere that it applies
     if (!mainWindow.Create(L"Win32_Sample", WS_OVERLAPPEDWINDOW))
@@ -32,4 +36,12 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _I
     }
 
     return 0;  // End of program
+}
+
+void InitializeCOM()
+{
+    INITCOMMONCONTROLSEX icc;
+    icc.dwSize = sizeof(icc);
+    icc.dwICC = ICC_DATE_CLASSES;
+    InitCommonControlsEx(&icc);
 }

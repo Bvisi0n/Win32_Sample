@@ -63,5 +63,8 @@
     <ClInclude Include="include\UIModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\DatePickerModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

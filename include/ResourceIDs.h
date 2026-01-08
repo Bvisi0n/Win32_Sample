@@ -26,10 +26,15 @@ namespace ID
 		CrossRadioButton	= 102
 	};
 
-	enum class PopUpModule : UnderlyingType
+	enum class DatePickerModule : UnderlyingType
 	{	// 110 - 119
-		ShowButton			= 110,
-		Textbox				= 111
+		DatePicker			= 110
+	};
+
+	enum class PopUpModule : UnderlyingType
+	{	// 120 - 129
+		ShowButton			= 120,
+		Textbox				= 121
 	};
 
 	template <typename T>
