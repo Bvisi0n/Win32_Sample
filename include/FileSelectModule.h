@@ -11,6 +11,7 @@
 
 // ------ STL ---------------------------------------
 #include <filesystem>
+#include <memory>
 
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
@@ -120,10 +121,11 @@ public:
                     result = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
 
                     if (SUCCEEDED(result))
-                    {
+                    {   // R.1: Manage resources automatically using resource handles and RAII
+                        std::unique_ptr<wchar_t, decltype(&CoTaskMemFree)> pathWrapper(pszFilePath, CoTaskMemFree);
                         try
                         {
-                            std::filesystem::path filePath(pszFilePath);
+                            std::filesystem::path filePath(pathWrapper.get());
                             auto fileSize = std::filesystem::file_size(filePath);
 
                             std::wstring infoText = std::format(L"File: {}\nSize: {} bytes",
@@ -135,8 +137,6 @@ public:
                         {
                             SetWindowText(m_LabelHandle, L"Error: Could not read file size.");
                         }
-
-                        CoTaskMemFree(pszFilePath);
                     }
                 }
             }
