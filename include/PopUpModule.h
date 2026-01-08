@@ -7,6 +7,9 @@
 // ------ Win32 and more ----------------------------
 #include <windows.h>	// The core
 
+// ------ STL ---------------------------------------
+#include <string>
+
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
 #include "UIModule.h"
