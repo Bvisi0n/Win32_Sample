@@ -14,7 +14,7 @@ int main()
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _In_ int nCmdShow)
 {
     MainWindow mainWindow;
-
+    // TODO 5: Return std::expected<int> to return std::unexpected(GetLastError()) everywhere that it applies
     if (!mainWindow.Create(L"Win32_Sample", WS_OVERLAPPEDWINDOW))
     {
         return 0;

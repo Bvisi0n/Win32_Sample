@@ -13,11 +13,11 @@
 #include "PopUpModule.h"
 
 // MVP
-    // TODO: Add a date picker, doesn't have to do anything
-    // TODO: Add a button that opens a file selector, display info on the file in a label field
+    // TODO 1a: Add a date picker, doesn't have to do anything
+    // TODO 1b: Add a button that opens a file selector, display info on the file in a label field
 
 //Advanced
-    // TODO: Use <filesystem> and <fstream> to save and load the ellipses to a file
+    // TODO 1c: Use <filesystem> and <fstream> to save and load the ellipses to a file
 
 class MainWindow : public BaseWindow<MainWindow>
 {
@@ -42,7 +42,7 @@ private:
     CursorModule                m_CursorModule{};
     PopUpModule                 m_PopUpModule{};
 
-    std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
+    std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO 4a: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
     float                       m_EllipseSize{ 10.f };
 
     // ---- Rendering -------------------------------

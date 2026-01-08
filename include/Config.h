@@ -20,7 +20,7 @@
 		#define LOG_PRINT(...) ((void)0) 
 	#endif
 
-// TODO!: Project properties
+// TODO 0: Project properties
 	// Under General
 		// Set C++ standard to C++23 for all builds
 	// Under C / C++ > General

@@ -39,7 +39,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 
             m_MenuBar.Initialize(m_WindowHandle);
 
-            // TODO: Wrap Module classes in a std::array using a pure virtual base, then replace use std::accumulate to apply the pattern
+            // TODO 2b: Wrap Module classes in a std::array using a pure virtual base, then replace use std::accumulate to apply the pattern
             int yOffset{};
             yOffset += m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
             yOffset += m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
@@ -73,7 +73,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             return 0;
         }
         case WM_SETCURSOR:
-        {   // TODO: WM_SETCURSOR needs a complete overhaul, cursor should change depending on what it's hovering over.
+        {   // TODO 3a: WM_SETCURSOR needs a complete overhaul, cursor should change depending on what it's hovering over.
             if (LOWORD(lParam) == HTCLIENT)
             {
                 SetCursor(m_CursorModule.GetSelectedCursor());
@@ -113,13 +113,11 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             OnRButtonDown(x, y);
             return 0;
         }
-        // TODO: Use WM_MOUSEHOVER to display a tooltip/info bar of some sort displaying info on the ellipse
-        // TODO: Use SetCapture, ReleaseCapture and WM_MOUSEMOVE to let user define the size/shape of an ellipse
-        // TODO: Use WM_MOUSEWHEEL to adjust the scale of existing ellipses
-        // TODO: Use DragDetect to allow user to move the existing ellipses
-        // TODO: Use ClipCursor to prevent user from moving an ellipse offscreen
-        // TODO: Detect keyboard input and allow user to type basic color names that affects new ellipses
-        // TODO: Adjust the cursor image to the context of the program
+        // TODO 4b: Use WM_MOUSEHOVER to display a tooltip/info bar of some sort displaying info on the ellipse
+        // TODO 4c: Use SetCapture, ReleaseCapture and WM_MOUSEMOVE to let user define the size/shape of an ellipse
+        // TODO 4d: Use WM_MOUSEWHEEL to adjust the scale of existing ellipses
+        // TODO 4e: Use DragDetect to allow user to move the existing ellipses
+        // TODO 4f: Detect keyboard input and allow user to type basic color names that affects new ellipses
 
         // - Destruction ----------------------------
         case WM_CLOSE:
@@ -314,7 +312,7 @@ void MainWindow::OnRButtonDown(const int x, const int y)
         });
 
     if (it != m_Ellipses.rend())
-    {   // Iterator invalidated after erase is called so print prior to the call
+    {   // Iterator is invalidated after .erase() is called so it must print before the call
         if (m_Ellipses.size() > 1)
         {
             LOG_PRINT("Removed dot at ({}, {}). Total dots: {}",

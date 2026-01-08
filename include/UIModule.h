@@ -13,10 +13,9 @@ public:
 			UIModule& operator=(const UIModule&) = delete;
 			UIModule& operator=(UIModule&&)		 = delete;
 
-	// TODO: Return std::expected<int> to return std::unexpected(GetLastError())
 	[[nodiscard]] virtual int Initialize(HWND ownerHandle, float dpiScale, int yPosition) = 0;
     [[nodiscard]] virtual int UpdateLayout(float dpiScale, int yPosition) const = 0;
-	// TODO: Add GetCursor() OnCommand(), OnNotify()
+	// TODO 2a: Add GetCursor() OnCommand(), OnNotify()
 	// This would allow wrapping all UIModules in a std::array, cleanly abstract logic away from MainWindow, make it even cleaner
 
 protected:
