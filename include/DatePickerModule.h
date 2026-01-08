@@ -22,18 +22,18 @@ public:
     {
         m_ParentHandle = ownerHandle;
         m_DatePickerHandle = CreateWindowEx(
-            0,                                                      // Optional window styles
-            DATETIMEPICK_CLASS,                                     // Predefined system class
-            L"",                                                    // Button text
-            WS_CHILD | WS_VISIBLE | DTS_SHORTDATECENTURYFORMAT,     // Child window & button styles
+            0,                                                  // Optional window styles
+            DATETIMEPICK_CLASS,                                 // Predefined system class
+            L"",                                                // Button text
+            WS_CHILD | WS_VISIBLE | DTS_SHORTDATECENTURYFORMAT, // Child window & button styles
 
             // Size and position (Set to 0, handled by UpdateLayout)
             0, 0, 0, 0,
 
-            ownerHandle,                                            // Parent window handle
-            ID::ToHandle(ID::DatePickerModule::DatePicker),         // Control ID
-            GetModuleHandle(nullptr),                               // Instance handle
-            nullptr                                                 // Additional application data
+            ownerHandle,                                        // Parent window handle
+            ID::ToHandle(ID::DatePickerModule::DatePicker),     // Control ID
+            GetModuleHandle(nullptr),                           // Instance handle
+            nullptr                                             // Additional application data
         );
         return UpdateLayout(dpiScale, yPosition); // Send back a new yPosition to feed to the next module
     }

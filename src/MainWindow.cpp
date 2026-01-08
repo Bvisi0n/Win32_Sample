@@ -36,6 +36,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             yOffset = m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
             yOffset = m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
             yOffset = m_DatePickerModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            yOffset = m_FileSelectModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
 
             return 0;
         }
@@ -80,6 +81,8 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             if (HandleMenuBarCommands(id))
                 return 0;
             if (HandleCursorModuleCommands(id))
+                return 0;
+            if (HandleFileSelectModuleCommands(id))
                 return 0;
             if (HandlePopUpModuleCommands(id, code))
                 return 0;
@@ -227,6 +230,7 @@ void MainWindow::UpdateModuleLayouts()
     yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_DatePickerModule.UpdateLayout(m_DpiScale, yOffset);
+    yOffset = m_FileSelectModule.UpdateLayout(m_DpiScale, yOffset);
 }
 
 // -------------------------------------------------
@@ -258,6 +262,16 @@ bool MainWindow::HandleCursorModuleCommands(const WORD id)
     return false;
 }
 
+bool MainWindow::HandleFileSelectModuleCommands(const WORD id)
+{
+    if (static_cast<ID::FileSelectModule>(id) == ID::FileSelectModule::SelectButton)
+    {
+        m_FileSelectModule.OnButtonClicked();
+        return true;
+    }
+    return false;
+}
+
 bool MainWindow::HandlePopUpModuleCommands(const WORD id, const WORD code)
 {
     if (id == static_cast<WORD>(ID::PopUpModule::Textbox) && code == EN_CHANGE)
@@ -267,7 +281,7 @@ bool MainWindow::HandlePopUpModuleCommands(const WORD id, const WORD code)
     }
     else if (static_cast<ID::PopUpModule>(id) == ID::PopUpModule::ShowButton)
     {
-        m_PopUpModule.OnShowButtonClick();
+        m_PopUpModule.OnButtonClicked();
         return true;
     }
     return false;

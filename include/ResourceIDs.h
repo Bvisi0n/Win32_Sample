@@ -34,10 +34,16 @@ namespace ID
 		DatePicker			= 110
 	};
 
+	enum class FileSelectModule : UnderlyingType
+	{	// 120 - 129
+		InfoLabel			= 120,
+		SelectButton		= 121
+	};
+
 	enum class PopUpModule : UnderlyingType
 	{	// 120 - 129
-		ShowButton			= 120,
-		Textbox				= 121
+		ShowButton			= 130,
+		Textbox				= 131
 	};
 
 	template <typename T>

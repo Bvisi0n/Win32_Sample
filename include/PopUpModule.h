@@ -104,7 +104,7 @@ public:
         EnableWindow(m_ButtonHandle, GetWindowTextLengthW(m_TextboxHandle) > 0);
     }
 
-    void OnShowButtonClick() const
+    void OnButtonClicked() const
     {
         const int length{ GetWindowTextLengthW(m_TextboxHandle) };
         if (length > 0)

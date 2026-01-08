@@ -6,7 +6,7 @@
 // ------ Win32 and more ----------------------------
 #include <windows.h>	// The core
 #include <commctrl.h>
-#include <wrl/client.h>	// Microsoft::WRL::ComPtr (smart pointer).
+#include <wrl/client.h>	// Microsoft::WRL::ComPtr (smartpointer)
 #include <d2d1.h>	    // Direct2D
 
 // ------ STL ---------------------------------------
@@ -17,10 +17,8 @@
 #include "MenuBar.h"
 #include "CursorModule.h"
 #include "DatePickerModule.h"
+#include "FileSelectModule.h"
 #include "PopUpModule.h"
-
-// MVP
-    // TODO 1a: Add a button that opens a file selector, display info on the file in a label field
 
 //Advanced
     // TODO 1b: Use <filesystem>, <fstream> & <regex> to save and load the ellipses to a file in both binary and text. Should be coupled with file selecter module
@@ -47,6 +45,7 @@ private:
 
     CursorModule                m_CursorModule{};
     DatePickerModule            m_DatePickerModule{};
+    FileSelectModule            m_FileSelectModule{};
     PopUpModule                 m_PopUpModule{};
 
     std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO 4a: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
@@ -67,6 +66,7 @@ private:
     // ---- Input -----------------------------------
     [[nodiscard]] bool    HandleMenuBarCommands(const WORD id);
     [[nodiscard]] bool    HandleCursorModuleCommands(const WORD id);
+    [[nodiscard]] bool    HandleFileSelectModuleCommands(const WORD id);
     [[nodiscard]] bool    HandlePopUpModuleCommands(const WORD id, const WORD code);
                   void    OnLButtonDown(const int x, const int y);
                   void    OnRButtonDown(const int x, const int y);
