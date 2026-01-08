@@ -14,11 +14,10 @@
 #include "PopUpModule.h"
 
 // MVP
-    // TODO 1a: Add a date picker, doesn't have to do anything
-    // TODO 1b: Add a button that opens a file selector, display info on the file in a label field
+    // TODO 1a: Add a button that opens a file selector, display info on the file in a label field
 
 //Advanced
-    // TODO 1c: Use <filesystem> and <fstream> to save and load the ellipses to a file
+    // TODO 1b: Use <filesystem> and <fstream> to save and load the ellipses to a file
 
 class MainWindow : public BaseWindow<MainWindow>
 {
