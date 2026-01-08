@@ -17,7 +17,7 @@
     // TODO 1a: Add a button that opens a file selector, display info on the file in a label field
 
 //Advanced
-    // TODO 1b: Use <filesystem> and <fstream> to save and load the ellipses to a file
+    // TODO 1b: Use <filesystem>, <fstream> & <regex> to save and load the ellipses to a file in both binary and text. Should be coupled with file selecter module
 
 class MainWindow : public BaseWindow<MainWindow>
 {
