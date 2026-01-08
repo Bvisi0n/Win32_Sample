@@ -3,17 +3,6 @@
 
 // ------ Homebrew ----------------------------------
 #include "MainWindow.h"
-#include "SafeRelease.h"
-
-// --------------------------------------------------
-// ------------ Special Member Functions ------------
-// --------------------------------------------------
-
-MainWindow::~MainWindow()
-{   // LIFO, due to COM's internal reference counting
-    DiscardGraphicsResources();
-    SafeRelease(&m_pFactory);
-}
 
 // -------------------------------------------------
 // ----------- Window Properties & Logic -----------
@@ -32,7 +21,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {               // After the window is created, but before it becomes visible
             UpdateDpiScale(); // Set scale before creating resources
 
-            if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_pFactory)))
+            if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, m_pFactory.GetAddressOf())))
             {
                 return -1; // Tell OS CreateWindow failed
             }
@@ -155,7 +144,7 @@ void MainWindow::OnPaint()
         
         for (auto& ellipse : m_Ellipses)
         {
-            m_pRenderTarget->FillEllipse(ellipse, m_pBrush); // Draws a filled ellipse with specified brush
+            m_pRenderTarget->FillEllipse(ellipse, m_pBrush.Get()); // Draws a filled ellipse with specified brush
         }
 
         // GPU might buffer the drawing commands
@@ -165,7 +154,8 @@ void MainWindow::OnPaint()
         result = m_pRenderTarget->EndDraw();
         if (FAILED(result) || result == D2DERR_RECREATE_TARGET)
         {   // D2DERR_RECREATE_TARGET is returned when the device is lost i.e. display resolution change, unplugged...
-            DiscardGraphicsResources();
+            m_pBrush.Reset();       // Apply LIFO (not strictly required)
+            m_pRenderTarget.Reset();
         }
         EndPaint(m_WindowHandle, &paintStruct);
     }
@@ -191,12 +181,6 @@ HRESULT MainWindow::CreateGraphicsResources()
         }
     }
     return result;
-}
-
-void MainWindow::DiscardGraphicsResources()
-{   // LIFO, due to COM's internal reference counting
-    SafeRelease(&m_pBrush);
-    SafeRelease(&m_pRenderTarget);
 }
 
 // --------------------------------------------------

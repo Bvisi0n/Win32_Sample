@@ -42,9 +42,6 @@
     <ClInclude Include="include\BaseWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\SafeRelease.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>

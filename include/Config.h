@@ -8,6 +8,7 @@
 	#include <windows.h>	// The core
 	#include <windowsx.h>	// The "helper" macros
 	#include <commctrl.h>
+	#include <wrl/client.h>	// Microsoft::WRL::ComPtr (smart pointer).
 	#include <d2d1.h>		// Direct2D
 
 	// Linker instructions

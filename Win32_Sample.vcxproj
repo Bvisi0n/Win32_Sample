@@ -151,7 +151,6 @@
     <ClInclude Include="include\MenuBar.h" />
     <ClInclude Include="include\PopUpModule.h" />
     <ClInclude Include="include\ResourceIDs.h" />
-    <ClInclude Include="include\SafeRelease.h" />
     <ClInclude Include="include\UIModule.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

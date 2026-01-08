@@ -24,17 +24,17 @@ class MainWindow : public BaseWindow<MainWindow>
 public:
     // ---- Special Member Functions ----------------
     MainWindow() = default;
-    ~MainWindow() override;
+    ~MainWindow() = default;
 
     // ---- Window Properties & Logic ---------------
     PCWSTR  ClassName() const override;
     LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
     
 private:
-    float                       m_DpiScale{ 1.0f };
-    ID2D1Factory*               m_pFactory = nullptr;
-    ID2D1HwndRenderTarget*      m_pRenderTarget = nullptr;
-    ID2D1SolidColorBrush*       m_pBrush = nullptr;
+    float                                           m_DpiScale{ 1.0f };
+    Microsoft::WRL::ComPtr<ID2D1Factory>            m_pFactory;
+    Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget>   m_pRenderTarget;
+    Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>    m_pBrush;
 
     MenuBar                     m_MenuBar{};
     D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
@@ -49,7 +49,6 @@ private:
     // ---- Rendering -------------------------------
                   void    OnPaint();
     [[nodiscard]] HRESULT CreateGraphicsResources();
-                  void    DiscardGraphicsResources();
 
     // ---- Coordinate Systems ----------------------
                   void    UpdateDpiScale();
