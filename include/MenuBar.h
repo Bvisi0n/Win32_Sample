@@ -24,15 +24,26 @@ public:
 
 	void Initialize(HWND owner)
 	{
-		m_MenuHandle			= CreateMenu();
-		HMENU hBackgroundMenu	= CreateMenu();
-		
-		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::AliceBlue),	L"Alice Blue");
-		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Lavender),	L"Lavender");
-		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::MintCream),	L"Mint Cream");
-		AppendMenuW(hBackgroundMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::PeachPuff),	L"Peach Puff");
+		// Create the Background Color menu
+		HMENU bgColorSubMenu = CreatePopupMenu();
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::AliceBlue), L"Alice Blue");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Lavender), L"Lavender");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::MintCream), L"Mint Cream");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::PeachPuff), L"Peach Puff");
 
-		AppendMenuW(m_MenuHandle,	 MF_POPUP,  reinterpret_cast<UINT_PTR>(hBackgroundMenu),	L"Background Color");
+		// Create the View menu
+		HMENU viewMenu = CreatePopupMenu();
+		AppendMenuW(viewMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(bgColorSubMenu), L"Background Color");
+
+		// Create the File menu
+		HMENU fileMenu = CreatePopupMenu();
+		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Load), L"Load");
+		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Save), L"Save");
+
+		// Create the actual Menu Bar
+		m_MenuHandle = CreateMenu();
+		AppendMenuW(m_MenuHandle, MF_POPUP, reinterpret_cast<UINT_PTR>(fileMenu), L"File");
+		AppendMenuW(m_MenuHandle, MF_POPUP, reinterpret_cast<UINT_PTR>(viewMenu), L"View");
 
 		SetMenu(owner, m_MenuHandle);
 	}

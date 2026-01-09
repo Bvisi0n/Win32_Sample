@@ -16,10 +16,12 @@ namespace ID
 
 	enum class MenuBar : UnderlyingType
 	{	// 0 - 99
-		AliceBlue			= 0,
-		Lavender			= 1,
-		MintCream			= 2,
-		PeachPuff			= 3
+		Load				= 0,
+		Save				= 1,
+		AliceBlue			= 2,
+		Lavender			= 3,
+		MintCream			= 4,
+		PeachPuff			= 5
 	};
 
 	enum class CursorModule : UnderlyingType
