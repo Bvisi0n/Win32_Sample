@@ -20,7 +20,7 @@
 class FileSelectModule : UIModule
 {
 public:
-    FileSelectModule() = default;
+    FileSelectModule()  = default;
     ~FileSelectModule() = default;
 
     [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition) override

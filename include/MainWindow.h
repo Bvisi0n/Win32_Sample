@@ -27,7 +27,7 @@ class MainWindow : public BaseWindow<MainWindow>
 {
 public:
     // ---- Special Member Functions ----------------
-    MainWindow() = default;
+    MainWindow()  = default;
     ~MainWindow() = default;
 
     // ---- Window Properties & Logic ---------------

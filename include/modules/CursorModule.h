@@ -14,8 +14,8 @@
 class CursorModule : UIModule
 {
 public:
-	CursorModule()                                  = default;
-	~CursorModule()                                 = default;
+	CursorModule()  = default;
+	~CursorModule() = default;
 
     [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition) override
 	{

@@ -15,7 +15,7 @@
 class DatePickerModule : UIModule
 {
 public:
-    DatePickerModule() = default;
+    DatePickerModule()  = default;
     ~DatePickerModule() = default;
 
     [[nodiscard]] int Initialize(HWND ownerHandle, float dpiScale, int yPosition) override
