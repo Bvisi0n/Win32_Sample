@@ -15,7 +15,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
-#include "UIModule.h"
+#include "modules/UIModule.h"
 
 class FileSelectModule : UIModule
 {

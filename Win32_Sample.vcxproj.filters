@@ -48,22 +48,25 @@
     <ClInclude Include="include\MenuBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\PopUpModule.h">
+    <ClInclude Include="include\modules\PopUpModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ResourceIDs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\CursorModule.h">
+    <ClInclude Include="include\modules\CursorModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\UIModule.h">
+    <ClInclude Include="include\modules\UIModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\DatePickerModule.h">
+    <ClInclude Include="include\modules\DatePickerModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\FileSelectModule.h">
+    <ClInclude Include="include\modules\FileSelectModule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

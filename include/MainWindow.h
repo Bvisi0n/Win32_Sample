@@ -15,10 +15,10 @@
 // ------ Homebrew ----------------------------------
 #include "BaseWindow.h"
 #include "MenuBar.h"
-#include "CursorModule.h"
-#include "DatePickerModule.h"
-#include "FileSelectModule.h"
-#include "PopUpModule.h"
+#include "modules/CursorModule.h"
+#include "modules/DatePickerModule.h"
+#include "modules/FileSelectModule.h"
+#include "modules/PopUpModule.h"
 
 //Advanced
     // TODO 1b: Use <filesystem>, <fstream> & <regex> to save and load the ellipses to a file in both binary and text. Should be coupled with file selecter module

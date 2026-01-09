@@ -149,14 +149,15 @@
   <ItemGroup>
     <ClInclude Include="include\BaseWindow.h" />
     <ClInclude Include="include\Config.h" />
-    <ClInclude Include="include\CursorModule.h" />
-    <ClInclude Include="include\DatePickerModule.h" />
-    <ClInclude Include="include\FileSelectModule.h" />
+    <ClInclude Include="include\modules\CursorModule.h" />
+    <ClInclude Include="include\modules\DatePickerModule.h" />
+    <ClInclude Include="include\modules\FileSelectModule.h" />
+    <ClInclude Include="include\FileService.h" />
     <ClInclude Include="include\MainWindow.h" />
     <ClInclude Include="include\MenuBar.h" />
-    <ClInclude Include="include\PopUpModule.h" />
+    <ClInclude Include="include\modules\PopUpModule.h" />
     <ClInclude Include="include\ResourceIDs.h" />
-    <ClInclude Include="include\UIModule.h" />
+    <ClInclude Include="include\modules\UIModule.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

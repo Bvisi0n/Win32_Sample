@@ -12,7 +12,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "ResourceIDs.h"
-#include "UIModule.h"
+#include "modules/UIModule.h"
 
 // TODO 3b: Prevent the cursor from going into hiding when typing in the text field
 

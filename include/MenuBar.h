@@ -27,7 +27,7 @@ public:
 		// Create the Background Color menu
 		HMENU bgColorSubMenu = CreatePopupMenu();
 		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::AliceBlue), L"Alice Blue");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Lavender), L"Lavender");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Lavender),  L"Lavender");
 		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::MintCream), L"Mint Cream");
 		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::PeachPuff), L"Peach Puff");
 
