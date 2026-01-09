@@ -6,14 +6,14 @@
 
 // ------ Win32 and more ----------------------------
 #include <windows.h>	// The core
-#include <shobjidl.h>   // IFileOpenDialog (file open popup)
-#include <wrl/client.h> // Microsoft::WRL::ComPtr (smartpointer)
 
 // ------ STL ---------------------------------------
 #include <filesystem>
-#include <memory>
+#include <format>
+#include <optional> // FileDialog::Open returns std::optional
 
 // ------ Homebrew ----------------------------------
+#include "FileDialog.h"
 #include "ResourceIDs.h"
 #include "modules/UIModule.h"
 
@@ -98,47 +98,19 @@ public:
 
     void OnButtonClicked()
     {
-        using Microsoft::WRL::ComPtr;
-
-        ComPtr<IFileOpenDialog> pFileOpen;
-        HRESULT result = CoCreateInstance(  CLSID_FileOpenDialog,       // Class ID
-                                            nullptr,                    // Used for Aggregation (NULL 99% of time)
-                                            CLSCTX_ALL,                 // Tells Windows where the code for this object is allowed to run
-                                            IID_PPV_ARGS(&pFileOpen));  // Extracts unique ID for the interface and casts your ComPtr address to void**
-        
-        if (SUCCEEDED(result))
+        auto path = FileDialog::Open(m_ParentHandle, { {L"All Files", L"*.*"} });
+        if (path)
         {
-            result = pFileOpen->Show(m_ParentHandle); // Show the dialog
+            try
+            {
+                auto fileSize = std::filesystem::file_size(*path);
+                std::wstring infoText = std::format(L"File: {}\nSize: {} bytes", path->filename().wstring(), fileSize);
 
-            if (SUCCEEDED(result))
-            {   // Get the result (Shell Item)
-                ComPtr<IShellItem> pItem;
-                result = pFileOpen->GetResult(&pItem);
-
-                if (SUCCEEDED(result))
-                {   // Get the file path
-                    PWSTR pszFilePath = nullptr; // Pointer String Zero-terminated FilePath
-                    result = pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
-
-                    if (SUCCEEDED(result))
-                    {   // R.1: Manage resources automatically using resource handles and RAII
-                        std::unique_ptr<wchar_t, decltype(&CoTaskMemFree)> pathWrapper(pszFilePath, CoTaskMemFree);
-                        try
-                        {
-                            std::filesystem::path filePath(pathWrapper.get());
-                            auto fileSize = std::filesystem::file_size(filePath);
-
-                            std::wstring infoText = std::format(L"File: {}\nSize: {} bytes",
-                                                                filePath.filename().wstring(), fileSize);
-
-                            SetWindowText(m_LabelHandle, infoText.c_str());
-                        }
-                        catch (const std::filesystem::filesystem_error& e)
-                        {
-                            SetWindowText(m_LabelHandle, L"Error: Could not read file size.");
-                        }
-                    }
-                }
+                SetWindowText(m_LabelHandle, infoText.c_str());
+            }
+            catch (const std::filesystem::filesystem_error&)
+            {
+                SetWindowText(m_LabelHandle, L"Error: Could not read file size.");
             }
         }
     }

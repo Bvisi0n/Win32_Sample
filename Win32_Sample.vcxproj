@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="include\BaseWindow.h" />
     <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\FileDialog.h" />
     <ClInclude Include="include\modules\CursorModule.h" />
     <ClInclude Include="include\modules\DatePickerModule.h" />
     <ClInclude Include="include\modules\FileSelectModule.h" />
