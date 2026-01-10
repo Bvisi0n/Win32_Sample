@@ -20,8 +20,7 @@
 #include "modules/FileSelectModule.h"
 #include "modules/PopUpModule.h"
 
-//Advanced
-    // TODO 1b: Use <filesystem>, <fstream> & <regex> to save and load the ellipses to a file in both binary and text. Should be coupled with file selecter module
+// TODO New: Use <filesystem>, <fstream> & <regex> to save and load the ellipses to a file in both binary and text.
 
 class MainWindow : public BaseWindow<MainWindow>
 {
@@ -48,7 +47,7 @@ private:
     FileSelectModule            m_FileSelectModule{};
     PopUpModule                 m_PopUpModule{};
 
-    std::vector<D2D1_ELLIPSE>   m_Ellipses{}; // TODO 4a: Wrap D2D1_ELLIPSE in a struct so it can manage it's own position, size, color, etc...
+    std::vector<D2D1_ELLIPSE>   m_Ellipses{};
     float                       m_EllipseSize{ 10.f };
 
     // ---- Rendering -------------------------------

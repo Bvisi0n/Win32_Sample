@@ -18,7 +18,6 @@ public:
 
 	[[nodiscard]] virtual int Initialize(HWND ownerHandle, float dpiScale, int yPosition) = 0;
     [[nodiscard]] virtual int UpdateLayout(float dpiScale, int yPosition) const = 0;
-	// TODO 2a: Add GetCursor() OnCommand(), OnNotify()
 	// This would allow wrapping all UIModules in a std::array, cleanly abstract logic away from MainWindow, make it even cleaner
 
 protected:

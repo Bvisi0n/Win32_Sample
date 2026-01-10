@@ -45,6 +45,6 @@
 // It's extremely difficult to find anything on the definitions _CONSOLE and _WINDOWS
 // The only source I can find is: https://help.perforce.com/sourcepro/legacy-hpp/genbd/4-2.html
 // I don't think it's even being used in this setup...
-// TODO 6: Experiment with _CONSOLE and _WINDOWS
+// TODO Research: Experiment with _CONSOLE and _WINDOWS
 
 #endif

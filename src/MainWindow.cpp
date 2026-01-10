@@ -3,8 +3,11 @@
 
 // ------ STL ---------------------------------------
 #include <algorithm>
+#include <vector>
 
 // ------ Homebrew ----------------------------------
+#include "FileDialog.h"
+#include "FileService.h"
 #include "MainWindow.h"
 
 // -------------------------------------------------
@@ -31,7 +34,6 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 
             m_MenuBar.Initialize(m_WindowHandle);
 
-            // TODO 2b: Wrap Module classes in a std::array using a pure virtual base, then replace use std::accumulate to apply the pattern
             int yOffset{};
             yOffset = m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
             yOffset = m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
@@ -63,7 +65,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             return 0;
         }
         case WM_SETCURSOR:
-        {   // TODO 3a: WM_SETCURSOR needs a complete overhaul, cursor should change depending on what it's hovering over.
+        {
             if (LOWORD(lParam) == HTCLIENT)
             {
                 SetCursor(m_CursorModule.GetSelectedCursor());
@@ -105,11 +107,6 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             OnRButtonDown(x, y);
             return 0;
         }
-        // TODO 4b: Use WM_MOUSEHOVER to display a tooltip/info bar of some sort displaying info on the ellipse
-        // TODO 4c: Use SetCapture, ReleaseCapture and WM_MOUSEMOVE to let user define the size/shape of an ellipse
-        // TODO 4d: Use WM_MOUSEWHEEL to adjust the scale of existing ellipses
-        // TODO 4e: Use DragDetect to allow user to move the existing ellipses
-        // TODO 4f: Detect keyboard input and allow user to type basic color names that affects new ellipses
 
         // - Destruction ----------------------------
         case WM_CLOSE:
@@ -245,6 +242,33 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
         m_BackgroundColor = color.value(); // *color also works
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
         return true;
+    }
+
+    auto makeFilters = [] -> std::vector<FileDialog::Filter>
+    {
+            return
+            {
+                { L"Binary Ellipses", L"*.belip" },
+                //{ L"Text Ellipses", L"*.elip" },
+                { L"All Files", L"*.*" }
+            };
+    };
+
+    switch (menuID)
+    {   //TODO New: Add background color to the data saved
+        case ID::MenuBar::Load:
+        {
+            auto path = FileDialog::Save(m_WindowHandle, makeFilters(), L"belip");
+            if (path) FileService::LoadBinary(*path, m_Ellipses);
+            InvalidateRect(m_WindowHandle, nullptr, FALSE);
+            return true;
+        }
+        case ID::MenuBar::Save:
+        {
+            auto path = FileDialog::Save(m_WindowHandle, makeFilters(), L"belip");
+            if (path) FileService::SaveBinary(*path, m_Ellipses);
+            return true;
+        }
     }
     return false;
 }

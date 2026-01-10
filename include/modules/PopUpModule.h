@@ -14,7 +14,7 @@
 #include "ResourceIDs.h"
 #include "modules/UIModule.h"
 
-// TODO 3b: Prevent the cursor from going into hiding when typing in the text field
+// TODO Bug(qol): Prevent the cursor from going into hiding when typing in the text field
 
 class PopUpModule : UIModule
 {
