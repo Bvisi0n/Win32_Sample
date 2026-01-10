@@ -249,7 +249,7 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
             return
             {
                 { L"Binary Ellipses", L"*.belip" },
-                //{ L"Text Ellipses", L"*.elip" },
+                { L"Text Ellipses", L"*.elip" },
                 { L"All Files", L"*.*" }
             };
     };
@@ -258,15 +258,15 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
     {   //TODO New: Add background color to the data saved
         case ID::MenuBar::Load:
         {
-            auto path = FileDialog::Save(m_WindowHandle, makeFilters(), L"belip");
-            if (path) FileService::LoadBinary(*path, m_Ellipses);
+            auto path = FileDialog::Open(m_WindowHandle, makeFilters());
+            if (path) FileService::Load(*path, m_Ellipses);
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return true;
         }
         case ID::MenuBar::Save:
         {
             auto path = FileDialog::Save(m_WindowHandle, makeFilters(), L"belip");
-            if (path) FileService::SaveBinary(*path, m_Ellipses);
+            if (path) FileService::Save(*path, m_Ellipses);
             return true;
         }
     }
