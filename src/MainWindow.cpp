@@ -358,7 +358,7 @@ void MainWindow::OnRButtonDown(const int x, const int y)
             LOG_PRINT("Removed dot at ({}, {}). Total dots: {}",
                       it->point.x, it->point.y, m_Ellipses.size() - 1);
         }
-
+        //  .erase() only accepts forward iterators
         m_Ellipses.erase(std::next(it).base());
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
