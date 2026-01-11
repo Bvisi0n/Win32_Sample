@@ -1,11 +1,12 @@
 #ifndef MENUBAR_H
 #define MENUBAR_H
+
 // ------ Project wide settings ---------------------
 #include "config.h"
 
 // ------ Win32 and more ----------------------------
-#include <windows.h>	// The core
-#include <d2d1.h>		// Direct2D
+#include <windows.h>
+#include <d2d1.h>
 
 // ------ STL ---------------------------------------
 #include <optional>

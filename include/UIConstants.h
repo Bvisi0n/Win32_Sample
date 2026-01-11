@@ -24,7 +24,11 @@ namespace UI
 		AliceBlue			= 2,
 		Lavender			= 3,
 		MintCream			= 4,
-		PeachPuff			= 5
+		PeachPuff			= 5,
+
+		// PopupModule -------------
+		PopUp_Textbox		= 10,
+		PopUp_Button		= 11
 	};
 
 	// A standard signature for UI actions.

@@ -22,6 +22,8 @@
 #include "modules/PopUpModule.h"
 #include "UIConstants.h"
 #include "Control.h"
+#include "Button.h"
+#include "TextBox.h"
 
 class MainWindow : public BaseWindow<MainWindow>
 {
@@ -33,6 +35,10 @@ public:
     // ---- Window Properties & Logic ---------------
     PCWSTR  ClassName() const override;
     LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
+
+    // ---- Member Access ---------------------------
+    TextBox* GetTextBox(UI::ControlID id);
+    Button* GetButton(UI::ControlID id);
     
 private:
     float                                           m_DpiScale{ 1.0f };
@@ -53,6 +59,10 @@ private:
     std::vector<D2D1_ELLIPSE>   m_Ellipses{};
     float                       m_EllipseSize{ 10.f };
 
+    // ---- Initialization --------------------------
+                  void    InitializeUI();
+                  void    SyncUIOrder();
+
     // ---- Rendering -------------------------------
                   void    OnPaint();
     [[nodiscard]] HRESULT CreateGraphicsResources();
@@ -64,6 +74,7 @@ private:
     // ---- Layout ----------------------------------
                   void    OnSize();
                   void    UpdateModuleLayouts();
+                  void    UpdateControlLayouts();
 
     // ---- Input -----------------------------------
     [[nodiscard]] bool    HandleMenuBarCommands(const WORD id);
@@ -72,6 +83,8 @@ private:
     [[nodiscard]] bool    HandlePopUpModuleCommands(const WORD id, const WORD code);
                   void    OnLButtonDown(const int x, const int y);
                   void    OnRButtonDown(const int x, const int y);
+
+
 };
 
 #endif

@@ -34,12 +34,12 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             }
 
             m_MenuBar.Initialize(m_WindowHandle);
-
-            int yOffset{};
-            yOffset = m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            yOffset = m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            yOffset = m_DatePickerModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            yOffset = m_FileSelectModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            InitializeUI();
+            //int yOffset{};
+            //yOffset = m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            //yOffset = m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            //yOffset = m_DatePickerModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
+            //yOffset = m_FileSelectModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
 
             return 0;
         }
@@ -48,7 +48,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
 
-            UpdateModuleLayouts();
+            //UpdateModuleLayouts();
 
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return 0;
@@ -56,8 +56,8 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_SIZE:
         {   // Sent to a window after its size has changed
             OnSize();
-
-            UpdateModuleLayouts();
+            UpdateControlLayouts();
+            //UpdateModuleLayouts();
             return 0;
         }
         case WM_PAINT:
@@ -78,21 +78,24 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_COMMAND: // Sent when the user invokes a command item from a menu
         {                //      when a control sends a notification message to its parent window
                          //      when an accelerator keystroke is translated
-            const WORD id   = LOWORD(wParam);
-            const WORD code = HIWORD(wParam);
+            const int id = LOWORD(wParam);
+            const int code = HIWORD(wParam);
 
-            if (HandleMenuBarCommands(id))
-                return 0;
-            if (HandleCursorModuleCommands(id))
-                return 0;
-            if (HandleFileSelectModuleCommands(id))
-                return 0;
-            if (HandlePopUpModuleCommands(id, code))
-                return 0;
+            //if (HandleMenuBarCommands(id))
+            //    return 0;
+            //if (HandleCursorModuleCommands(id))
+            //    return 0;
+            //if (HandleFileSelectModuleCommands(id))
+            //    return 0;
+            //if (HandlePopUpModuleCommands(id, code))
+            //    return 0;
 
-            auto id2 = static_cast<UI::ControlID>(LOWORD(wParam));
-            if (auto it = m_Controls.find(id2); it != m_Controls.end()) {
-                it->second->Execute(this);
+            auto it = m_Controls.find(static_cast<UI::ControlID>(id));
+            if (it != m_Controls.end()) {
+                // Only execute logic for clicks or text changes
+                if (code == BN_CLICKED || code == EN_CHANGE) {
+                    it->second->Execute(this);
+                }
             }
 
             return 0;
@@ -138,6 +141,37 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 // -------------------------------------------------
 // ------------------- Rendering -------------------
 // -------------------------------------------------
+
+void MainWindow::InitializeUI()
+{
+    auto pBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged);
+    pBox->Initialize(m_WindowHandle, { 10, 10, 200, 34 });
+    m_Controls[UI::ControlID::PopUp_Textbox] = std::move(pBox);
+
+    auto pBtn = std::make_unique<Button>(UI::ControlID::PopUp_Button, UI::OnPopUpButtonClicked, L"Show Text");
+    pBtn->Initialize(m_WindowHandle, { 210, 10, 310, 34 });
+    m_Controls[UI::ControlID::PopUp_Button] = std::move(pBtn);
+
+    SyncUIOrder();
+    UpdateControlLayouts();
+
+    UI::OnPopUpTextChanged(this);
+}
+
+void MainWindow::SyncUIOrder()
+{
+    HWND hwndPrevious = HWND_TOP;
+
+    for (auto const& [id, control] : m_Controls)
+    {
+        HWND hwndCurrent = control->GetHwnd();
+        if (hwndCurrent)
+        {
+            SetWindowPos(hwndCurrent, hwndPrevious, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+            hwndPrevious = hwndCurrent;
+        }
+    }
+}
 
 void MainWindow::OnPaint()
 {
@@ -230,10 +264,18 @@ void MainWindow::OnSize()
 void MainWindow::UpdateModuleLayouts()
 {
     int yOffset{};
-    yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
+    //yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_DatePickerModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_FileSelectModule.UpdateLayout(m_DpiScale, yOffset);
+}
+
+void MainWindow::UpdateControlLayouts()
+{
+    for (auto const& [id, control] : m_Controls)
+    {
+        control->UpdateLayout(m_DpiScale);
+    }
 }
 
 // -------------------------------------------------
@@ -367,4 +409,16 @@ void MainWindow::OnRButtonDown(const int x, const int y)
         m_Ellipses.erase(std::next(it).base());
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
+}
+
+TextBox* MainWindow::GetTextBox(UI::ControlID id)
+{
+    auto it = m_Controls.find(id);
+    return (it != m_Controls.end()) ? static_cast<TextBox*>(it->second.get()) : nullptr;
+}
+
+Button* MainWindow::GetButton(UI::ControlID id)
+{
+    auto it = m_Controls.find(id);
+    return (it != m_Controls.end()) ? static_cast<Button*>(it->second.get()) : nullptr;
 }
