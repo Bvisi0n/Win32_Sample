@@ -79,7 +79,11 @@ public:
 
 private:
     static std::vector<float> ExtractFloats(const std::wstring& line)
-    {
+    {   
+        // Wrapped in () because conditional logic, | means OR
+        // [-+]? optional sign
+        // [0-9]*\\.[0-9]+ digits & decimal part
+        // [0-9]+ digits without decimal part
         static const std::wregex floatRegex(L"[-+]?([0-9]*\\.[0-9]+|[0-9]+)");
 
         std::vector<float> results;
