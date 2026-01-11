@@ -10,6 +10,7 @@
 #include <d2d1.h>	    // Direct2D
 
 // ------ STL ---------------------------------------
+#include <map>
 #include <vector>
 
 // ------ Homebrew ----------------------------------
@@ -19,6 +20,8 @@
 #include "modules/DatePickerModule.h"
 #include "modules/FileSelectModule.h"
 #include "modules/PopUpModule.h"
+#include "UIConstants.h"
+#include "Control.h"
 
 class MainWindow : public BaseWindow<MainWindow>
 {
@@ -44,6 +47,8 @@ private:
     DatePickerModule            m_DatePickerModule{};
     FileSelectModule            m_FileSelectModule{};
     PopUpModule                 m_PopUpModule{};
+
+    std::map<UI::ControlID, std::unique_ptr<Control>> m_Controls;
 
     std::vector<D2D1_ELLIPSE>   m_Ellipses{};
     float                       m_EllipseSize{ 10.f };

@@ -90,6 +90,11 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             if (HandlePopUpModuleCommands(id, code))
                 return 0;
 
+            auto id2 = static_cast<UI::ControlID>(LOWORD(wParam));
+            if (auto it = m_Controls.find(id2); it != m_Controls.end()) {
+                it->second->Execute(this);
+            }
+
             return 0;
         }
 
@@ -237,7 +242,7 @@ void MainWindow::UpdateModuleLayouts()
 
 bool MainWindow::HandleMenuBarCommands(const WORD id)
 {
-    auto menuID = static_cast<ID::MenuBar>(id);
+    auto menuID = static_cast<UI::ControlID>(id);
     if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
     {
         m_BackgroundColor = color.value(); // *color also works
@@ -257,14 +262,14 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
 
     switch (menuID)
     {   //TODO New: Add background color to the data saved
-        case ID::MenuBar::Load:
+        case UI::ControlID::Load:
         {
             auto path = FileDialog::Open(m_WindowHandle, makeFilters());
             if (path) FileService::Load(*path, m_Ellipses);
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return true;
         }
-        case ID::MenuBar::Save:
+        case UI::ControlID::Save:
         {
             auto path = FileDialog::Save(m_WindowHandle, makeFilters(), L"belip");
             if (path) FileService::Save(*path, m_Ellipses);

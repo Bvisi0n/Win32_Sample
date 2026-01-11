@@ -72,5 +72,14 @@
     <ClInclude Include="include\FileDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\UIConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ControlActions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

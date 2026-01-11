@@ -11,7 +11,7 @@
 #include <optional>
 
 // ------ Homebrew ----------------------------------
-#include "ResourceIDs.h"
+#include "UIConstants.h"
 
 class MenuBar {
 public:
@@ -26,10 +26,10 @@ public:
 	{
 		// Create the Background Color menu
 		HMENU bgColorSubMenu = CreatePopupMenu();
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::AliceBlue), L"Alice Blue");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Lavender),  L"Lavender");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::MintCream), L"Mint Cream");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::PeachPuff), L"Peach Puff");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::AliceBlue), L"Alice Blue");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::Lavender),  L"Lavender");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::MintCream), L"Mint Cream");
+		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::PeachPuff), L"Peach Puff");
 
 		// Create the View menu
 		HMENU viewMenu = CreatePopupMenu();
@@ -37,8 +37,8 @@ public:
 
 		// Create the File menu
 		HMENU fileMenu = CreatePopupMenu();
-		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Load), L"Load");
-		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(ID::MenuBar::Save), L"Save");
+		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::Load), L"Load");
+		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::Save), L"Save");
 
 		// Create the actual Menu Bar
 		m_MenuHandle = CreateMenu();
@@ -48,17 +48,17 @@ public:
 		SetMenu(owner, m_MenuHandle);
 	}
 
-	std::optional<D2D1_COLOR_F> GetColorFromID(ID::MenuBar id) const
+	std::optional<D2D1_COLOR_F> GetColorFromID(UI::ControlID id) const
 	{
 		switch (id)
 		{
-			case ID::MenuBar::AliceBlue:
+			case UI::ControlID::AliceBlue:
 				return D2D1::ColorF(D2D1::ColorF::AliceBlue);
-			case ID::MenuBar::Lavender:
+			case UI::ControlID::Lavender:
 				return D2D1::ColorF(D2D1::ColorF::Lavender);
-			case ID::MenuBar::MintCream:
+			case UI::ControlID::MintCream:
 				return D2D1::ColorF(D2D1::ColorF::MintCream);
-			case ID::MenuBar::PeachPuff:
+			case UI::ControlID::PeachPuff:
 				return D2D1::ColorF(D2D1::ColorF::PeachPuff);
 		}
 		return std::nullopt;

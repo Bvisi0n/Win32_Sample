@@ -14,16 +14,6 @@ namespace ID
 	static_assert(sizeof(UnderlyingType) <= sizeof(uintptr_t),
 		"ERROR: ID::UnderlyingType is too large to be packed into an HMENU (Win32 requirement).");
 
-	enum class MenuBar : UnderlyingType
-	{	// 0 - 99
-		Load				= 0,
-		Save				= 1,
-		AliceBlue			= 2,
-		Lavender			= 3,
-		MintCream			= 4,
-		PeachPuff			= 5
-	};
-
 	enum class CursorModule : UnderlyingType
 	{	// 100 - 109
 		ArrowRadioButton	= 100,
