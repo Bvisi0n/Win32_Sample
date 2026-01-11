@@ -20,8 +20,6 @@
 #include "modules/FileSelectModule.h"
 #include "modules/PopUpModule.h"
 
-// TODO New: Use <filesystem>, <fstream> & <regex> to save and load the ellipses to a file in both binary and text.
-
 class MainWindow : public BaseWindow<MainWindow>
 {
 public:
