@@ -3,6 +3,7 @@
 
 // ------ STL ---------------------------------------
 #include <algorithm>
+#include <ranges>
 #include <vector>
 
 // ------ Homebrew ----------------------------------
@@ -328,32 +329,37 @@ void MainWindow::OnLButtonDown(const int x, const int y)
 }
 
 void MainWindow::OnRButtonDown(const int x, const int y)
-{   // Overlapping ellipses are layered with the oldest on the bottom
+{   
+    // Overlapping ellipses are layered with the oldest on the bottom
     // A user would expect the topmost one to be removed first
     float dipX{ PixelsToDips(x) };
     float dipY{ PixelsToDips(y) };
-    auto it = std::find_if(m_Ellipses.rbegin(), m_Ellipses.rend(),
-        [dipX, dipY](const D2D1_ELLIPSE& ellipse)
-        {
+    
+    auto reversed_view = m_Ellipses | std::views::reverse;
+
+    auto hitScan = [dipX, dipY](const D2D1_ELLIPSE& ellipse)
+    {
             float dx{ ellipse.point.x - dipX };
             float dy{ ellipse.point.y - dipY };
             float distanceSquared{ (dx * dx) + (dy * dy) };
             return distanceSquared <= (ellipse.radiusX * ellipse.radiusX);
-        });
+    };
 
-    if (it != m_Ellipses.rend())
-    {   // Iterator is invalidated after .erase() is called so it must print before the call
-        if (m_Ellipses.size() > 1)
+    auto it = std::ranges::find_if(reversed_view, hitScan);
+    if (it != reversed_view.end())
+    {   
+        // Log before erasing
+        if (m_Ellipses.size() == 1)
         {
-            LOG_PRINT("Removed dot at ({}, {}). Total dots: {}",
-                it->point.x, it->point.y, m_Ellipses.size() - 1);
+            LOG_PRINT("Cleared all dots.");
         }
         else
         {
-            LOG_PRINT("Cleared all dots.",
-                it->point.x, it->point.y, m_Ellipses.size() - 1);
+            LOG_PRINT("Removed dot at ({}, {}). Total dots: {}",
+                      it->point.x, it->point.y, m_Ellipses.size() - 1);
         }
-        m_Ellipses.erase(std::prev(it.base()));
+
+        m_Ellipses.erase(std::next(it).base());
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
 }
