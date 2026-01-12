@@ -48,7 +48,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         case WM_DPICHANGED:
         {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
-
+            UpdateControlLayouts();
             //UpdateModuleLayouts();
 
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
@@ -183,12 +183,11 @@ void MainWindow::OnPaint()
         BeginPaint(m_WindowHandle, &paintStruct);
 
         m_pRenderTarget->BeginDraw();
-
-        m_pRenderTarget->Clear(m_BackgroundColor); // Fills render target with solid color 
+        m_pRenderTarget->Clear(m_BackgroundColor);
         
         for (auto& ellipse : m_Ellipses)
         {
-            m_pRenderTarget->FillEllipse(ellipse, m_pBrush.Get()); // Draws a filled ellipse with specified brush
+            m_pRenderTarget->FillEllipse(ellipse, m_pBrush.Get());
         }
 
         // GPU might buffer the drawing commands
@@ -235,6 +234,7 @@ void MainWindow::UpdateDpiScale()
 {
     float dpi{ static_cast<float>(GetDpiForWindow(m_WindowHandle)) };
     m_DpiScale = dpi / static_cast<float>(USER_DEFAULT_SCREEN_DPI);
+    LOG_PRINT("Current DPI: {}, Scale: {}", dpi, m_DpiScale);
 }
 
 float MainWindow::PixelsToDips(int pixelValue) const
@@ -278,7 +278,7 @@ void MainWindow::OnSize()
 void MainWindow::UpdateModuleLayouts()
 {
     int yOffset{};
-    //yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
+    yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_DatePickerModule.UpdateLayout(m_DpiScale, yOffset);
     yOffset = m_FileSelectModule.UpdateLayout(m_DpiScale, yOffset);
@@ -323,7 +323,7 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
         {
             auto path = FileDialog::Open(m_WindowHandle, makeFilters());
             if (path) FileService::Load(*path, m_Ellipses);
-            InvalidateRect(m_WindowHandle, nullptr, FALSE);
+            InvalidateRect(m_WindowHandle, nullptr, FALSE); // Why is this a warning?
             return true;
         }
         case UI::ControlID::Save:
