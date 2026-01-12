@@ -74,7 +74,6 @@ private:
 
     // ---- Layout ----------------------------------
                   void    UpdateUIFont();
-                  void    OnSize();
                   void    UpdateModuleLayouts();
                   void    UpdateControlLayouts();
 

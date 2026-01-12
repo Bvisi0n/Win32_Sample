@@ -56,7 +56,18 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         }
         case WM_SIZE:
         {   // Sent to a window after its size has changed
-            OnSize();
+            if (m_pRenderTarget != nullptr)
+            {
+                UpdateDpiScale(); // Always update scale first
+
+                RECT rectangle;
+                GetClientRect(m_WindowHandle, &rectangle);
+
+                D2D1_SIZE_U size = D2D1::SizeU(rectangle.right, rectangle.bottom);
+                m_pRenderTarget->Resize(size);
+
+                InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
+            }
             UpdateControlLayouts();
             //UpdateModuleLayouts();
             return 0;
@@ -82,8 +93,8 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             const int id = LOWORD(wParam);
             const int code = HIWORD(wParam);
 
-            //if (HandleMenuBarCommands(id))
-            //    return 0;
+            if (HandleMenuBarCommands(id))
+                return 0;
             //if (HandleCursorModuleCommands(id))
             //    return 0;
             //if (HandleFileSelectModuleCommands(id))
@@ -184,10 +195,15 @@ void MainWindow::OnPaint()
 
         m_pRenderTarget->BeginDraw();
         m_pRenderTarget->Clear(m_BackgroundColor);
-        
+
         for (auto& ellipse : m_Ellipses)
         {
-            m_pRenderTarget->FillEllipse(ellipse, m_pBrush.Get());
+            D2D1_ELLIPSE scaled = D2D1::Ellipse(
+                D2D1::Point2F(ellipse.point.x * m_DpiScale, ellipse.point.y * m_DpiScale),
+                ellipse.radiusX * m_DpiScale,
+                ellipse.radiusY * m_DpiScale);
+
+            m_pRenderTarget->FillEllipse(scaled, m_pBrush.Get());
         }
 
         // GPU might buffer the drawing commands
@@ -257,22 +273,6 @@ void MainWindow::UpdateUIFont()
         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
         CLEARTYPE_QUALITY, VARIABLE_PITCH | FF_SWISS, L"Segoe UI"
     );
-}
-
-void MainWindow::OnSize()
-{
-    if (m_pRenderTarget != nullptr)
-    {
-        UpdateDpiScale(); // Always update scale first
-
-        RECT rectangle;
-        GetClientRect(m_WindowHandle, &rectangle);
-
-        D2D1_SIZE_U size = D2D1::SizeU(rectangle.right, rectangle.bottom);
-        m_pRenderTarget->Resize(size);
-
-        InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
-    }
 }
 
 void MainWindow::UpdateModuleLayouts()
