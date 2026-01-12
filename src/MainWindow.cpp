@@ -10,6 +10,7 @@
 #include "FileDialog.h"
 #include "FileService.h"
 #include "MainWindow.h"
+#include "ControlActions.h"
 
 // -------------------------------------------------
 // ----------- Window Properties & Logic -----------
@@ -164,7 +165,7 @@ void MainWindow::SyncUIOrder()
 
     for (auto const& [id, control] : m_Controls)
     {
-        HWND hwndCurrent = control->GetHwnd();
+        HWND hwndCurrent = control->GetWindowHandle();
         if (hwndCurrent)
         {
             SetWindowPos(hwndCurrent, hwndPrevious, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -245,6 +246,19 @@ float MainWindow::PixelsToDips(int pixelValue) const
 // --------------------- Layout ---------------------
 // --------------------------------------------------
 
+void MainWindow::UpdateUIFont()
+{
+    if (m_UIFontHandle) DeleteObject(m_UIFontHandle);
+
+    int fontSize = static_cast<int>(-12 * m_DpiScale);
+    // TODO x: clean this up
+    m_UIFontHandle = CreateFontW(
+        fontSize, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+        DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+        CLEARTYPE_QUALITY, VARIABLE_PITCH | FF_SWISS, L"Segoe UI"
+    );
+}
+
 void MainWindow::OnSize()
 {
     if (m_pRenderTarget != nullptr)
@@ -272,9 +286,10 @@ void MainWindow::UpdateModuleLayouts()
 
 void MainWindow::UpdateControlLayouts()
 {
+    UpdateUIFont();
     for (auto const& [id, control] : m_Controls)
     {
-        control->UpdateLayout(m_DpiScale);
+        control->UpdateLayout(m_DpiScale, m_UIFontHandle);
     }
 }
 

@@ -48,6 +48,7 @@ private:
 
     MenuBar                     m_MenuBar{};
     D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
+    HFONT                       m_UIFontHandle = nullptr;
 
     CursorModule                m_CursorModule{};
     DatePickerModule            m_DatePickerModule{};
@@ -72,6 +73,7 @@ private:
                   float   PixelsToDips(int pixelValue) const;
 
     // ---- Layout ----------------------------------
+                  void    UpdateUIFont();
                   void    OnSize();
                   void    UpdateModuleLayouts();
                   void    UpdateControlLayouts();

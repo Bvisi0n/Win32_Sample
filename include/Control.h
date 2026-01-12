@@ -4,22 +4,24 @@
 // ------ Project wide settings ---------------------
 #include "config.h"
 
+// ------ Win32 and more ----------------------------
+#include <d2d1.h>
+
 // ------ Homebrew ----------------------------------
-#include "ControlActions.h"
 #include "UIConstants.h"
+
+// ------ Forward Declarations ----------------------
+struct HWND__;
+    typedef struct HWND__* HWND;
+struct HFONT__;
+    typedef struct HFONT__* HFONT;
+class MainWindow;
 
 class Control
 {
 public:
-    Control(UI::ControlID id, UI::Action action)
-        :   m_Id(id),
-            m_Action(action),
-            m_WindowHandle(nullptr){}
-
-    virtual ~Control()
-    {
-        if (m_WindowHandle) DestroyWindow(m_WindowHandle);
-    }
+    Control(UI::ControlID id, UI::Action action);
+    virtual ~Control();
 
     Control(const Control&) = delete;
     Control(Control&&) = delete;
@@ -27,27 +29,21 @@ public:
     Control& operator=(Control&&) = delete;
 
     virtual void Initialize(HWND parent, D2D1_RECT_F position) = 0;
-    virtual void UpdateLayout(float dpiScale) = 0;
+    virtual void UpdateLayout(float dpiScale, HFONT fontHandle) = 0;
 
-    void Execute(MainWindow* pWindow)
-    {
-        if (m_Action) m_Action(pWindow);
-    }
+    void Execute(MainWindow* pWindow);
 
-    HWND GetHwnd() const
-    {
-        return m_WindowHandle;
-    }
+    HWND GetWindowHandle() const { return m_WindowHandle; }
+    UI::ControlID GetId() const { return m_Id; }
+    D2D1_RECT_F GetPosition() const { return m_PositionRect; }
 
-    UI::ControlID GetId() const
-    {
-        return m_Id;
-    }
+    void SetPosition(float x, float y, float width, float height);
 
 protected:
-    HWND m_WindowHandle;
-    UI::ControlID m_Id;
-    UI::Action m_Action;
+    UI::Action      m_Action;
+    HWND            m_WindowHandle;
+    D2D1_RECT_F     m_PositionRect;
+    UI::ControlID   m_Id;
 };
 
 #endif

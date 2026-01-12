@@ -13,8 +13,8 @@ namespace UI {
 
         if (pBox && pBtn)
         {
-            bool hasText = GetWindowTextLengthW(pBox->GetHwnd()) > 0;
-            EnableWindow(pBtn->GetHwnd(), hasText);
+            bool hasText = GetWindowTextLengthW(pBox->GetWindowHandle()) > 0;
+            EnableWindow(pBtn->GetWindowHandle(), hasText);
         }
     };
 
