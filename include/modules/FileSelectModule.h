@@ -2,7 +2,7 @@
 #define FILESELECTMODULE_H
 
 // ------ Project wide settings ---------------------
-#include "config.h"
+#include "Config.h"
 
 // ------ Win32 and more ----------------------------
 #include <windows.h>	// The core

@@ -2,11 +2,10 @@
 #define MENUBAR_H
 
 // ------ Project wide settings ---------------------
-#include "config.h"
+#include "Config.h"
 
 // ------ Win32 and more ----------------------------
-#include <windows.h>
-#include <d2d1.h>
+#include <d2d1.h> // I haven't found an alternative for D2D1_COLOR_F
 
 // ------ STL ---------------------------------------
 #include <optional>
@@ -14,59 +13,25 @@
 // ------ Homebrew ----------------------------------
 #include "UIConstants.h"
 
+struct HWND__;
+typedef struct HWND__* HWND;
+struct HMENU__;
+typedef struct HMENU__* HMENU;
+
 class MenuBar {
 public:
-	MenuBar()							= default;
-	~MenuBar()							= default;
+	MenuBar();
+	~MenuBar();
 	MenuBar(const MenuBar&)				= delete;
 	MenuBar(MenuBar&&)					= delete;
 	MenuBar& operator=(const MenuBar&)	= delete;
 	MenuBar& operator=(MenuBar&&)		= delete;
 
-	void Initialize(HWND owner)
-	{
-		// Create the Background Color menu
-		HMENU bgColorSubMenu = CreatePopupMenu();
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::AliceBlue), L"Alice Blue");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::Lavender),  L"Lavender");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::MintCream), L"Mint Cream");
-		AppendMenuW(bgColorSubMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::PeachPuff), L"Peach Puff");
-
-		// Create the View menu
-		HMENU viewMenu = CreatePopupMenu();
-		AppendMenuW(viewMenu, MF_POPUP, reinterpret_cast<UINT_PTR>(bgColorSubMenu), L"Background Color");
-
-		// Create the File menu
-		HMENU fileMenu = CreatePopupMenu();
-		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::Load), L"Load");
-		AppendMenuW(fileMenu, MF_STRING, static_cast<UINT_PTR>(UI::ControlID::Save), L"Save");
-
-		// Create the actual Menu Bar
-		m_MenuHandle = CreateMenu();
-		AppendMenuW(m_MenuHandle, MF_POPUP, reinterpret_cast<UINT_PTR>(fileMenu), L"File");
-		AppendMenuW(m_MenuHandle, MF_POPUP, reinterpret_cast<UINT_PTR>(viewMenu), L"View");
-
-		SetMenu(owner, m_MenuHandle);
-	}
-
-	std::optional<D2D1_COLOR_F> GetColorFromID(UI::ControlID id) const
-	{
-		switch (id)
-		{
-			case UI::ControlID::AliceBlue:
-				return D2D1::ColorF(D2D1::ColorF::AliceBlue);
-			case UI::ControlID::Lavender:
-				return D2D1::ColorF(D2D1::ColorF::Lavender);
-			case UI::ControlID::MintCream:
-				return D2D1::ColorF(D2D1::ColorF::MintCream);
-			case UI::ControlID::PeachPuff:
-				return D2D1::ColorF(D2D1::ColorF::PeachPuff);
-		}
-		return std::nullopt;
-	}
-
+	void Initialize(HWND owner);
+	std::optional<D2D1_COLOR_F> GetColorFromID(UI::ControlID id) const;
+	
 private:
-	HMENU m_MenuHandle = nullptr;
+	HMENU m_MenuHandle;
 };
 
 #endif

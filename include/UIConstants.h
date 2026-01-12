@@ -2,7 +2,7 @@
 #define UICONSTANTS_H
 
 // ------ Project wide settings ---------------------
-#include "config.h"
+#include "Config.h"
 
 // ------ STL ---------------------------------------
 #include <cstdint>
@@ -16,7 +16,7 @@ namespace UI
 	// The ID is used as key in the std::map that holds all the UI elements.
 	// The sorted nature of std::map is used to determine the tab order.
 	// This means you can change the tab order by changing the ID values.
-	enum class ControlID : int
+	enum class ControlID : uint16_t
 	{
 		// MenuBar -----------------
 		Load				= 0,
@@ -27,8 +27,8 @@ namespace UI
 		PeachPuff			= 5,
 
 		// PopupModule -------------
-		PopUp_Textbox		= 10,
-		PopUp_Button		= 11
+		PopUp_Textbox		= 100,
+		PopUp_Button		= 101
 	};
 
 	// A standard signature for UI actions.

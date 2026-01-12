@@ -15,17 +15,20 @@ public:
     {
         DerivedType* pThis = nullptr; // Holds the instance pointer for this window
 
-        if (message == WM_NCCREATE)    // Handle creation message so we can associate the OS window with the object
+        if (message == WM_NCCREATE) // Handle creation message so we can associate the OS window with the object
         {
-            CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;                  // Unpack the parameter with the correct struct
-            pThis = (DerivedType*)pCreate->lpCreateParams;                  // Retrieve the this pointer for the instance being created
-            SetWindowLongPtr(windowHandle, GWLP_USERDATA, (LONG_PTR)pThis); // Store the instance pointer in the window’s user data so later messages can find it
+            // Unpack the parameter with the correct struct
+            CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lParam);
+            // Retrieve the this pointer for the instance being created
+            pThis = reinterpret_cast<DerivedType*>(pCreate->lpCreateParams);
+            // Store the instance pointer in the window’s user data so later messages can find it
+            SetWindowLongPtr(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis));
 
             pThis->m_WindowHandle = windowHandle; // Save the window handle locally
         }
         else        // Handle all other messages
-        {
-            pThis = (DerivedType*)GetWindowLongPtr(windowHandle, GWLP_USERDATA); // Retrieve the instance pointer
+        {   // Retrieve the instance pointer
+            pThis = reinterpret_cast<DerivedType*>(GetWindowLongPtr(windowHandle, GWLP_USERDATA));
         }
         if (pThis)  // If Window exists
         {           // -> Handle message

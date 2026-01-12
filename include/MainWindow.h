@@ -1,91 +1,82 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+
 // ------ Project wide settings ---------------------
 #include "Config.h"
 
 // ------ Win32 and more ----------------------------
-#include <windows.h>	// The core
-#include <commctrl.h>
-#include <wrl/client.h>	// Microsoft::WRL::ComPtr (smartpointer)
-#include <d2d1.h>	    // Direct2D
+#include <d2d1.h> // I haven't found an alternative for D2D1_COLOR_F
+#include <wrl/client.h>
 
 // ------ STL ---------------------------------------
 #include <map>
+#include <memory>
 #include <vector>
 
 // ------ Homebrew ----------------------------------
 #include "BaseWindow.h"
 #include "MenuBar.h"
-#include "modules/CursorModule.h"
-#include "modules/DatePickerModule.h"
-#include "modules/FileSelectModule.h"
-#include "modules/PopUpModule.h"
 #include "UIConstants.h"
-#include "Control.h"
-#include "Button.h"
-#include "TextBox.h"
+
+// ------ Forward Declarations ----------------------
+struct HFONT__;
+    typedef struct HFONT__* HFONT;
+
+class Control;
+class Button;
+class TextBox;
 
 class MainWindow : public BaseWindow<MainWindow>
 {
 public:
     // ---- Special Member Functions ----------------
-    MainWindow()  = default;
-    ~MainWindow() = default;
+    MainWindow();
+    ~MainWindow();
 
     // ---- Window Properties & Logic ---------------
     PCWSTR  ClassName() const override;
     LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     // ---- Member Access ---------------------------
-    TextBox* GetTextBox(UI::ControlID id);
-    Button* GetButton(UI::ControlID id);
+    TextBox*    GetTextBox(UI::ControlID id);
+    Button*     GetButton(UI::ControlID id);
     
 private:
-    float                                           m_DpiScale{ 1.0f };
+    // Per.2: Don’t optimize prematurely (readable variable order vs perfectly aligned)
+    // ---- Scaling & Internal State ----------------
+    float   m_DpiScale;
+    HFONT   m_UIFontHandle;
+
+    // ---- Direct2D Resources ----------------------
     Microsoft::WRL::ComPtr<ID2D1Factory>            m_pFactory;
     Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget>   m_pRenderTarget;
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>    m_pBrush;
 
-    MenuBar                     m_MenuBar{};
-    D2D1_COLOR_F                m_BackgroundColor{ D2D1::ColorF(D2D1::ColorF::AliceBlue) };
-    HFONT                       m_UIFontHandle = nullptr;
-
-    CursorModule                m_CursorModule{};
-    DatePickerModule            m_DatePickerModule{};
-    FileSelectModule            m_FileSelectModule{};
-    PopUpModule                 m_PopUpModule{};
-
+    // ---- UI & Data ------------------------------
     std::map<UI::ControlID, std::unique_ptr<Control>> m_Controls;
+    std::vector<D2D1_ELLIPSE> m_Ellipses;
+    float m_EllipseSize;
+    D2D1_COLOR_F m_BackgroundColor;
+    MenuBar m_MenuBar;
 
-    std::vector<D2D1_ELLIPSE>   m_Ellipses{};
-    float                       m_EllipseSize{ 10.f };
-
-    // ---- Initialization --------------------------
-                  void    InitializeUI();
-                  void    SyncUIOrder();
+    // ---- Initialization & Layout -----------------
+    void InitializeUI();
+    void SyncUIOrder();
+    void UpdateUIFont();
+    void UpdateControlLayouts();
 
     // ---- Rendering -------------------------------
-                  void    OnPaint();
-    [[nodiscard]] HRESULT CreateGraphicsResources();
+                    void    OnPaint();
+    [[nodiscard]]   HRESULT CreateGraphicsResources();
 
     // ---- Coordinate Systems ----------------------
-                  void    UpdateDpiScale();
-                  float   PixelsToDips(int pixelValue) const;
+    void    UpdateDpiScale();
+    float   PixelsToDips(int pixelValue) const;
 
-    // ---- Layout ----------------------------------
-                  void    UpdateUIFont();
-                  void    UpdateModuleLayouts();
-                  void    UpdateControlLayouts();
-
-    // ---- Input -----------------------------------
-    [[nodiscard]] bool    HandleMenuBarCommands(const WORD id);
-    [[nodiscard]] bool    HandleCursorModuleCommands(const WORD id);
-    [[nodiscard]] bool    HandleFileSelectModuleCommands(const WORD id);
-    [[nodiscard]] bool    HandlePopUpModuleCommands(const WORD id, const WORD code);
-                  void    OnLButtonDown(const int x, const int y);
-                  void    OnRButtonDown(const int x, const int y);
-
-
+    // ---- Input Handling --------------------------
+    [[nodiscard]]   bool HandleMenuBarCommands(const WORD id);
+                    void OnLButtonDown(const int x, const int y);
+                    void OnRButtonDown(const int x, const int y);
 };
 
 #endif

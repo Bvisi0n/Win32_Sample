@@ -2,10 +2,10 @@
 #define TEXTBOX_H
 
 // ------ Project wide settings ---------------------
-#include "config.h"
+#include "Config.h"
 
 // ------ Win32 and more ----------------------------
-#include <d2d1.h>
+#include <d2dbasetypes.h>
 
 // ------ STL ---------------------------------------
 #include <string>
@@ -15,9 +15,10 @@
 
 // ------ Forward Declarations ----------------------
 struct HWND__;
-    typedef struct HWND__* HWND;
+typedef struct HWND__* HWND;
+
 struct HFONT__;
-    typedef struct HFONT__* HFONT;
+typedef struct HFONT__* HFONT;
 
 class TextBox : public Control
 {

@@ -137,11 +137,14 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\FileDialog.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Control.cpp" />
     <ClCompile Include="src\ControlActions.cpp" />
+    <ClCompile Include="src\FileService.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\MenuBar.cpp" />
     <ClCompile Include="src\TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="include\BaseWindow.h" />
     <ClInclude Include="include\Button.h" />
+    <ClInclude Include="include\Concepts.h" />
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Control.h" />
     <ClInclude Include="include\ControlActions.h" />
@@ -166,6 +170,7 @@
     <ClInclude Include="include\modules\PopUpModule.h" />
     <ClInclude Include="include\ResourceIDs.h" />
     <ClInclude Include="include\modules\UIModule.h" />
+    <ClInclude Include="include\ScopedComContext.h" />
     <ClInclude Include="include\TextBox.h" />
     <ClInclude Include="include\UIConstants.h" />
   </ItemGroup>

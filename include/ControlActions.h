@@ -2,7 +2,7 @@
 #define CONTROLACTIONS_H
 
 // ------ Project wide settings ---------------------
-#include "config.h"
+#include "Config.h"
 
 // ------ Homebrew ----------------------------------
 #include "UIConstants.h"

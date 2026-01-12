@@ -1,25 +1,43 @@
 // ------ Win32 and more ----------------------------
-#include <windowsx.h>	// The "helper" macros
+#include <windows.h>
+#include <windowsx.h>   // Required for GET_X_LPARAM and GET_Y_LPARAM
 
 // ------ STL ---------------------------------------
-#include <algorithm>
-#include <ranges>
-#include <vector>
+#include <algorithm>    // Required for std::ranges::find_if
+#include <ranges>       // Required for std::views::reverse
 
 // ------ Homebrew ----------------------------------
+#include "MainWindow.h"
+#include "Control.h"
+#include "Button.h"
+#include "TextBox.h"
+#include "ControlActions.h"
 #include "FileDialog.h"
 #include "FileService.h"
-#include "MainWindow.h"
-#include "ControlActions.h"
 
-// -------------------------------------------------
-// ----------- Window Properties & Logic -----------
-// -------------------------------------------------
+// ----------------------------------------------
+// ---- Special Member Functions ----------------
+// ----------------------------------------------
+MainWindow::MainWindow()
+    :   BaseWindow(),
+        m_DpiScale(1.0f),
+        m_UIFontHandle(nullptr),
+        m_BackgroundColor(D2D1::ColorF(D2D1::ColorF::AliceBlue)),
+        m_EllipseSize(10.f),
+        m_MenuBar() {}
 
+// If declared default in the header it will attempt to define it in the header.
+// Which doesn't pass std::unique_ptr's vibe check on the Control forward declaration.
+MainWindow::~MainWindow() = default;
+
+// ----------------------------------------------
+// ---- Window Properties & Logic ---------------
+// ----------------------------------------------
 PCWSTR MainWindow::ClassName() const
 {
     return L"Main Window Class";
 }
+
 LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -36,20 +54,14 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 
             m_MenuBar.Initialize(m_WindowHandle);
             InitializeUI();
-            //int yOffset{};
-            //yOffset = m_PopUpModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            //yOffset = m_CursorModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            //yOffset = m_DatePickerModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-            //yOffset = m_FileSelectModule.Initialize(m_WindowHandle, m_DpiScale, yOffset);
-
             return 0;
         }
+
         // - Display --------------------------------
         case WM_DPICHANGED:
         {   // Sent when the effective dots per inch (dpi) for a window has changed.
             UpdateDpiScale();
             UpdateControlLayouts();
-            //UpdateModuleLayouts();
 
             InvalidateRect(m_WindowHandle, nullptr, FALSE);
             return 0;
@@ -69,7 +81,6 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
                 InvalidateRect(m_WindowHandle, nullptr, FALSE); // Sends WM_PAINT message
             }
             UpdateControlLayouts();
-            //UpdateModuleLayouts();
             return 0;
         }
         case WM_PAINT:
@@ -79,11 +90,11 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         }
         case WM_SETCURSOR:
         {
-            if (LOWORD(lParam) == HTCLIENT)
-            {
-                SetCursor(m_CursorModule.GetSelectedCursor());
-                return TRUE;
-            }
+            //if (LOWORD(lParam) == HTCLIENT)
+            //{
+            //    SetCursor(m_CursorModule.GetSelectedCursor());
+            //    return TRUE;
+            //}
         }
 
         // - Interactions & Commands ----------------
@@ -95,12 +106,6 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 
             if (HandleMenuBarCommands(id))
                 return 0;
-            //if (HandleCursorModuleCommands(id))
-            //    return 0;
-            //if (HandleFileSelectModuleCommands(id))
-            //    return 0;
-            //if (HandlePopUpModuleCommands(id, code))
-            //    return 0;
 
             auto it = m_Controls.find(static_cast<UI::ControlID>(id));
             if (it != m_Controls.end()) {
@@ -134,26 +139,40 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent as a signal that a window or an application should terminate
             if (MessageBox(m_WindowHandle, L"This will exit the program.\nContinue?", L"Win32_Sample", MB_OKCANCEL) == IDOK)
             {
-                DestroyWindow(m_WindowHandle); // Sends WM_DESTROY
+                DestroyWindow(m_WindowHandle);
             }
-            return 0; // Message handled -> exit function
+            return 0;
         }
         case WM_DESTROY: // Sent after the window is deactivated, but before the destruction occurs
         {                // In particular, before any child windows are destroyed
             if (GetWindow(m_WindowHandle, GW_OWNER) == nullptr)
             {   // If hwnd doesn't have a parent, then it must be the main window
-                PostQuitMessage(0); //Adds WM_QUIT to queue which will terminate message loop/program
+                PostQuitMessage(0);
             }
             return 0;
         }
     }
-    return DefWindowProc(m_WindowHandle, message, wParam, lParam); // Performs the default action for the message
+    return DefWindowProc(m_WindowHandle, message, wParam, lParam);
 }
 
-// -------------------------------------------------
-// ------------------- Rendering -------------------
-// -------------------------------------------------
+// ----------------------------------------------
+// ---- Member Access ---------------------------
+// ----------------------------------------------
+TextBox* MainWindow::GetTextBox(UI::ControlID id)
+{
+    auto it = m_Controls.find(id);
+    return (it != m_Controls.end()) ? static_cast<TextBox*>(it->second.get()) : nullptr;
+}
 
+Button* MainWindow::GetButton(UI::ControlID id)
+{
+    auto it = m_Controls.find(id);
+    return (it != m_Controls.end()) ? static_cast<Button*>(it->second.get()) : nullptr;
+}
+
+// ----------------------------------------------
+// ---- Initialization & Layout -----------------
+// ----------------------------------------------
 void MainWindow::InitializeUI()
 {
     auto pBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged);
@@ -185,6 +204,31 @@ void MainWindow::SyncUIOrder()
     }
 }
 
+void MainWindow::UpdateUIFont()
+{
+    if (m_UIFontHandle) DeleteObject(m_UIFontHandle);
+
+    int fontSize = static_cast<int>(-12 * m_DpiScale);
+    // TODO x: clean this up
+    m_UIFontHandle = CreateFontW(
+        fontSize, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+        DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+        CLEARTYPE_QUALITY, VARIABLE_PITCH | FF_SWISS, L"Segoe UI"
+    );
+}
+
+void MainWindow::UpdateControlLayouts()
+{
+    UpdateUIFont();
+    for (auto const& [id, control] : m_Controls)
+    {
+        control->UpdateLayout(m_DpiScale, m_UIFontHandle);
+    }
+}
+
+// ----------------------------------------------
+// ---- Rendering -------------------------------
+// ----------------------------------------------
 void MainWindow::OnPaint()
 {
     HRESULT result = CreateGraphicsResources();
@@ -213,7 +257,7 @@ void MainWindow::OnPaint()
         result = m_pRenderTarget->EndDraw();
         if (FAILED(result) || result == D2DERR_RECREATE_TARGET)
         {   // D2DERR_RECREATE_TARGET is returned when the device is lost i.e. display resolution change, unplugged...
-            m_pBrush.Reset();       // Apply LIFO (not strictly required)
+            m_pBrush.Reset();
             m_pRenderTarget.Reset();
         }
         EndPaint(m_WindowHandle, &paintStruct);
@@ -242,10 +286,9 @@ HRESULT MainWindow::CreateGraphicsResources()
     return result;
 }
 
-// --------------------------------------------------
-// --------------- Coordinate Systems ---------------
-// --------------------------------------------------
-
+// ----------------------------------------------
+// ---- Coordinate Systems ----------------------
+// ----------------------------------------------
 void MainWindow::UpdateDpiScale()
 {
     float dpi{ static_cast<float>(GetDpiForWindow(m_WindowHandle)) };
@@ -258,45 +301,9 @@ float MainWindow::PixelsToDips(int pixelValue) const
     return static_cast<float>(pixelValue) / m_DpiScale;
 }
 
-// --------------------------------------------------
-// --------------------- Layout ---------------------
-// --------------------------------------------------
-
-void MainWindow::UpdateUIFont()
-{
-    if (m_UIFontHandle) DeleteObject(m_UIFontHandle);
-
-    int fontSize = static_cast<int>(-12 * m_DpiScale);
-    // TODO x: clean this up
-    m_UIFontHandle = CreateFontW(
-        fontSize, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-        DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
-        CLEARTYPE_QUALITY, VARIABLE_PITCH | FF_SWISS, L"Segoe UI"
-    );
-}
-
-void MainWindow::UpdateModuleLayouts()
-{
-    int yOffset{};
-    yOffset = m_PopUpModule.UpdateLayout(m_DpiScale, yOffset);
-    yOffset = m_CursorModule.UpdateLayout(m_DpiScale, yOffset);
-    yOffset = m_DatePickerModule.UpdateLayout(m_DpiScale, yOffset);
-    yOffset = m_FileSelectModule.UpdateLayout(m_DpiScale, yOffset);
-}
-
-void MainWindow::UpdateControlLayouts()
-{
-    UpdateUIFont();
-    for (auto const& [id, control] : m_Controls)
-    {
-        control->UpdateLayout(m_DpiScale, m_UIFontHandle);
-    }
-}
-
-// -------------------------------------------------
-// --------------------- Input ---------------------
-// -------------------------------------------------
-
+// ----------------------------------------------
+// ---- Input Handling --------------------------
+// ----------------------------------------------
 bool MainWindow::HandleMenuBarCommands(const WORD id)
 {
     auto menuID = static_cast<UI::ControlID>(id);
@@ -332,44 +339,6 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
             if (path) FileService::Save(*path, m_Ellipses);
             return true;
         }
-    }
-    return false;
-}
-
-bool MainWindow::HandleCursorModuleCommands(const WORD id)
-{
-    auto cursorID = static_cast<ID::CursorModule>(id);
-    if (cursorID == ID::CursorModule::ArrowRadioButton ||
-        cursorID == ID::CursorModule::HandRadioButton ||
-        cursorID == ID::CursorModule::CrossRadioButton)
-    {
-        SendMessage(m_WindowHandle, WM_SETCURSOR, reinterpret_cast<WPARAM>(m_WindowHandle), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
-        return true;
-    }
-    return false;
-}
-
-bool MainWindow::HandleFileSelectModuleCommands(const WORD id)
-{
-    if (static_cast<ID::FileSelectModule>(id) == ID::FileSelectModule::SelectButton)
-    {
-        m_FileSelectModule.OnButtonClicked();
-        return true;
-    }
-    return false;
-}
-
-bool MainWindow::HandlePopUpModuleCommands(const WORD id, const WORD code)
-{
-    if (id == static_cast<WORD>(ID::PopUpModule::Textbox) && code == EN_CHANGE)
-    {
-        m_PopUpModule.OnTextChanged();
-        return true;
-    }
-    else if (static_cast<ID::PopUpModule>(id) == ID::PopUpModule::ShowButton)
-    {
-        m_PopUpModule.OnButtonClicked();
-        return true;
     }
     return false;
 }
@@ -426,14 +395,25 @@ void MainWindow::OnRButtonDown(const int x, const int y)
     }
 }
 
-TextBox* MainWindow::GetTextBox(UI::ControlID id)
-{
-    auto it = m_Controls.find(id);
-    return (it != m_Controls.end()) ? static_cast<TextBox*>(it->second.get()) : nullptr;
-}
+//bool MainWindow::HandleCursorModuleCommands(const WORD id)
+//{
+//    auto cursorID = static_cast<ID::CursorModule>(id);
+//    if (cursorID == ID::CursorModule::ArrowRadioButton ||
+//        cursorID == ID::CursorModule::HandRadioButton ||
+//        cursorID == ID::CursorModule::CrossRadioButton)
+//    {
+//        SendMessage(m_WindowHandle, WM_SETCURSOR, reinterpret_cast<WPARAM>(m_WindowHandle), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
+//        return true;
+//    }
+//    return false;
+//}
 
-Button* MainWindow::GetButton(UI::ControlID id)
-{
-    auto it = m_Controls.find(id);
-    return (it != m_Controls.end()) ? static_cast<Button*>(it->second.get()) : nullptr;
-}
+//bool MainWindow::HandleFileSelectModuleCommands(const WORD id)
+//{
+//    if (static_cast<ID::FileSelectModule>(id) == ID::FileSelectModule::SelectButton)
+//    {
+//        m_FileSelectModule.OnButtonClicked();
+//        return true;
+//    }
+//    return false;
+//}
