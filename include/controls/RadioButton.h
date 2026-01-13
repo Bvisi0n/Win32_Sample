@@ -12,7 +12,7 @@
 #include <string_view>
 
 // ------ Homebrew ----------------------------------
-#include "Control.h"
+#include "controls/Control.h"
 #include "UIConstants.h"
 
 // ------ Forward Declarations ----------------------

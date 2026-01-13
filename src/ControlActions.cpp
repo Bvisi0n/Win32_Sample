@@ -1,10 +1,10 @@
 // ------ Homebrew ----------------------------------
 #include "MainWindow.h"
 #include "FileDialog.h"
-#include "Button.h"
-#include "Label.h"
-#include "RadioButton.h"
-#include "TextBox.h"
+#include "controls/Button.h"
+#include "controls/Label.h"
+#include "controls/RadioButton.h"
+#include "controls/TextBox.h"
 #include "UIConstants.h"
 #include "ControlActions.h"
 

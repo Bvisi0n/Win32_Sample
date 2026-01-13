@@ -23,13 +23,13 @@
     <ClCompile Include="src\ControlActions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Control.cpp">
+    <ClCompile Include="src\controls\Control.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TextBox.cpp">
+    <ClCompile Include="src\controls\TextBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Button.cpp">
+    <ClCompile Include="src\controls\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\FileService.cpp">
@@ -41,13 +41,13 @@
     <ClCompile Include="src\MenuBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\RadioButton.cpp">
+    <ClCompile Include="src\controls\RadioButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DatePicker.cpp">
+    <ClCompile Include="src\controls\DatePicker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Label.cpp">
+    <ClCompile Include="src\controls\Label.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,9 +78,6 @@
     <ClInclude Include="include\MenuBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ResourceIDs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\FileService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -93,13 +90,13 @@
     <ClInclude Include="include\ControlActions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Control.h">
+    <ClInclude Include="include\controls\Control.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Button.h">
+    <ClInclude Include="include\controls\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\TextBox.h">
+    <ClInclude Include="include\controls\TextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Concepts.h">
@@ -108,13 +105,13 @@
     <ClInclude Include="include\ScopedComContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\RadioButton.h">
+    <ClInclude Include="include\controls\RadioButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\DatePicker.h">
+    <ClInclude Include="include\controls\DatePicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Label.h">
+    <ClInclude Include="include\controls\Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Benchmark.h">

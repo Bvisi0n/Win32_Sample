@@ -11,7 +11,7 @@
 #include <string>
 
 // ------ Homebrew ----------------------------------
-#include "Control.h"
+#include "controls/Control.h"
 
 // ------ Forward Declarations ----------------------
 struct HWND__;

@@ -1,5 +1,5 @@
-#ifndef LABEL_H
-#define LABEL_H
+#ifndef DATEPICKER_H
+#define DATEPICKER_H
 
 // ------ Project wide settings ---------------------
 #include "Config.h"
@@ -7,12 +7,8 @@
 // ------ Win32 and more ----------------------------
 #include <d2dbasetypes.h>
 
-// ------ STL ---------------------------------------
-#include <string>
-#include <string_view>
-
 // ------ Homebrew ----------------------------------
-#include "Control.h"
+#include "controls/Control.h"
 #include "UIConstants.h"
 
 // ------ Forward Declarations ----------------------
@@ -22,18 +18,15 @@ typedef struct HWND__* HWND;
 struct HFONT__;
 typedef struct HFONT__* HFONT;
 
-class Label : public Control
+class DatePicker : public Control
 {
 public:
-    Label(UI::ControlID id, UI::Action action, std::wstring_view text);
+    DatePicker(UI::ControlID id, UI::Action action);
 
     void Initialize(HWND parent, D2D1_RECT_F position) override;
 
-    std::wstring_view GetText() const { return m_Text; };
-    void SetText(std::wstring_view newText);
-
-private:
-    std::wstring m_Text;
+    SYSTEMTIME GetDate() const;
+    void SetDate(const SYSTEMTIME& st);
 };
 
 #endif

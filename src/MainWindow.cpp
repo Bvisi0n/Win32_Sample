@@ -8,15 +8,15 @@
 
 // ------ Homebrew ----------------------------------
 #include "MainWindow.h"
-#include "Control.h"
-#include "Button.h"
-#include "RadioButton.h"
-#include "TextBox.h"
-#include "DatePicker.h"
+#include "controls/Control.h"
+#include "controls/Button.h"
+#include "controls/DatePicker.h"
+#include <controls/Label.h>
+#include "controls/RadioButton.h"
+#include "controls/TextBox.h"
 #include "ControlActions.h"
 #include "FileDialog.h"
 #include "FileService.h"
-#include <Label.h>
 #include <Benchmark.h>
 
 // ----------------------------------------------

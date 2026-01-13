@@ -3,7 +3,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "RadioButton.h"
+#include "controls/RadioButton.h"
 
 RadioButton::RadioButton(UI::ControlID id, UI::Action action, std::wstring_view text, bool groupLeader)
     : Control(id, action), m_Text(text), m_GroupLeader(groupLeader) {}

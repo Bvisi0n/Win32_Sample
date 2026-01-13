@@ -3,7 +3,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "TextBox.h"
+#include "controls/TextBox.h"
 
 TextBox::TextBox(UI::ControlID id, UI::Action action, unsigned int charLimit)
     : Control(id, action), m_CharLimit(charLimit) {}

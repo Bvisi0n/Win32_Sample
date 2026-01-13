@@ -3,7 +3,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "Control.h"
+#include "controls/Control.h"
 #include "MainWindow.h"
 
 Control::Control(UI::ControlID id, UI::Action action)

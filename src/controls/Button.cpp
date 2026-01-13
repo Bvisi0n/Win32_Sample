@@ -3,7 +3,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "Button.h"
+#include "controls/Button.h"
 
 Button::Button(UI::ControlID id, UI::Action action, std::wstring_view text)
 	: Control(id, action), m_Text(text) {}

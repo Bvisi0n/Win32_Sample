@@ -3,7 +3,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "Label.h"
+#include "controls/Label.h"
 
 Label::Label(UI::ControlID id, UI::Action action, std::wstring_view text)
     : Control(id, action), m_Text(text) {}
