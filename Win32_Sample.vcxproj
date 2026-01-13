@@ -162,13 +162,11 @@
     <ClInclude Include="include\Control.h" />
     <ClInclude Include="include\ControlActions.h" />
     <ClInclude Include="include\FileDialog.h" />
-    <ClInclude Include="include\modules\CursorModule.h" />
     <ClInclude Include="include\modules\DatePickerModule.h" />
     <ClInclude Include="include\modules\FileSelectModule.h" />
     <ClInclude Include="include\FileService.h" />
     <ClInclude Include="include\MainWindow.h" />
     <ClInclude Include="include\MenuBar.h" />
-    <ClInclude Include="include\modules\PopUpModule.h" />
     <ClInclude Include="include\RadioButton.h" />
     <ClInclude Include="include\ResourceIDs.h" />
     <ClInclude Include="include\modules\UIModule.h" />

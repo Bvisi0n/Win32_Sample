@@ -47,7 +47,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         // - Creation -------------------------------
         case WM_CREATE: // Sent when CreateWindow is called but before it returns
         {               // After the window is created, but before it becomes visible
-            UpdateDpiScale(); // Set scale before creating resources
+            UpdateDpiScale();
 
             if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, m_pFactory.GetAddressOf())))
             {
@@ -211,7 +211,7 @@ void MainWindow::InitializeUI()
     pHand->Initialize(m_WindowHandle, { 110, 50, 200, 74 });
     m_Controls[UI::ControlID::Cursor_HandButton] = std::move(pHand);
 
-    auto pCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::OnCrossCursorClicked, L"Hand", false);
+    auto pCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::OnCrossCursorClicked, L"Cross", false);
     pCross->Initialize(m_WindowHandle, { 210, 50, 300, 74 });
     m_Controls[UI::ControlID::Cursor_CrossButton] = std::move(pCross);
 

@@ -72,13 +72,7 @@
     <ClInclude Include="include\MenuBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\modules\PopUpModule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ResourceIDs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\modules\CursorModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\modules\UIModule.h">
