@@ -1,5 +1,5 @@
-#ifndef TEXTBOX_H
-#define TEXTBOX_H
+#ifndef RADIOBUTTON_H
+#define RADIOBUTTON_H
 
 // ------ Project wide settings ---------------------
 #include "Config.h"
@@ -9,9 +9,11 @@
 
 // ------ STL ---------------------------------------
 #include <string>
+#include <string_view>
 
 // ------ Homebrew ----------------------------------
 #include "Control.h"
+#include "UIConstants.h"
 
 // ------ Forward Declarations ----------------------
 struct HWND__;
@@ -20,17 +22,21 @@ typedef struct HWND__* HWND;
 struct HFONT__;
 typedef struct HFONT__* HFONT;
 
-class TextBox : public Control
+class RadioButton : public Control
 {
 public:
-    TextBox(UI::ControlID id, UI::Action action, unsigned int charLimit);
+    RadioButton(UI::ControlID id, UI::Action action, std::wstring_view text, bool groupLeader);
 
     void Initialize(HWND parent, D2D1_RECT_F position) override;
 
-    std::wstring GetText() const;
+    std::wstring_view GetText() const { return m_Text; };
+    void SetText(std::wstring_view newText);
+    bool IsChecked() const;
+    void SetCheck();
 
 private:
-    unsigned int m_CharLimit;
+    std::wstring m_Text;
+    bool m_GroupLeader;
 };
 
 #endif

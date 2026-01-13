@@ -38,8 +38,10 @@ public:
     LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     // ---- Member Access ---------------------------
-    TextBox*    GetTextBox(UI::ControlID id);
-    Button*     GetButton(UI::ControlID id);
+    TextBox*        GetTextBox(UI::ControlID id);
+    Button*         GetButton(UI::ControlID id);
+    UI::ControlID   GetCursorType() const { return m_CursorType; };
+    void            SetCursorType(UI::ControlID cursorId);
     
 private:
     // Per.2: Don’t optimize prematurely (readable variable order vs perfectly aligned)
@@ -53,11 +55,12 @@ private:
     Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>    m_pBrush;
 
     // ---- UI & Data ------------------------------
-    std::map<UI::ControlID, std::unique_ptr<Control>> m_Controls;
-    std::vector<D2D1_ELLIPSE> m_Ellipses;
-    float m_EllipseSize;
-    D2D1_COLOR_F m_BackgroundColor;
-    MenuBar m_MenuBar;
+    std::map<UI::ControlID, std::unique_ptr<Control>>   m_Controls;
+    std::vector<D2D1_ELLIPSE>   m_Ellipses;
+    float                       m_EllipseSize;
+    D2D1_COLOR_F                m_BackgroundColor;
+    MenuBar                     m_MenuBar;
+    UI::ControlID               m_CursorType;
 
     // ---- Initialization & Layout -----------------
     void InitializeUI();

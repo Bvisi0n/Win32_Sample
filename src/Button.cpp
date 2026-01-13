@@ -10,7 +10,7 @@ Button::Button(UI::ControlID id, UI::Action action, std::wstring_view text)
 
 void Button::Initialize(HWND parent, D2D1_RECT_F position)
 {
-    m_WindowHandle = CreateWindowEx(
+    m_ControlHandle = CreateWindowEx(
         0,                                                      // Optional window styles
         L"BUTTON",                                              // Predefined system class
         m_Text.c_str(),                                         // Button text
@@ -26,25 +26,14 @@ void Button::Initialize(HWND parent, D2D1_RECT_F position)
     );
 
     m_PositionRect = position;
-    SendMessage(m_WindowHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
-}
-
-void Button::UpdateLayout(float dpiScale, HFONT fontHandle)
-{
-    int x = static_cast<int>(m_PositionRect.left * dpiScale);
-    int y = static_cast<int>(m_PositionRect.top * dpiScale);
-    int w = static_cast<int>((m_PositionRect.right - m_PositionRect.left) * dpiScale);
-    int h = static_cast<int>((m_PositionRect.bottom - m_PositionRect.top) * dpiScale);
-
-    SetWindowPos(m_WindowHandle, nullptr, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
-    SendMessage(m_WindowHandle, WM_SETFONT, (WPARAM)fontHandle, TRUE);
+    SendMessage(m_ControlHandle, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), TRUE);
 }
 
 void Button::SetText(std::wstring_view newText)
 {
     m_Text = newText;
-    if (m_WindowHandle)
+    if (m_ControlHandle)
     {
-        SetWindowTextW(m_WindowHandle, m_Text.c_str());
+        SetWindowTextW(m_ControlHandle, m_Text.c_str());
     }
 }

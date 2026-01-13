@@ -14,6 +14,7 @@
 #include "ControlActions.h"
 #include "FileDialog.h"
 #include "FileService.h"
+#include <RadioButton.h>
 
 // ----------------------------------------------
 // ---- Special Member Functions ----------------
@@ -24,7 +25,8 @@ MainWindow::MainWindow()
         m_UIFontHandle(nullptr),
         m_BackgroundColor(D2D1::ColorF(D2D1::ColorF::AliceBlue)),
         m_EllipseSize(10.f),
-        m_MenuBar() {}
+        m_MenuBar(),
+        m_CursorType(UI::ControlID::Cursor_ArrowButton) {}
 
 // If declared default in the header it will attempt to define it in the header.
 // Which doesn't pass std::unique_ptr's vibe check on the Control forward declaration.
@@ -90,11 +92,21 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         }
         case WM_SETCURSOR:
         {
-            //if (LOWORD(lParam) == HTCLIENT)
-            //{
-            //    SetCursor(m_CursorModule.GetSelectedCursor());
-            //    return TRUE;
-            //}
+            if (LOWORD(lParam) == HTCLIENT)
+            {
+                HCURSOR cursorHandle{ nullptr };
+                switch (m_CursorType)
+                {
+                case UI::ControlID::Cursor_ArrowButton:
+                    cursorHandle = LoadCursor(nullptr, IDC_ARROW); break;
+                case UI::ControlID::Cursor_HandButton:
+                    cursorHandle = LoadCursor(nullptr, IDC_HAND);  break;
+                case UI::ControlID::Cursor_CrossButton:
+                    cursorHandle = LoadCursor(nullptr, IDC_CROSS); break;
+                }
+                SetCursor(cursorHandle);
+                return TRUE;
+            }
         }
 
         // - Interactions & Commands ----------------
@@ -170,12 +182,18 @@ Button* MainWindow::GetButton(UI::ControlID id)
     return (it != m_Controls.end()) ? static_cast<Button*>(it->second.get()) : nullptr;
 }
 
+void MainWindow::SetCursorType(UI::ControlID cursorId)
+{
+    m_CursorType = cursorId;
+}
+
 // ----------------------------------------------
 // ---- Initialization & Layout -----------------
 // ----------------------------------------------
 void MainWindow::InitializeUI()
 {
-    auto pBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged);
+    // -------- PopUpModule ---------------------
+    auto pBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged, 500);
     pBox->Initialize(m_WindowHandle, { 10, 10, 200, 34 });
     m_Controls[UI::ControlID::PopUp_Textbox] = std::move(pBox);
 
@@ -183,10 +201,24 @@ void MainWindow::InitializeUI()
     pBtn->Initialize(m_WindowHandle, { 210, 10, 310, 34 });
     m_Controls[UI::ControlID::PopUp_Button] = std::move(pBtn);
 
+    // -------- CursorModule --------------------
+    auto pArrow = std::make_unique<RadioButton>(UI::ControlID::Cursor_ArrowButton, UI::OnArrowCursorClicked, L"Arrow", true);
+    pArrow->Initialize(m_WindowHandle, { 10, 50, 100, 74 });
+    pArrow->SetCheck();
+    m_Controls[UI::ControlID::Cursor_ArrowButton] = std::move(pArrow);
+
+    auto pHand = std::make_unique<RadioButton>(UI::ControlID::Cursor_HandButton, UI::OnHandCursorClicked, L"Hand", false);
+    pHand->Initialize(m_WindowHandle, { 110, 50, 200, 74 });
+    m_Controls[UI::ControlID::Cursor_HandButton] = std::move(pHand);
+
+    auto pCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::OnCrossCursorClicked, L"Hand", false);
+    pCross->Initialize(m_WindowHandle, { 210, 50, 300, 74 });
+    m_Controls[UI::ControlID::Cursor_CrossButton] = std::move(pCross);
+
     SyncUIOrder();
     UpdateControlLayouts();
 
-    UI::OnPopUpTextChanged(this);
+    UI::OnPopUpTextChanged(this); // Disable PopUp_Button
 }
 
 void MainWindow::SyncUIOrder()
@@ -394,19 +426,6 @@ void MainWindow::OnRButtonDown(const int x, const int y)
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
 }
-
-//bool MainWindow::HandleCursorModuleCommands(const WORD id)
-//{
-//    auto cursorID = static_cast<ID::CursorModule>(id);
-//    if (cursorID == ID::CursorModule::ArrowRadioButton ||
-//        cursorID == ID::CursorModule::HandRadioButton ||
-//        cursorID == ID::CursorModule::CrossRadioButton)
-//    {
-//        SendMessage(m_WindowHandle, WM_SETCURSOR, reinterpret_cast<WPARAM>(m_WindowHandle), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
-//        return true;
-//    }
-//    return false;
-//}
 
 //bool MainWindow::HandleFileSelectModuleCommands(const WORD id)
 //{

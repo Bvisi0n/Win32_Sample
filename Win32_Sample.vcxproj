@@ -145,6 +145,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\MenuBar.cpp" />
+    <ClCompile Include="src\RadioButton.cpp" />
     <ClCompile Include="src\TextBox.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClInclude Include="include\MainWindow.h" />
     <ClInclude Include="include\MenuBar.h" />
     <ClInclude Include="include\modules\PopUpModule.h" />
+    <ClInclude Include="include\RadioButton.h" />
     <ClInclude Include="include\ResourceIDs.h" />
     <ClInclude Include="include\modules\UIModule.h" />
     <ClInclude Include="include\ScopedComContext.h" />

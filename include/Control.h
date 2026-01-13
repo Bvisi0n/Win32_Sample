@@ -31,11 +31,11 @@ public:
     Control& operator=(Control&&) = delete;
 
     virtual void Initialize(HWND parent, D2D1_RECT_F position) = 0;
-    virtual void UpdateLayout(float dpiScale, HFONT fontHandle) = 0;
 
+    void UpdateLayout(float dpiScale, HFONT fontHandle);
     void Execute(MainWindow* pWindow);
 
-    HWND GetWindowHandle() const { return m_WindowHandle; }
+    HWND GetWindowHandle() const { return m_ControlHandle; }
     UI::ControlID GetId() const { return m_Id; }
     D2D1_RECT_F GetPosition() const { return m_PositionRect; }
 
@@ -43,7 +43,7 @@ public:
 
 protected:
     UI::Action      m_Action;
-    HWND            m_WindowHandle;
+    HWND            m_ControlHandle;
     D2D1_RECT_F     m_PositionRect;
     UI::ControlID   m_Id;
 };

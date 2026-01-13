@@ -28,7 +28,12 @@ namespace UI
 
 		// PopupModule -------------
 		PopUp_Textbox		= 100,
-		PopUp_Button		= 101
+		PopUp_Button		= 101,
+
+		// CursorModule ------------
+		Cursor_ArrowButton	= 200,
+		Cursor_HandButton	= 201,
+		Cursor_CrossButton	= 202
 	};
 
 	// A standard signature for UI actions.
