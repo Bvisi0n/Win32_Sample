@@ -44,6 +44,9 @@
     <ClCompile Include="src\RadioButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DatePicker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md">
@@ -78,9 +81,6 @@
     <ClInclude Include="include\modules\UIModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\modules\DatePickerModule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\modules\FileSelectModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -112,6 +112,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\RadioButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DatePicker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

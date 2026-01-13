@@ -17,6 +17,9 @@ namespace UI
     extern Action OnArrowCursorClicked;
     extern Action OnHandCursorClicked;
     extern Action OnCrossCursorClicked;
+
+    // --- DatePicker -------------------------------
+    extern Action OnDatePickerChanged;
 }
 
 #endif

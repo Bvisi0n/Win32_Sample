@@ -59,4 +59,8 @@ namespace UI {
             SendMessage(pWin->Window(), WM_SETCURSOR, reinterpret_cast<WPARAM>(pWin->Window()), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
         };
 
+    Action OnDatePickerChanged = [](MainWindow* pWin)
+        {
+            LOG_PRINT("OnDatePickerChanged() called.");
+        };
 }

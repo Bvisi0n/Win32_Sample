@@ -33,7 +33,10 @@ namespace UI
 		// CursorModule ------------
 		Cursor_ArrowButton	= 200,
 		Cursor_HandButton	= 201,
-		Cursor_CrossButton	= 202
+		Cursor_CrossButton	= 202,
+
+		// DatePicker ------------
+		DatePicker			= 300
 	};
 
 	// A standard signature for UI actions.

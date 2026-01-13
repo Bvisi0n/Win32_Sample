@@ -10,11 +10,12 @@
 #include "MainWindow.h"
 #include "Control.h"
 #include "Button.h"
+#include "RadioButton.h"
 #include "TextBox.h"
+#include "DatePicker.h"
 #include "ControlActions.h"
 #include "FileDialog.h"
 #include "FileService.h"
-#include <RadioButton.h>
 
 // ----------------------------------------------
 // ---- Special Member Functions ----------------
@@ -131,6 +132,24 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         }
 
         // - Input ----------------------------------
+        case WM_NOTIFY:
+        {
+            // Long Pointer Notification Message Header
+            LPNMHDR lpnmhdr{ reinterpret_cast<LPNMHDR>(lParam) };
+            
+            if (lpnmhdr->code == DTN_DATETIMECHANGE)
+            {
+                auto it = m_Controls.find(static_cast<UI::ControlID>(lpnmhdr->idFrom));
+                if (it != m_Controls.end())
+                {
+                    it->second->Execute(this);
+                    SYSTEMTIME time;
+                    time = dynamic_cast<DatePicker*>(it->second.get())->GetDate();
+                    LOG_PRINT("{:02}/{:02}/{:04}", time.wDay, time.wMonth, time.wYear);
+                }
+            }
+            return 0;
+        }
         case WM_LBUTTONDOWN:
         {   // Left mouse button down in client area
             const int x{ GET_X_LPARAM(lParam) };
@@ -215,6 +234,11 @@ void MainWindow::InitializeUI()
     pCross->Initialize(m_WindowHandle, { 210, 50, 300, 74 });
     m_Controls[UI::ControlID::Cursor_CrossButton] = std::move(pCross);
 
+    // -------- CursorModule --------------------
+    auto pDate = std::make_unique<DatePicker>(UI::ControlID::DatePicker, UI::OnDatePickerChanged);
+    pDate->Initialize(m_WindowHandle, { 10, 90, 200, 125 });
+    m_Controls[UI::ControlID::DatePicker] = std::move(pDate);
+
     SyncUIOrder();
     UpdateControlLayouts();
 
@@ -250,7 +274,7 @@ void MainWindow::UpdateUIFont()
 }
 
 void MainWindow::UpdateControlLayouts()
-{
+{   // Use .SetPosition here to give Controls a dynamic position.
     UpdateUIFont();
     for (auto const& [id, control] : m_Controls)
     {

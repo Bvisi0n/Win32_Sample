@@ -137,6 +137,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DatePicker.cpp" />
     <ClCompile Include="src\FileDialog.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Control.cpp" />
@@ -161,8 +162,8 @@
     <ClInclude Include="include\Config.h" />
     <ClInclude Include="include\Control.h" />
     <ClInclude Include="include\ControlActions.h" />
+    <ClInclude Include="include\DatePicker.h" />
     <ClInclude Include="include\FileDialog.h" />
-    <ClInclude Include="include\modules\DatePickerModule.h" />
     <ClInclude Include="include\modules\FileSelectModule.h" />
     <ClInclude Include="include\FileService.h" />
     <ClInclude Include="include\MainWindow.h" />
