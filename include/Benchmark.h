@@ -2,14 +2,14 @@
 #define BENCHMARK_H
 
 // ------ STL ---------------------------------------
+#include <algorithm>   // std::sort
 #include <chrono>      // High-resolution clock
+#include <format>      // std::format (Required for your PrintResults)
 #include <functional>  // std::function, std::bind, std::forward
+#include <iostream>    // std::wcout
+#include <numeric>     // std::accumulate
 #include <string>      // std::wstring, std::wstring_view
 #include <vector>      // Storage for results
-#include <algorithm>   // std::sort
-#include <numeric>     // std::accumulate
-#include <format>      // std::format (Required for your PrintResults)
-#include <iostream>    // std::wcout
 
 template <typename F, typename... Args>
 class Benchmark {
