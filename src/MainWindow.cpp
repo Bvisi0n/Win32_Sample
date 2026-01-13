@@ -17,6 +17,7 @@
 #include "FileDialog.h"
 #include "FileService.h"
 #include <Label.h>
+#include <Benchmark.h>
 
 // ----------------------------------------------
 // ---- Special Member Functions ----------------
@@ -175,6 +176,9 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent as a signal that a window or an application should terminate
             if (MessageBox(m_WindowHandle, L"This will exit the program.\nContinue?", L"Win32_Sample", MB_OKCANCEL) == IDOK)
             {
+                Benchmark bench(L"Dynamic Layout", &MainWindow::UpdateControlLayouts, this);
+                bench.Run(500, 0.1f);
+                bench.PrintResults();
                 DestroyWindow(m_WindowHandle);
             }
             return 0;

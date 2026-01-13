@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseWindow.h" />
+    <ClInclude Include="include\Benchmark.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Concepts.h" />
     <ClInclude Include="include\Config.h" />

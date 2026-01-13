@@ -117,5 +117,8 @@
     <ClInclude Include="include\Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Benchmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
