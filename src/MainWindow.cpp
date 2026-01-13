@@ -86,6 +86,10 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
             UpdateControlLayouts();
             return 0;
         }
+        case WM_ERASEBKGND:
+        {
+            return 1; // Removes flickering
+        }
         case WM_PAINT:
         {   // Sent when OS or other app requests a (partial) repaint of the window
             OnPaint();
