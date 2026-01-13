@@ -9,17 +9,20 @@
 
 namespace UI
 {
-    // --- PopUpModule ------------------------------
+    // --- PopUp ------------------------------------
     extern Action OnPopUpTextChanged;
     extern Action OnPopUpButtonClicked;
 
-    // --- CursorModule -----------------------------
+    // --- Cursor -----------------------------------
     extern Action OnArrowCursorClicked;
     extern Action OnHandCursorClicked;
     extern Action OnCrossCursorClicked;
 
     // --- DatePicker -------------------------------
     extern Action OnDatePickerChanged;
+
+    // --- DatePicker -------------------------------
+    extern Action OnFileSelectButtonClicked;
 }
 
 #endif

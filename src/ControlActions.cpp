@@ -1,10 +1,12 @@
 // ------ Homebrew ----------------------------------
-#include "Button.h"
-#include "ControlActions.h"
 #include "MainWindow.h"
+#include "FileDialog.h"
+#include "Button.h"
+#include "Label.h"
 #include "RadioButton.h"
 #include "TextBox.h"
 #include "UIConstants.h"
+#include "ControlActions.h"
 
 namespace UI {
     Action OnPopUpTextChanged = [](MainWindow* pWin)
@@ -62,5 +64,25 @@ namespace UI {
     Action OnDatePickerChanged = [](MainWindow* pWin)
         {
             LOG_PRINT("OnDatePickerChanged() called.");
+        };
+
+    Action OnFileSelectButtonClicked = [](MainWindow* pWin)
+        {
+            auto path = FileDialog::Open(pWin->Window(), { {L"All Files", L"*.*"} });
+
+            // Find our Label to update it
+            auto* pLabel = pWin->GetLabel(UI::ControlID::FileSelect_Label);
+            if (!pLabel) return;
+
+            if (path) {
+                try {
+                    auto fileSize = std::filesystem::file_size(*path);
+                    std::wstring info = std::format(L"File: {}\nSize: {} bytes", path->filename().wstring(), fileSize);
+                    pLabel->SetText(info);
+                }
+                catch (...) {
+                    pLabel->SetText(L"Error reading file info.");
+                }
+            }
         };
 }

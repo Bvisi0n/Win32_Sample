@@ -16,6 +16,7 @@
 #include "ControlActions.h"
 #include "FileDialog.h"
 #include "FileService.h"
+#include <Label.h>
 
 // ----------------------------------------------
 // ---- Special Member Functions ----------------
@@ -193,16 +194,22 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 // ----------------------------------------------
 // ---- Member Access ---------------------------
 // ----------------------------------------------
-TextBox* MainWindow::GetTextBox(UI::ControlID id)
-{
-    auto it = m_Controls.find(id);
-    return (it != m_Controls.end()) ? static_cast<TextBox*>(it->second.get()) : nullptr;
-}
-
 Button* MainWindow::GetButton(UI::ControlID id)
 {
     auto it = m_Controls.find(id);
     return (it != m_Controls.end()) ? static_cast<Button*>(it->second.get()) : nullptr;
+}
+
+Label* MainWindow::GetLabel(UI::ControlID id)
+{
+    auto it = m_Controls.find(id);
+    return (it != m_Controls.end()) ? static_cast<Label*>(it->second.get()) : nullptr;
+}
+
+TextBox* MainWindow::GetTextBox(UI::ControlID id)
+{
+    auto it = m_Controls.find(id);
+    return (it != m_Controls.end()) ? static_cast<TextBox*>(it->second.get()) : nullptr;
 }
 
 void MainWindow::SetCursorType(UI::ControlID cursorId)
@@ -216,32 +223,41 @@ void MainWindow::SetCursorType(UI::ControlID cursorId)
 void MainWindow::InitializeUI()
 {
     // -------- PopUpModule ---------------------
-    auto pBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged, 500);
-    pBox->Initialize(m_WindowHandle, { 10, 10, 200, 34 });
-    m_Controls[UI::ControlID::PopUp_Textbox] = std::move(pBox);
+    auto pPopUpBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged, 500);
+    pPopUpBox->Initialize(m_WindowHandle, { 10, 10, 200, 34 });
+    m_Controls[UI::ControlID::PopUp_Textbox] = std::move(pPopUpBox);
 
-    auto pBtn = std::make_unique<Button>(UI::ControlID::PopUp_Button, UI::OnPopUpButtonClicked, L"Show Text");
-    pBtn->Initialize(m_WindowHandle, { 210, 10, 310, 34 });
-    m_Controls[UI::ControlID::PopUp_Button] = std::move(pBtn);
-
-    // -------- CursorModule --------------------
-    auto pArrow = std::make_unique<RadioButton>(UI::ControlID::Cursor_ArrowButton, UI::OnArrowCursorClicked, L"Arrow", true);
-    pArrow->Initialize(m_WindowHandle, { 10, 50, 100, 74 });
-    pArrow->SetCheck();
-    m_Controls[UI::ControlID::Cursor_ArrowButton] = std::move(pArrow);
-
-    auto pHand = std::make_unique<RadioButton>(UI::ControlID::Cursor_HandButton, UI::OnHandCursorClicked, L"Hand", false);
-    pHand->Initialize(m_WindowHandle, { 110, 50, 200, 74 });
-    m_Controls[UI::ControlID::Cursor_HandButton] = std::move(pHand);
-
-    auto pCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::OnCrossCursorClicked, L"Cross", false);
-    pCross->Initialize(m_WindowHandle, { 210, 50, 300, 74 });
-    m_Controls[UI::ControlID::Cursor_CrossButton] = std::move(pCross);
+    auto pPopUpBtn = std::make_unique<Button>(UI::ControlID::PopUp_Button, UI::OnPopUpButtonClicked, L"Show Text");
+    pPopUpBtn->Initialize(m_WindowHandle, { 210, 10, 310, 34 });
+    m_Controls[UI::ControlID::PopUp_Button] = std::move(pPopUpBtn);
 
     // -------- CursorModule --------------------
-    auto pDate = std::make_unique<DatePicker>(UI::ControlID::DatePicker, UI::OnDatePickerChanged);
-    pDate->Initialize(m_WindowHandle, { 10, 90, 200, 125 });
-    m_Controls[UI::ControlID::DatePicker] = std::move(pDate);
+    auto pCursorArrow = std::make_unique<RadioButton>(UI::ControlID::Cursor_ArrowButton, UI::OnArrowCursorClicked, L"Arrow", true);
+    pCursorArrow->Initialize(m_WindowHandle, { 10, 50, 100, 74 });
+    pCursorArrow->SetCheck();
+    m_Controls[UI::ControlID::Cursor_ArrowButton] = std::move(pCursorArrow);
+
+    auto pCursorHand = std::make_unique<RadioButton>(UI::ControlID::Cursor_HandButton, UI::OnHandCursorClicked, L"Hand", false);
+    pCursorHand->Initialize(m_WindowHandle, { 110, 50, 200, 74 });
+    m_Controls[UI::ControlID::Cursor_HandButton] = std::move(pCursorHand);
+
+    auto pCursorCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::OnCrossCursorClicked, L"Cross", false);
+    pCursorCross->Initialize(m_WindowHandle, { 210, 50, 300, 74 });
+    m_Controls[UI::ControlID::Cursor_CrossButton] = std::move(pCursorCross);
+
+    // -------- DatePicker ---------------------
+    auto pDatePicker = std::make_unique<DatePicker>(UI::ControlID::DatePicker, UI::OnDatePickerChanged);
+    pDatePicker->Initialize(m_WindowHandle, { 10, 90, 200, 125 });
+    m_Controls[UI::ControlID::DatePicker] = std::move(pDatePicker);
+
+    // -------- FileSelect ---------------------
+    auto pFileSelectBtn = std::make_unique<Button>(UI::ControlID::FileSelect_Button, UI::OnFileSelectButtonClicked, L"Select File...");
+    pFileSelectBtn->Initialize(m_WindowHandle, { 10, 150, 130, 174 });
+    m_Controls[UI::ControlID::FileSelect_Button] = std::move(pFileSelectBtn);
+
+    auto pFileSelectLab = std::make_unique<Label>(UI::ControlID::FileSelect_Label, nullptr, L"No file selected");
+    pFileSelectLab->Initialize(m_WindowHandle, { 140, 150, 400, 198 });
+    m_Controls[UI::ControlID::FileSelect_Label] = std::move(pFileSelectLab);
 
     SyncUIOrder();
     UpdateControlLayouts();
@@ -269,7 +285,7 @@ void MainWindow::UpdateUIFont()
     if (m_UIFontHandle) DeleteObject(m_UIFontHandle);
 
     int fontSize = static_cast<int>(-12 * m_DpiScale);
-    // TODO x: clean this up
+    // TODO Refactor: clean this up
     m_UIFontHandle = CreateFontW(
         fontSize, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,

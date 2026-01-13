@@ -24,6 +24,7 @@ struct HFONT__;
 
 class Control;
 class Button;
+class Label;
 class TextBox;
 
 class MainWindow : public BaseWindow<MainWindow>
@@ -38,8 +39,9 @@ public:
     LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam) override;
 
     // ---- Member Access ---------------------------
-    TextBox*        GetTextBox(UI::ControlID id);
     Button*         GetButton(UI::ControlID id);
+    Label*          GetLabel(UI::ControlID id);
+    TextBox*        GetTextBox(UI::ControlID id);
     UI::ControlID   GetCursorType() const { return m_CursorType; };
     void            SetCursorType(UI::ControlID cursorId);
     

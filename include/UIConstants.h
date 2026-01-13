@@ -26,17 +26,21 @@ namespace UI
 		MintCream			= 4,
 		PeachPuff			= 5,
 
-		// PopupModule -------------
+		// Popup -------------------
 		PopUp_Textbox		= 100,
 		PopUp_Button		= 101,
 
-		// CursorModule ------------
+		// Cursor ------------------
 		Cursor_ArrowButton	= 200,
 		Cursor_HandButton	= 201,
 		Cursor_CrossButton	= 202,
 
-		// DatePicker ------------
-		DatePicker			= 300
+		// DatePicker --------------
+		DatePicker			= 300,
+
+		// FileSelect --------------
+		FileSelect_Button	= 400,
+		FileSelect_Label	= 401
 	};
 
 	// A standard signature for UI actions.
