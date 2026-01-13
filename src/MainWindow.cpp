@@ -470,13 +470,3 @@ void MainWindow::OnRButtonDown(const int x, const int y)
         InvalidateRect(m_WindowHandle, nullptr, FALSE);
     }
 }
-
-//bool MainWindow::HandleFileSelectModuleCommands(const WORD id)
-//{
-//    if (static_cast<ID::FileSelectModule>(id) == ID::FileSelectModule::SelectButton)
-//    {
-//        m_FileSelectModule.OnButtonClicked();
-//        return true;
-//    }
-//    return false;
-//}
