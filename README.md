@@ -1,10 +1,13 @@
 # Win32_Sample
 
-A study project for my [Programming 3](https://digitalartsandentertainment.be/page/46/Programming+3) exam in the [Game Development](https://digitalartsandentertainment.be/page/31/Game+Development) major at [**Digital Arts & Entertainment (DAE)**](https://www.digitalartsandentertainment.be/).
+In the course [Programming 3](https://digitalartsandentertainment.be/page/46/Programming+3) in the
+[Game Development](https://digitalartsandentertainment.be/page/31/Game+Development) major at
+[**Digital Arts & Entertainment (DAE)**](https://www.digitalartsandentertainment.be/) we were introduced to elementary win32.
+The introduction didn't go beyond simple [GDI](https://learn.microsoft.com/en-us/windows/win32/gdi/windows-gdi)
+and basic legacy UI elements (menu, button, textbox, label & date picker) and global variables.
 
-While the standard curriculum focuses on [GDI](https://learn.microsoft.com/en-us/windows/win32/gdi/windows-gdi) and global state, I used this project to explore the more advanced "official"
-[Microsoft path](https://learn.microsoft.com/en-us/windows/win32/learnwin32/learn-to-program-for-windows). It serves as my
-personal documentation for hardware-accelerated rendering and modern C++ architecture.
+I used this project to explore the more advanced "official" [Microsoft path](https://learn.microsoft.com/en-us/windows/win32/learnwin32/learn-to-program-for-windows).
+It serves as my personal repository where I explore what Win32 has to offer while focusing on C++ core guidelines, architectural design and modern C++ in general.
 
 ## Technical Scope
 * **Modern [OOP](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach):** Uses a template-based `BaseWindow` class to eliminate global window procedures.
@@ -14,4 +17,4 @@ personal documentation for hardware-accelerated rendering and modern C++ archite
 * **C++23:** Leveraging `std::println` and STL algorithms for cleaner logic.
 
 ### Project Notes
-The code is heavily commented as they serve as my personal notes, they don't reflect my "professional" style.
+In this project I use plenty of comments for my future self to speed up onboarding after extended periods of inactivity.
