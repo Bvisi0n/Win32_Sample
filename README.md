@@ -9,19 +9,71 @@ and basic legacy UI elements (menu, button, textbox, label & date picker) and gl
 I used this project to explore the more advanced "official" [Microsoft path](https://learn.microsoft.com/en-us/windows/win32/learnwin32/learn-to-program-for-windows).
 It serves as my personal repository where I explore what Win32 has to offer while focusing on C++ core guidelines, architectural design and modern C++ in general.
 
-## Technical Scope
-* **[Template-Based Windowing (CRTP)](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach):** Wrapped the Win32 API using the [CRTP](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach) (`BaseWindow<T>`). This eliminates global state by using `SetWindowLongPtr` to store the `this` pointer, mapping static OS callbacks directly to class member functions.
-* **Polymorphic UI Framework:** Architected a UI system around a base `Control` class to encapsulate standard Win32 handles.
-  * **Container Design:** Managed UI elements within a `std::map<UI::ControlID, std::unique_ptr<Control>>`. using `operator[]` with the enum `UI::ControlID` proves especially useful.
-  * **Automated Tab/Z-Order:** Leveraged the sorted nature of the `std::map` and a strictly ordered `enum class ControlID` to define the initialization sequence. This naturally handles the Tab-index and Z-order without manual position management.
-* **Decoupled UI Logic:** Implemented a clean separation of concerns by routing `WM_COMMAND` and `WM_NOTIFY` events through an Action-based system. This keeps the `MainWindow` logic focused on orchestration rather than individual control behavior.
-* **Hardware-Accelerated Rendering:** Integrated [Direct2D](https://learn.microsoft.com/en-us/windows/win32/direct2d/direct2d-portal) to handle dynamic mouse-input rendering (ellipses). Managed the graphics pipeline and resource lifecycles using [COM](https://learn.microsoft.com/en-us/windows/win32/learnwin32/what-is-a-com-interface-) (`ComPtr`) and a custom `ScopedComContext` for RAII-based initialization.
-* **FileService & Persistence:** Developed a flexible I/O system using `std::filesystem` and `fstream`.
-  * **Binary:** Type-safe serialization enforced via C++20 Concepts.
-  * **Text:** Utilized Regex for robust parsing of external configuration files, enabling "data-driven" tweaks (like UI constants) without recompiling the executable.
-* **High-Resolution Benchmarking:** Built a custom profiling utility using `std::chrono` to measure engine-level operations with nanosecond precision, featuring statistical outlier trimming.
-* **Modern C++ Standards:** Leveraged C++20/23 features, specifically `std::concepts` for template constraints and Type Traits to ensure compile-time safety across the codebase.
-* **[Per-Monitor DPI Awareness](https://learn.microsoft.com/en-us/windows/win32/learnwin32/dpi-and-device-independent-pixels):** Implemented high-DPI scaling logic to calculate Device Independent Pixels (DIPs), ensuring rendering remains consistent across mixed-resolution display setups.
-
-### Project Notes
 In this project I use plenty of comments for my future self to speed up onboarding after extended periods of inactivity.
+
+## Technical Scope & Features 
+
+### Features
+* Pick a background color through the menu bar options.
+* Click a button to trigger a popup dialog displaying your entry from a textbox.
+* Customize the cursor using radio buttons.
+* Manipulate a date picker
+* Click a button to open a file select dialog and pick a random file which will display it's name and size in a label.
+* Left click anywhere on the background to draw an ellipse.
+* Right click on any ellipse to remove it.
+* Save and load the ellipses through the menu bar options in both binary and text formats.
+
+### Win32 & Windows API
+* Standard Controls & Menus
+* [Per-Monitor DPI Awareness](https://learn.microsoft.com/en-us/windows/win32/learnwin32/dpi-and-device-independent-pixels)
+* Hardware-accelerated 2D rendering with [Direct2D](https://learn.microsoft.com/en-us/windows/win32/direct2d/direct2d-portal)
+* [COM](https://learn.microsoft.com/en-us/windows/win32/learnwin32/what-is-a-com-interface-) resource management using [`Microsoft::WRL::ComPtr`](https://learn.microsoft.com/en-us/cpp/cppcx/wrl/comptr-class?view=msvc-170)
+* Shell integration via Common Item Dialog for File Open/Save
+
+### Design Patterns
+* **Curiously Recurring Template Pattern (CRTP)**
+  * Implemented in [`BaseWindow\<T\>`](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach) to provide a type-safe static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) that routes OS messages to instance member functions, providing a zero-overhead alternative to virtual dispatch for the static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) callback.
+* **Resource Acquisition Is Initialization (RAII)**
+  * Applied using Smart Pointers such as [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr.html) & [`Microsoft::WRL::ComPtr`](https://learn.microsoft.com/en-us/cpp/cppcx/wrl/comptr-class?view=msvc-170).
+  * Encapsulated COM initialization within [`ScopedComContext`](https://github.com/Bvisi0n/Win32_Sample/blob/main/include/ScopedComContext.h).
+* **Command / Observer Pattern**
+  * Decoupled UI logic using an Action system where UI events (clicks, text changes) execute functional objects without the controls needing direct knowledge of the window implementation.
+* **Strategy Pattern**
+  * Implemented in [`FileService`](https://github.com/Bvisi0n/Win32_Sample/blob/main/include/FileService.h) to dynamically switch between Binary and Regex-based text serialization based on file extensions.
+* **Polymorphism**
+  * Controls inherit from a pure virtual base class, enabling a unified interface for initialization and layout updates within a single container.
+* **Data-Driven Design**
+  * UI element ordering and Z-axis depth are managed through the sorted nature of [`std::map`](https://en.cppreference.com/w/cpp/container/map.html) using the enum class control ID as key, managing the order is as easy as changing the values assigned to the controls within the enum class.
+
+### C++ & STL
+* Language support library
+  * [`<cstdint>`](https://en.cppreference.com/w/cpp/header/cstdint.html)
+* Memory management library
+  * [`<memory>`](https://en.cppreference.com/w/cpp/header/memory.html)
+* Metaprogramming library
+  * [`<type_traits>`](https://en.cppreference.com/w/cpp/header/type_traits.html)
+* General utilities library
+  * [`<functional>`](https://en.cppreference.com/w/cpp/header/functional.html)
+  * [`<optional>`](https://en.cppreference.com/w/cpp/header/optional.html)
+* Containers library
+  * [`<map>`](https://en.cppreference.com/w/cpp/header/map.html)
+  * [`<vector>`](https://en.cppreference.com/w/cpp/header/vector.html)
+* Ranges library
+  * [`<ranges>`](https://en.cppreference.com/w/cpp/header/ranges.html)
+* Algorithms library
+  * [`<numeric>`](https://en.cppreference.com/w/cpp/header/numeric.html)
+  * [`<algorithm>`](https://en.cppreference.com/w/cpp/header/algorithm.html)
+* Strings library
+  * [`<string>`](https://en.cppreference.com/w/cpp/header/string.html)
+  * [`<string_view>`](https://en.cppreference.com/w/cpp/header/string_view.html)
+* Text processing library
+  * [`<regex>`](https://en.cppreference.com/w/cpp/header/regex.html)
+  * [`<format>`](https://en.cppreference.com/w/cpp/header/format.html)
+* Time library
+  * [`<chrono>`](https://en.cppreference.com/w/cpp/header/chrono.html)
+* Input/output library
+  * [`<filesystem>`](https://en.cppreference.com/w/cpp/header/filesystem.html)
+  * [`<fstream>`](https://en.cppreference.com/w/cpp/header/fstream.html)
+  * [`<iostream>`](https://en.cppreference.com/w/cpp/header/iostream.html)
+
+**Note**: Concepts were implemented to guard the binary read/write templates.
