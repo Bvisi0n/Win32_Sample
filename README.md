@@ -30,19 +30,19 @@ In this project I use plenty of comments for my future self to speed up onboardi
 * [COM](https://learn.microsoft.com/en-us/windows/win32/learnwin32/what-is-a-com-interface-) resource management using [`Microsoft::WRL::ComPtr`](https://learn.microsoft.com/en-us/cpp/cppcx/wrl/comptr-class?view=msvc-170)
 * Shell integration via Common Item Dialog for File Open/Save
 
-### Design Patterns
-* **Curiously Recurring Template Pattern (CRTP)**
+### Design Patterns/Choices
+* [**Curiously Recurring Template Pattern (CRTP)**](https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern)
   * Implemented in [`BaseWindow\<T\>`](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach) to provide a type-safe static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) that routes OS messages to instance member functions, providing a zero-overhead alternative to virtual dispatch for the static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) callback.
-* **Resource Acquisition Is Initialization (RAII)**
+* [**Resource Acquisition Is Initialization (RAII)**](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#r1-manage-resources-automatically-using-resource-handles-and-raii-resource-acquisition-is-initialization)
   * Applied using Smart Pointers such as [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr.html) & [`Microsoft::WRL::ComPtr`](https://learn.microsoft.com/en-us/cpp/cppcx/wrl/comptr-class?view=msvc-170).
   * Encapsulated COM initialization within [`ScopedComContext`](https://github.com/Bvisi0n/Win32_Sample/blob/main/include/ScopedComContext.h).
-* **Command / Observer Pattern**
+* **Functional Callback Decoupling** ([Command](https://refactoring.guru/design-patterns/command)/[Observer](https://refactoring.guru/design-patterns/observer))
   * Decoupled UI logic using an Action system where UI events (clicks, text changes) execute functional objects without the controls needing direct knowledge of the window implementation.
-* **Strategy Pattern**
+* **Conditional Dispatch** ([Strategy](https://refactoring.guru/design-patterns/strategy))
   * Implemented in [`FileService`](https://github.com/Bvisi0n/Win32_Sample/blob/main/include/FileService.h) to dynamically switch between Binary and Regex-based text serialization based on file extensions.
 * **Polymorphism**
   * Controls inherit from a pure virtual base class, enabling a unified interface for initialization and layout updates within a single container.
-* **Data-Driven Design**
+* **Data-Driven Layout Management**
   * UI element ordering and Z-axis depth are managed through the sorted nature of [`std::map`](https://en.cppreference.com/w/cpp/container/map.html) using the enum class control ID as key, managing the order is as easy as changing the values assigned to the controls within the enum class.
 
 ### C++ & STL
