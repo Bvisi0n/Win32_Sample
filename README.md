@@ -32,7 +32,7 @@ In this project I use plenty of comments for my future self to speed up onboardi
 
 ### Design Patterns
 * **Curiously Recurring Template Pattern (CRTP)**
-  * Implemented in [`BaseWindow\<T\>`](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach) to provide a type-safe static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) that routes OS messages to instance member functions, providing a zero-overhead alternative to virtual dispatch for the static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) callback.
+  * Implemented in [`BaseWindow<T>`](https://learn.microsoft.com/en-us/windows/win32/learnwin32/managing-application-state-#an-object-oriented-approach) to provide a type-safe static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) that routes OS messages to instance member functions, providing a zero-overhead alternative to virtual dispatch for the static [`WindowProc`](https://learn.microsoft.com/en-us/windows/win32/winmsg/window-procedures) callback.
 * **Resource Acquisition Is Initialization (RAII)**
   * Applied using Smart Pointers such as [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr.html) & [`Microsoft::WRL::ComPtr`](https://learn.microsoft.com/en-us/cpp/cppcx/wrl/comptr-class?view=msvc-170).
   * Encapsulated COM initialization within [`ScopedComContext`](https://github.com/Bvisi0n/Win32_Sample/blob/main/include/ScopedComContext.h).
