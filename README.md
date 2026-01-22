@@ -17,7 +17,7 @@ In this project I use plenty of comments for my future self to speed up onboardi
 * Pick a background color through the menu bar options.
 * Click a button to trigger a popup dialog displaying your entry from a textbox.
 * Customize the cursor using radio buttons.
-* Manipulate a date picker
+* Manipulate a date picker.
 * Click a button to open a file select dialog and pick a random file which will display it's name and size in a label.
 * Left click anywhere on the background to draw an ellipse.
 * Right click on any ellipse to remove it.
@@ -77,3 +77,6 @@ In this project I use plenty of comments for my future self to speed up onboardi
   * [`<iostream>`](https://en.cppreference.com/w/cpp/header/iostream.html)
 
 **Note**: Concepts were implemented to guard the binary read/write templates.
+
+## Next
+Support multiple windows, develop a "home screen" window from which you can open other windows, each window being an experiment, a showcase, a study of what's possible.
