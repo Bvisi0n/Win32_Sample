@@ -6,7 +6,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "utilities/ScopedComContext.h"
-#include "windows/MainWindow.h"
+#include "windows/SampleWindow.h"
 
 #ifdef _DEBUG
 int main()
@@ -19,7 +19,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE, _In_ PWSTR, _I
 {
     ScopedComContext comGuard{};
 
-    MainWindow mainWindow;
+    SampleWindow mainWindow;
     if (!mainWindow.Create(L"Win32_Sample", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN))
     {
         return 0;

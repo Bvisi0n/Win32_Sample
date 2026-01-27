@@ -17,12 +17,12 @@
 #include "utilities/Benchmark.h"
 #include "utilities/FileDialog.h"
 #include "utilities/FileService.h"
-#include "windows/MainWindow.h"
+#include "windows/SampleWindow.h"
 
 // ----------------------------------------------
 // ---- Special Member Functions ----------------
 // ----------------------------------------------
-MainWindow::MainWindow()
+SampleWindow::SampleWindow()
     :   BaseWindow(),
         m_DpiScale(1.0f),
         m_UIFontHandle(nullptr),
@@ -33,17 +33,17 @@ MainWindow::MainWindow()
 
 // If declared default in the header it will attempt to define it in the header.
 // Which doesn't pass std::unique_ptr's vibe check on the Control forward declaration.
-MainWindow::~MainWindow() = default;
+SampleWindow::~SampleWindow() = default;
 
 // ----------------------------------------------
 // ---- Window Properties & Logic ---------------
 // ----------------------------------------------
-PCWSTR MainWindow::ClassName() const
+PCWSTR SampleWindow::ClassName() const
 {
     return L"Main Window Class";
 }
 
-LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT SampleWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -176,7 +176,7 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
         {   // Sent as a signal that a window or an application should terminate
             if (MessageBox(m_WindowHandle, L"This will exit the program.\nContinue?", L"Win32_Sample", MB_OKCANCEL) == IDOK)
             {
-                Benchmark bench(L"Dynamic Layout", &MainWindow::UpdateControlLayouts, this);
+                Benchmark bench(L"Dynamic Layout", &SampleWindow::UpdateControlLayouts, this);
                 bench.Run(500, 0.1f);
                 bench.PrintResults();
                 DestroyWindow(m_WindowHandle);
@@ -198,25 +198,25 @@ LRESULT MainWindow::HandleMessage(UINT message, WPARAM wParam, LPARAM lParam)
 // ----------------------------------------------
 // ---- Member Access ---------------------------
 // ----------------------------------------------
-Button* MainWindow::GetButton(UI::ControlID id)
+Button* SampleWindow::GetButton(UI::ControlID id)
 {
     auto it = m_Controls.find(id);
     return (it != m_Controls.end()) ? static_cast<Button*>(it->second.get()) : nullptr;
 }
 
-Label* MainWindow::GetLabel(UI::ControlID id)
+Label* SampleWindow::GetLabel(UI::ControlID id)
 {
     auto it = m_Controls.find(id);
     return (it != m_Controls.end()) ? static_cast<Label*>(it->second.get()) : nullptr;
 }
 
-TextBox* MainWindow::GetTextBox(UI::ControlID id)
+TextBox* SampleWindow::GetTextBox(UI::ControlID id)
 {
     auto it = m_Controls.find(id);
     return (it != m_Controls.end()) ? static_cast<TextBox*>(it->second.get()) : nullptr;
 }
 
-void MainWindow::SetCursorType(UI::ControlID cursorId)
+void SampleWindow::SetCursorType(UI::ControlID cursorId)
 {
     m_CursorType = cursorId;
 }
@@ -224,7 +224,7 @@ void MainWindow::SetCursorType(UI::ControlID cursorId)
 // ----------------------------------------------
 // ---- Initialization & Layout -----------------
 // ----------------------------------------------
-void MainWindow::InitializeUI()
+void SampleWindow::InitializeUI()
 {
     // -------- PopUpModule ---------------------
     auto pPopUpBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged, 500);
@@ -269,7 +269,7 @@ void MainWindow::InitializeUI()
     UI::OnPopUpTextChanged(this); // Disable PopUp_Button
 }
 
-void MainWindow::SyncUIOrder()
+void SampleWindow::SyncUIOrder()
 {
     HWND hwndPrevious = HWND_TOP;
 
@@ -284,7 +284,7 @@ void MainWindow::SyncUIOrder()
     }
 }
 
-void MainWindow::UpdateUIFont()
+void SampleWindow::UpdateUIFont()
 {
     if (m_UIFontHandle) DeleteObject(m_UIFontHandle);
 
@@ -297,7 +297,7 @@ void MainWindow::UpdateUIFont()
     );
 }
 
-void MainWindow::UpdateControlLayouts()
+void SampleWindow::UpdateControlLayouts()
 {   // Use .SetPosition here to give Controls a dynamic position.
     UpdateUIFont();
     for (auto const& [id, control] : m_Controls)
@@ -309,7 +309,7 @@ void MainWindow::UpdateControlLayouts()
 // ----------------------------------------------
 // ---- Rendering -------------------------------
 // ----------------------------------------------
-void MainWindow::OnPaint()
+void SampleWindow::OnPaint()
 {
     HRESULT result = CreateGraphicsResources();
     if (SUCCEEDED(result))
@@ -344,7 +344,7 @@ void MainWindow::OnPaint()
     }
 }
 
-HRESULT MainWindow::CreateGraphicsResources()
+HRESULT SampleWindow::CreateGraphicsResources()
 {   // Creating a resource is expensive so prevent doing it every message.
     HRESULT result = S_OK;
     if (m_pRenderTarget == nullptr)
@@ -369,14 +369,14 @@ HRESULT MainWindow::CreateGraphicsResources()
 // ----------------------------------------------
 // ---- Coordinate Systems ----------------------
 // ----------------------------------------------
-void MainWindow::UpdateDpiScale()
+void SampleWindow::UpdateDpiScale()
 {
     float dpi{ static_cast<float>(GetDpiForWindow(m_WindowHandle)) };
     m_DpiScale = dpi / static_cast<float>(USER_DEFAULT_SCREEN_DPI);
     LOG_PRINT("Current DPI: {}, Scale: {}", dpi, m_DpiScale);
 }
 
-float MainWindow::PixelsToDips(int pixelValue) const
+float SampleWindow::PixelsToDips(int pixelValue) const
 {
     return static_cast<float>(pixelValue) / m_DpiScale;
 }
@@ -384,7 +384,7 @@ float MainWindow::PixelsToDips(int pixelValue) const
 // ----------------------------------------------
 // ---- Input Handling --------------------------
 // ----------------------------------------------
-bool MainWindow::HandleMenuBarCommands(const WORD id)
+bool SampleWindow::HandleMenuBarCommands(const WORD id)
 {
     auto menuID = static_cast<UI::ControlID>(id);
     if (auto color = m_MenuBar.GetColorFromID(menuID)) // std::nullopt == false
@@ -423,7 +423,7 @@ bool MainWindow::HandleMenuBarCommands(const WORD id)
     return false;
 }
 
-void MainWindow::OnLButtonDown(const int x, const int y)
+void SampleWindow::OnLButtonDown(const int x, const int y)
 {
     if (m_pRenderTarget != nullptr)
     {
@@ -439,7 +439,7 @@ void MainWindow::OnLButtonDown(const int x, const int y)
     }
 }
 
-void MainWindow::OnRButtonDown(const int x, const int y)
+void SampleWindow::OnRButtonDown(const int x, const int y)
 {   
     // Overlapping ellipses are layered with the oldest on the bottom
     // A user would expect the topmost one to be removed first

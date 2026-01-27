@@ -145,7 +145,7 @@
     <ClCompile Include="src\utilities\FileService.cpp" />
     <ClCompile Include="src\controls\Label.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\windows\MainWindow.cpp" />
+    <ClCompile Include="src\windows\SampleWindow.cpp" />
     <ClCompile Include="src\controls\MenuBar.cpp" />
     <ClCompile Include="src\controls\RadioButton.cpp" />
     <ClCompile Include="src\controls\TextBox.cpp" />
@@ -168,7 +168,7 @@
     <ClInclude Include="include\utilities\FileDialog.h" />
     <ClInclude Include="include\controls\Label.h" />
     <ClInclude Include="include\utilities\FileService.h" />
-    <ClInclude Include="include\windows\MainWindow.h" />
+    <ClInclude Include="include\windows\SampleWindow.h" />
     <ClInclude Include="include\controls\MenuBar.h" />
     <ClInclude Include="include\controls\RadioButton.h" />
     <ClInclude Include="include\utilities\ScopedComContext.h" />

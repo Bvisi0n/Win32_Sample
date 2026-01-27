@@ -4,7 +4,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "controls/Control.h"
-#include "windows/MainWindow.h"
+#include "windows/SampleWindow.h"
 
 Control::Control(UI::ControlID id, UI::Action action)
     : m_Action(action),
@@ -31,7 +31,7 @@ void Control::UpdateLayout(float dpiScale, HFONT fontHandle)
     SendMessage(m_ControlHandle, WM_SETFONT, (WPARAM)fontHandle, TRUE);
 }
 
-void Control::Execute(MainWindow* pWindow)
+void Control::Execute(SampleWindow* pWindow)
 {
     if (m_Action) m_Action(pWindow);
 }

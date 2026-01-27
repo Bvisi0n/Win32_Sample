@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <functional>
 
-class MainWindow;
+class SampleWindow;
 
 namespace UI
 {
@@ -44,7 +44,7 @@ namespace UI
 	};
 
 	// A standard signature for UI actions.
-	using Action = std::function<void(MainWindow*)>;
+	using Action = std::function<void(SampleWindow*)>;
 }
 
 #endif

@@ -5,11 +5,11 @@
 #include "controls/RadioButton.h"
 #include "controls/TextBox.h"
 #include "controls/UIConstants.h"
-#include "windows/MainWindow.h"
+#include "windows/SampleWindow.h"
 #include "utilities/FileDialog.h"
 
 namespace UI {
-    Action OnPopUpTextChanged = [](MainWindow* pWin)
+    Action OnPopUpTextChanged = [](SampleWindow* pWin)
         {
             auto pBox = pWin->GetTextBox(UI::ControlID::PopUp_Textbox);
             auto pBtn = pWin->GetButton(UI::ControlID::PopUp_Button);
@@ -21,7 +21,7 @@ namespace UI {
             }
         };
 
-    Action OnPopUpButtonClicked = [](MainWindow* pWin)
+    Action OnPopUpButtonClicked = [](SampleWindow* pWin)
         {
             auto pBox = pWin->GetTextBox(UI::ControlID::PopUp_Textbox);
 
@@ -40,33 +40,33 @@ namespace UI {
             }
         };
 
-    Action OnArrowCursorClicked = [](MainWindow* pWin)
+    Action OnArrowCursorClicked = [](SampleWindow* pWin)
         {
             pWin->SetCursorType(UI::ControlID::Cursor_ArrowButton);
             // Force cursor repaint by telling OS the mouse "moved"
             SendMessage(pWin->Window(), WM_SETCURSOR, reinterpret_cast<WPARAM>(pWin->Window()), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
         };
 
-    Action OnHandCursorClicked = [](MainWindow* pWin)
+    Action OnHandCursorClicked = [](SampleWindow* pWin)
         {
             pWin->SetCursorType(UI::ControlID::Cursor_HandButton);
             // Force cursor repaint by telling OS the mouse "moved"
             SendMessage(pWin->Window(), WM_SETCURSOR, reinterpret_cast<WPARAM>(pWin->Window()), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
         };
 
-    Action OnCrossCursorClicked = [](MainWindow* pWin)
+    Action OnCrossCursorClicked = [](SampleWindow* pWin)
         {
             pWin->SetCursorType(UI::ControlID::Cursor_CrossButton);
             // Force cursor repaint by telling OS the mouse "moved"
             SendMessage(pWin->Window(), WM_SETCURSOR, reinterpret_cast<WPARAM>(pWin->Window()), MAKELPARAM(HTCLIENT, WM_MOUSEMOVE));
         };
 
-    Action OnDatePickerChanged = [](MainWindow* pWin)
+    Action OnDatePickerChanged = [](SampleWindow* pWin)
         {
             LOG_PRINT("OnDatePickerChanged() called.");
         };
 
-    Action OnFileSelectButtonClicked = [](MainWindow* pWin)
+    Action OnFileSelectButtonClicked = [](SampleWindow* pWin)
         {
             auto path = FileDialog::Open(pWin->Window(), { {L"All Files", L"*.*"} });
 

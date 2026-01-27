@@ -17,7 +17,7 @@ typedef struct HWND__* HWND;
 struct HFONT__;
 typedef struct HFONT__* HFONT;
 
-class MainWindow;
+class SampleWindow;
 
 class Control
 {
@@ -33,7 +33,7 @@ public:
     virtual void Initialize(HWND parent, D2D1_RECT_F position) = 0;
 
     void UpdateLayout(float dpiScale, HFONT fontHandle);
-    void Execute(MainWindow* pWindow);
+    void Execute(SampleWindow* pWindow);
 
     HWND GetWindowHandle() const { return m_ControlHandle; }
     UI::ControlID GetId() const { return m_Id; }

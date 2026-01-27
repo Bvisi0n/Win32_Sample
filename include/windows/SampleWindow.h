@@ -27,12 +27,12 @@ class Button;
 class Label;
 class TextBox;
 
-class MainWindow : public BaseWindow<MainWindow>
+class SampleWindow : public BaseWindow<SampleWindow>
 {
 public:
     // ---- Special Member Functions ----------------
-    MainWindow();
-    ~MainWindow();
+    SampleWindow();
+    ~SampleWindow();
 
     // ---- Window Properties & Logic ---------------
     PCWSTR  ClassName() const override;
