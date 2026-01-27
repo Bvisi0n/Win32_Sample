@@ -20,7 +20,7 @@
     <ClCompile Include="src\windows\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ControlActions.cpp">
+    <ClCompile Include="src\controls\ControlActions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\controls\Control.cpp">
@@ -32,13 +32,13 @@
     <ClCompile Include="src\controls\Button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileService.cpp">
+    <ClCompile Include="src\utilities\FileService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileDialog.cpp">
+    <ClCompile Include="src\utilities\FileDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MenuBar.cpp">
+    <ClCompile Include="src\controls\MenuBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\controls\RadioButton.cpp">
@@ -75,19 +75,19 @@
     <ClInclude Include="include\windows\MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\MenuBar.h">
+    <ClInclude Include="include\controls\MenuBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\FileService.h">
+    <ClInclude Include="include\utilities\FileService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\FileDialog.h">
+    <ClInclude Include="include\utilities\FileDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\UIConstants.h">
+    <ClInclude Include="include\controls\UIConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ControlActions.h">
+    <ClInclude Include="include\controls\ControlActions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\controls\Control.h">
@@ -99,10 +99,10 @@
     <ClInclude Include="include\controls\TextBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Concepts.h">
+    <ClInclude Include="include\utilities\Concepts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ScopedComContext.h">
+    <ClInclude Include="include\utilities\ScopedComContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\controls\RadioButton.h">
@@ -114,7 +114,7 @@
     <ClInclude Include="include\controls\Label.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Benchmark.h">
+    <ClInclude Include="include\utilities\Benchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

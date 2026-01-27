@@ -13,7 +13,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "controls/Control.h"
-#include "UIConstants.h"
+#include "controls/UIConstants.h"
 
 // ------ Forward Declarations ----------------------
 struct HWND__;

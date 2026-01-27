@@ -14,9 +14,9 @@
 #include <vector>
 
 // ------ Homebrew ----------------------------------
+#include "controls/MenuBar.h"
+#include "controls/UIConstants.h"
 #include "windows/BaseWindow.h"
-#include "MenuBar.h"
-#include "UIConstants.h"
 
 // ------ Forward Declarations ----------------------
 struct HFONT__;

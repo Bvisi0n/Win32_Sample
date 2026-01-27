@@ -1,12 +1,12 @@
 // ------ Homebrew ----------------------------------
-#include "windows/MainWindow.h"
-#include "FileDialog.h"
 #include "controls/Button.h"
+#include "controls/ControlActions.h"
 #include "controls/Label.h"
 #include "controls/RadioButton.h"
 #include "controls/TextBox.h"
-#include "UIConstants.h"
-#include "ControlActions.h"
+#include "controls/UIConstants.h"
+#include "windows/MainWindow.h"
+#include "utilities/FileDialog.h"
 
 namespace UI {
     Action OnPopUpTextChanged = [](MainWindow* pWin)

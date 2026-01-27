@@ -2,7 +2,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "MenuBar.h"
+#include "controls/MenuBar.h"
 
 MenuBar::MenuBar()
 	: m_MenuHandle(nullptr) {}

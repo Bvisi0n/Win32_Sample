@@ -5,7 +5,7 @@
 #include "Config.h"
 
 // ------ Homebrew ----------------------------------
-#include "UIConstants.h"
+#include "controls/UIConstants.h"
 
 namespace UI
 {

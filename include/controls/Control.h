@@ -8,7 +8,7 @@
 #include <d2dbasetypes.h>
 
 // ------ Homebrew ----------------------------------
-#include "UIConstants.h"
+#include "controls/UIConstants.h"
 
 // ------ Forward Declarations ----------------------
 struct HWND__;

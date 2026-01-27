@@ -5,7 +5,7 @@
 #include <memory>
 
 // ------ Homebrew ----------------------------------
-#include "FileDialog.h"
+#include "utilities/FileDialog.h"
 
 std::optional<std::filesystem::path> FileDialog::Open(HWND ownerHandle, const std::vector<Filter>& filters)
 {

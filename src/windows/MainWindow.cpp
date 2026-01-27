@@ -7,17 +7,17 @@
 #include <ranges>       // Required for std::views::reverse
 
 // ------ Homebrew ----------------------------------
-#include "windows/MainWindow.h"
 #include "controls/Control.h"
+#include "controls/ControlActions.h"
 #include "controls/Button.h"
 #include "controls/DatePicker.h"
 #include <controls/Label.h>
 #include "controls/RadioButton.h"
 #include "controls/TextBox.h"
-#include "ControlActions.h"
-#include "FileDialog.h"
-#include "FileService.h"
-#include <Benchmark.h>
+#include "utilities/Benchmark.h"
+#include "utilities/FileDialog.h"
+#include "utilities/FileService.h"
+#include "windows/MainWindow.h"
 
 // ----------------------------------------------
 // ---- Special Member Functions ----------------

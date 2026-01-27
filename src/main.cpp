@@ -5,7 +5,7 @@
 #include <windows.h>
 
 // ------ Homebrew ----------------------------------
-#include "ScopedComContext.h"
+#include "utilities/ScopedComContext.h"
 #include "windows/MainWindow.h"
 
 #ifdef _DEBUG
