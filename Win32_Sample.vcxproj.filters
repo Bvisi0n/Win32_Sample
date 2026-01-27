@@ -117,5 +117,8 @@
     <ClInclude Include="include\utilities\Benchmark.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\windows\IWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

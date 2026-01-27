@@ -227,35 +227,35 @@ void SampleWindow::SetCursorType(UI::ControlID cursorId)
 void SampleWindow::InitializeUI()
 {
     // -------- PopUpModule ---------------------
-    auto pPopUpBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::OnPopUpTextChanged, 500);
+    auto pPopUpBox = std::make_unique<TextBox>(UI::ControlID::PopUp_Textbox, UI::Actions::Sample::OnPopUpTextChanged, 500);
     pPopUpBox->Initialize(m_WindowHandle, { 10, 10, 200, 34 });
     m_Controls[UI::ControlID::PopUp_Textbox] = std::move(pPopUpBox);
 
-    auto pPopUpBtn = std::make_unique<Button>(UI::ControlID::PopUp_Button, UI::OnPopUpButtonClicked, L"Show Text");
+    auto pPopUpBtn = std::make_unique<Button>(UI::ControlID::PopUp_Button, UI::Actions::Sample::OnPopUpButtonClicked, L"Show Text");
     pPopUpBtn->Initialize(m_WindowHandle, { 210, 10, 310, 34 });
     m_Controls[UI::ControlID::PopUp_Button] = std::move(pPopUpBtn);
 
     // -------- CursorModule --------------------
-    auto pCursorArrow = std::make_unique<RadioButton>(UI::ControlID::Cursor_ArrowButton, UI::OnArrowCursorClicked, L"Arrow", true);
+    auto pCursorArrow = std::make_unique<RadioButton>(UI::ControlID::Cursor_ArrowButton, UI::Actions::Sample::OnArrowCursorClicked, L"Arrow", true);
     pCursorArrow->Initialize(m_WindowHandle, { 10, 50, 100, 74 });
     pCursorArrow->SetCheck();
     m_Controls[UI::ControlID::Cursor_ArrowButton] = std::move(pCursorArrow);
 
-    auto pCursorHand = std::make_unique<RadioButton>(UI::ControlID::Cursor_HandButton, UI::OnHandCursorClicked, L"Hand", false);
+    auto pCursorHand = std::make_unique<RadioButton>(UI::ControlID::Cursor_HandButton, UI::Actions::Sample::OnHandCursorClicked, L"Hand", false);
     pCursorHand->Initialize(m_WindowHandle, { 110, 50, 200, 74 });
     m_Controls[UI::ControlID::Cursor_HandButton] = std::move(pCursorHand);
 
-    auto pCursorCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::OnCrossCursorClicked, L"Cross", false);
+    auto pCursorCross = std::make_unique<RadioButton>(UI::ControlID::Cursor_CrossButton, UI::Actions::Sample::OnCrossCursorClicked, L"Cross", false);
     pCursorCross->Initialize(m_WindowHandle, { 210, 50, 300, 74 });
     m_Controls[UI::ControlID::Cursor_CrossButton] = std::move(pCursorCross);
 
     // -------- DatePicker ---------------------
-    auto pDatePicker = std::make_unique<DatePicker>(UI::ControlID::DatePicker, UI::OnDatePickerChanged);
+    auto pDatePicker = std::make_unique<DatePicker>(UI::ControlID::DatePicker, UI::Actions::Sample::OnDatePickerChanged);
     pDatePicker->Initialize(m_WindowHandle, { 10, 90, 200, 125 });
     m_Controls[UI::ControlID::DatePicker] = std::move(pDatePicker);
 
     // -------- FileSelect ---------------------
-    auto pFileSelectBtn = std::make_unique<Button>(UI::ControlID::FileSelect_Button, UI::OnFileSelectButtonClicked, L"Select File...");
+    auto pFileSelectBtn = std::make_unique<Button>(UI::ControlID::FileSelect_Button, UI::Actions::Sample::OnFileSelectButtonClicked, L"Select File...");
     pFileSelectBtn->Initialize(m_WindowHandle, { 10, 150, 130, 174 });
     m_Controls[UI::ControlID::FileSelect_Button] = std::move(pFileSelectBtn);
 
@@ -266,7 +266,7 @@ void SampleWindow::InitializeUI()
     SyncUIOrder();
     UpdateControlLayouts();
 
-    UI::OnPopUpTextChanged(this); // Disable PopUp_Button
+    UI::Actions::Sample::OnPopUpTextChanged(this); // Disable PopUp_Button
 }
 
 void SampleWindow::SyncUIOrder()

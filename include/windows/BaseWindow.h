@@ -7,8 +7,11 @@
 // ------ Win32 and more ----------------------------
 #include <windows.h>	// The core
 
+// ------ Homebrew ----------------------------------
+#include "windows/IWindow.h"
+
 template <typename DerivedType>
-class BaseWindow
+class BaseWindow : public IWindow
 {
 public:
     static LRESULT CALLBACK WindowProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam)

@@ -31,7 +31,7 @@ void Control::UpdateLayout(float dpiScale, HFONT fontHandle)
     SendMessage(m_ControlHandle, WM_SETFONT, (WPARAM)fontHandle, TRUE);
 }
 
-void Control::Execute(SampleWindow* pWindow)
+void Control::Execute(IWindow* pWindow)
 {
     if (m_Action) m_Action(pWindow);
 }

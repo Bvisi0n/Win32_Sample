@@ -168,6 +168,7 @@
     <ClInclude Include="include\utilities\FileDialog.h" />
     <ClInclude Include="include\controls\Label.h" />
     <ClInclude Include="include\utilities\FileService.h" />
+    <ClInclude Include="include\windows\IWindow.h" />
     <ClInclude Include="include\windows\SampleWindow.h" />
     <ClInclude Include="include\controls\MenuBar.h" />
     <ClInclude Include="include\controls\RadioButton.h" />
