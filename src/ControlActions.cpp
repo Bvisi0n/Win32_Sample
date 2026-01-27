@@ -1,5 +1,5 @@
 // ------ Homebrew ----------------------------------
-#include "MainWindow.h"
+#include "windows/MainWindow.h"
 #include "FileDialog.h"
 #include "controls/Button.h"
 #include "controls/Label.h"

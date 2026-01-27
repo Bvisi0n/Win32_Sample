@@ -6,7 +6,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "ScopedComContext.h"
-#include "MainWindow.h"
+#include "windows/MainWindow.h"
 
 #ifdef _DEBUG
 int main()

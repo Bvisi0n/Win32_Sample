@@ -7,7 +7,7 @@
 #include <ranges>       // Required for std::views::reverse
 
 // ------ Homebrew ----------------------------------
-#include "MainWindow.h"
+#include "windows/MainWindow.h"
 #include "controls/Control.h"
 #include "controls/Button.h"
 #include "controls/DatePicker.h"

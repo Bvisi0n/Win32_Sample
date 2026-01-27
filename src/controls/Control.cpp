@@ -4,7 +4,7 @@
 
 // ------ Homebrew ----------------------------------
 #include "controls/Control.h"
-#include "MainWindow.h"
+#include "windows/MainWindow.h"
 
 Control::Control(UI::ControlID id, UI::Action action)
     : m_Action(action),

@@ -145,7 +145,7 @@
     <ClCompile Include="src\FileService.cpp" />
     <ClCompile Include="src\controls\Label.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\windows\MainWindow.cpp" />
     <ClCompile Include="src\MenuBar.cpp" />
     <ClCompile Include="src\controls\RadioButton.cpp" />
     <ClCompile Include="src\controls\TextBox.cpp" />
@@ -157,7 +157,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\BaseWindow.h" />
+    <ClInclude Include="include\windows\BaseWindow.h" />
     <ClInclude Include="include\Benchmark.h" />
     <ClInclude Include="include\controls\Button.h" />
     <ClInclude Include="include\Concepts.h" />
@@ -168,7 +168,7 @@
     <ClInclude Include="include\FileDialog.h" />
     <ClInclude Include="include\controls\Label.h" />
     <ClInclude Include="include\FileService.h" />
-    <ClInclude Include="include\MainWindow.h" />
+    <ClInclude Include="include\windows\MainWindow.h" />
     <ClInclude Include="include\MenuBar.h" />
     <ClInclude Include="include\controls\RadioButton.h" />
     <ClInclude Include="include\ScopedComContext.h" />
